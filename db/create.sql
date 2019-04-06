@@ -1,17 +1,48 @@
+DROP schema if exists public cascade;
+create schema public;
+
 CREATE TABLE Department(
     Code    Varchar(10),
     Name varchar(25),
     PRIMARY KEY (code)
 );
 
+Create procedure usp_insert_department(dep_code Varchar(10), dep_name varchar(25))
+Language sql
+As $$ INSERT INTO department VALUES(dep_code, dep_name)$$;
+
+Create procedure usp_update_department(new_code Varchar(10), new_name varchar(25) )
+Language sql
+As $$ update Department set Code=new_code, Name=new_name  where Code = new_code$$;
+
+Create procedure usp_delete_department (dep_code Varchar(10))
+Language sql
+As $$ delete from Department where Code = dep_code  $$;
+
+--------------------------------------------------------------
+create sequence curriculum_id_seq;
+
 CREATE TABLE Curriculum (
-    id int,
+    id int default nextval(curriculum_id_seq) not null,
     version int,
     dept_code Varchar(10),
     PRIMARY KEY (id),
     FOREIGN KEY (dept_code) REFERENCES Department(code)
 );
 
+Create procedure usp_insert_curriculum  (c_version int, c_dept_code Varchar(10))
+Language sql
+As $$ INSERT INTO Curriculum(version, dept_code) VALUES (c_version, c_dept_code)$$;
+
+Create procedure usp_update_curriculum  ( new_version int, new_dept_code Varchar(10), c_id int)
+Language sql
+As $$ update Curriculum set  version = new_version, dept_code = new_dept_code where id = c_id$$;
+
+Create procedure usp_delete_curriculum (c_id int)
+    Language sql
+As $$ delete from Curriculum where id = c_id  $$;
+
+------------------------------------------------------
 CREATE TABLE keyLearningOutcome(
     id int,
     body varchar(1000),
@@ -173,5 +204,6 @@ CREATE TABLE final (
     duration smallint,
     PRIMARY KEY(id)
 );
+
 
 
