@@ -2,8 +2,8 @@ DROP schema if exists public cascade;
 create schema public;
 
 CREATE TABLE Department(
-    Code    Varchar(10),
-    Name varchar(25),
+    code varchar(10),
+    name varchar(25),
     PRIMARY KEY (code)
 );
 
@@ -20,6 +20,7 @@ Language sql
 As $$ delete from Department where Code = dep_code  $$;
 
 --------------------------------------------------------------
+
 create sequence curriculum_id_seq;
 
 CREATE TABLE Curriculum (
@@ -29,6 +30,8 @@ CREATE TABLE Curriculum (
     PRIMARY KEY (id),
     FOREIGN KEY (dept_code) REFERENCES Department(code)
 );
+
+----------------------------------------------------
 
 Create procedure usp_insert_curriculum  (c_version int, c_dept_code Varchar(10))
 Language sql
@@ -66,7 +69,7 @@ Create procedure usp_delete_keyLearningOutcome (o_id int)
 As $$ delete from keyLearningOutcome where id = o_id $$;
 
 
------------------------------------------------------
+----------------------------------------------------
 create sequence semester_id_seq;
 
 CREATE TABLE semester (
@@ -75,6 +78,7 @@ CREATE TABLE semester (
     year char(4),
     PRIMARY KEY(id)
 );
+
 Create procedure usp_insert_semester (s_type varchar(10), s_year char(4))
     Language sql
 As $$ INSERT INTO semester VALUES(default, s_type, s_year)$$;
@@ -87,7 +91,7 @@ Create procedure usp_delete_semester (s_id int)
     Language sql
 As $$ delete from semester where id = s_id $$;
 
------------------------------------------------------
+----------------------------------------------------
 create sequence instructor_id_seq;
 
 CREATE TABLE instructor(
@@ -99,7 +103,7 @@ CREATE TABLE instructor(
     FOREIGN KEY(dept_code) REFERENCES Department (code)
 );
 
--------------------------------------------------
+----------------------------------------------------
 CREATE TABLE course (
     code varchar(10),
     name varchar(255),
@@ -107,7 +111,7 @@ CREATE TABLE course (
     PRIMARY KEY(code)
 );
 
--------------------------------------------------
+----------------------------------------------------
 CREATE TABLE curriculum_course(
     curriculum_id int,
     course_code varchar(10),
@@ -116,7 +120,7 @@ CREATE TABLE curriculum_course(
     FOREIGN KEY(course_code) REFERENCES course (Code)
 );
 
------------------------------------------------
+----------------------------------------------------
 create sequence course_learning_objective_id_seq;
 
 CREATE TABLE courseLearningObjective(
@@ -127,7 +131,7 @@ CREATE TABLE courseLearningObjective(
     FOREIGN KEY(course_code) REFERENCES course (code)
 );
 
----------------------------------------
+----------------------------------------------------
 create sequence course_offering_id_seq;
 
 CREATE TABLE courseOffering (
@@ -151,15 +155,20 @@ CREATE TABLE assessment  (
     PRIMARY KEY(id),
     FOREIGN KEY(courseOffering_id) REFERENCES courseOffering (id)
 );
----------------------------------------------------
+----------------------------------------------------
+
+CREATE SEQUENCE question_id_seq;
+
 CREATE TABLE question (
-    id int,
+    id int default nextval('question_id_seq'),
     body varchar(1000),
     weight float,
     assessment_id int,
     PRIMARY KEY(id),
     FOREIGN KEY(assessment_id) REFERENCES assessment (id)
 );
+
+----------------------------------------------------
 
 CREATE TABLE question_courseLearningObjective(
     question_id int,
@@ -170,6 +179,8 @@ CREATE TABLE question_courseLearningObjective(
     FOREIGN KEY (question_id) REFERENCES question (id)
 );
 
+----------------------------------------------------
+
 CREATE TABLE question_keyLearningOutcome(
     question_id int,
     key_learning_outcome_id int,
@@ -179,13 +190,19 @@ CREATE TABLE question_keyLearningOutcome(
     FOREIGN KEY (key_learning_outcome_id) REFERENCES keyLearningOutcome (id)
 );
 
+----------------------------------------------------
+
+CREATE SEQUENCE section_id_seq;
+
 CREATE TABLE section (
-    id int,
+    id int default nextval('section_id_seq'),
     courseOffering_id int,
     number int,
     PRIMARY KEY (id),
     FOREIGN KEY (courseOffering_id) REFERENCES courseOffering (id)
 );
+
+----------------------------------------------------
 
 CREATE TABLE section_instructor (
     section_id int,
@@ -195,12 +212,18 @@ CREATE TABLE section_instructor (
     FOREIGN KEY (instructor_id) REFERENCES instructor (id)
 );
 
+----------------------------------------------------
+
+CREATE SEQUENCE student_id_seq;
+
 CREATE TABLE student  (
-    id int,
+    id int default nextval('student_id_seq'),
     name varchar(30),
     surname varchar(30),
     PRIMARY KEY(id)
 );
+
+----------------------------------------------------
 
 CREATE TABLE  section_student(
     section_id int,
@@ -209,6 +232,8 @@ CREATE TABLE  section_student(
     FOREIGN KEY(section_id) REFERENCES section(id),
     FOREIGN KEY(student_id) REFERENCES student(id)
 );
+
+----------------------------------------------------
 
 CREATE TABLE assessment_student (
     student_id int,
@@ -219,34 +244,49 @@ CREATE TABLE assessment_student (
     FOREIGN KEY(assessment_id) REFERENCES assessment(id)
 );
 
+----------------------------------------------------
+
+CREATE SEQUENCE quiz_id_seq;
+
 CREATE TABLE quiz (
-    id int,
+    id int default nextval('quiz_id_seq'),
     duration smallint,
     PRIMARY KEY(id)
 );
 
+----------------------------------------------------
+
+CREATE SEQUENCE assignment_id_seq;
+
 CREATE TABLE assignment (
-    id int,
+    id int default nextval('assignment_id_seq'),
     start_date date,
     due_date date,
     PRIMARY KEY(id)
 );
 
+----------------------------------------------------
+
+CREATE sequence midterm_id_seq;
+
 CREATE TABLE midterm (
-    id int,
+    id int default nextval('midterm_id_seq'),
     room smallint,
     date date,
     duration smallint,
     PRIMARY KEY(id)
 );
+
+----------------------------------------------------
+
+CREATE SEQUENCE final_id_seq;
 
 CREATE TABLE final (
-    id int,
+    id int default nextval('final_id_seq'),
     room smallint,
     date date,
     duration smallint,
     PRIMARY KEY(id)
 );
 
-
-
+----------------------------------------------------
