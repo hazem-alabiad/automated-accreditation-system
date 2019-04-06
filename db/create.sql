@@ -2,7 +2,7 @@ DROP schema if exists public cascade;
 create schema public;
 
 CREATE TABLE Department(
-    Code    Varchar(10),
+    Code varchar(10),
     Name varchar(25),
     PRIMARY KEY (code)
 );
@@ -171,6 +171,7 @@ As $$ update courseLearningObjective set course_code = new_course_code, Body = n
 Create procedure usp_delete_courseLearningObjective (c_id int)
     Language sql
 As $$ delete from courseLearningObjective where id = c_id $$;
+
 ---------------------------------------
 create sequence course_offering_id_seq;
 
@@ -221,34 +222,34 @@ As $$ delete from assessment where id = a_id $$;
 CREATE SEQUENCE question_id_seq;
 
 CREATE TABLE question (
-                          id int default nextval('question_id_seq'),
-                          body varchar(1000),
-                          weight float,
-                          assessment_id int,
-                          PRIMARY KEY(id),
-                          FOREIGN KEY(assessment_id) REFERENCES assessment (id)
+    id int default nextval('question_id_seq'),
+    body varchar(1000),
+    weight float,
+    assessment_id int,
+    PRIMARY KEY(id),
+    FOREIGN KEY(assessment_id) REFERENCES assessment (id)
 );
 
 ----------------------------------------------------
 
 CREATE TABLE question_courseLearningObjective(
-                                                 question_id int,
-                                                 courseLearningObjective_id int,
-                                                 Value smallint,
-                                                 PRIMARY KEY (courseLearningObjective_id, question_id),
-                                                 FOREIGN KEY (courseLearningObjective_id) REFERENCES courseLearningObjective (id),
-                                                 FOREIGN KEY (question_id) REFERENCES question (id)
+    question_id int,
+    courseLearningObjective_id int,
+    Value smallint,
+    PRIMARY KEY (courseLearningObjective_id, question_id),
+    FOREIGN KEY (courseLearningObjective_id) REFERENCES courseLearningObjective (id),
+FOREIGN KEY (question_id) REFERENCES question (id)
 );
 
 ----------------------------------------------------
 
 CREATE TABLE question_keyLearningOutcome(
-                                            question_id int,
-                                            key_learning_outcome_id int,
-                                            Value smallint,
-                                            PRIMARY KEY (question_id, key_learning_outcome_id),
-                                            FOREIGN KEY (question_id) REFERENCES question(id),
-                                            FOREIGN KEY (key_learning_outcome_id) REFERENCES keyLearningOutcome (id)
+    question_id int,
+    key_learning_outcome_id int,
+    Value smallint,
+    PRIMARY KEY (question_id, key_learning_outcome_id),
+    FOREIGN KEY (question_id) REFERENCES question(id),
+    FOREIGN KEY (key_learning_outcome_id) REFERENCES keyLearningOutcome (id)
 );
 
 ----------------------------------------------------
@@ -256,11 +257,11 @@ CREATE TABLE question_keyLearningOutcome(
 CREATE SEQUENCE section_id_seq;
 
 CREATE TABLE section (
-                         id int default nextval('section_id_seq'),
-                         courseOffering_id int,
-                         number int,
-                         PRIMARY KEY (id),
-                         FOREIGN KEY (courseOffering_id) REFERENCES courseOffering (id)
+    id int default nextval('section_id_seq'),
+    courseOffering_id int,
+    number int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (courseOffering_id) REFERENCES courseOffering (id)
 );
 
 ----------------------------------------------------
@@ -310,9 +311,9 @@ CREATE TABLE assessment_student (
 CREATE SEQUENCE quiz_id_seq;
 
 CREATE TABLE quiz (
-                      id int default nextval('quiz_id_seq'),
-                      duration smallint,
-                      PRIMARY KEY(id)
+    id int default nextval('quiz_id_seq'),
+    duration smallint,
+    PRIMARY KEY(id)
 );
 
 ----------------------------------------------------
@@ -320,10 +321,10 @@ CREATE TABLE quiz (
 CREATE SEQUENCE assignment_id_seq;
 
 CREATE TABLE assignment (
-                            id int default nextval('assignment_id_seq'),
-                            start_date date,
-                            due_date date,
-                            PRIMARY KEY(id)
+    id int default nextval('assignment_id_seq'),
+    start_date date,
+    due_date date,
+    PRIMARY KEY(id)
 );
 
 ----------------------------------------------------
@@ -331,11 +332,11 @@ CREATE TABLE assignment (
 CREATE sequence midterm_id_seq;
 
 CREATE TABLE midterm (
-                         id int default nextval('midterm_id_seq'),
-                         room smallint,
-                         date date,
-                         duration smallint,
-                         PRIMARY KEY(id)
+    id int default nextval('midterm_id_seq'),
+    room smallint,
+    date date,
+    duration smallint,
+    PRIMARY KEY(id)
 );
 
 ----------------------------------------------------
@@ -343,11 +344,11 @@ CREATE TABLE midterm (
 CREATE SEQUENCE final_id_seq;
 
 CREATE TABLE final (
-                       id int default nextval('final_id_seq'),
-                       room smallint,
-                       date date,
-                       duration smallint,
-                       PRIMARY KEY(id)
+    id int default nextval('final_id_seq'),
+    room smallint,
+    date date,
+    duration smallint,
+    PRIMARY KEY(id)
 );
 
 ----------------------------------------------------
