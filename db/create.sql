@@ -79,9 +79,9 @@ Create procedure usp_insert_semester (s_type varchar(10), s_year char(4))
     Language sql
 As $$ INSERT INTO semester VALUES(default, s_type, s_year)$$;
 
-Create procedure usp_update_semester (new_type varchar(10), new_year char(4),s_id int)
+Create procedure usp_update_semester (s_type varchar(10), s_year char(4),s_id int)
     Language sql
-As $$ update semester set type = new_type, year = new_year where id = s_id$$;
+As $$ update semester set type = s_type, year = s_year where id = s_id$$;
 
 Create procedure usp_delete_semester (s_id int)
     Language sql
@@ -98,17 +98,7 @@ CREATE TABLE instructor(
     PRIMARY KEY(id),
     FOREIGN KEY(dept_code) REFERENCES Department (code)
 );
-Create procedure usp_insert_instructor (i_name varchar(255), i_surname varchar(255), i_dept_code varchar(10))
-    Language sql
-As $$ insert into instructor values(default, i_name, i_surname, i_dept_code) $$;
 
-Create procedure usp_update_instructor ( i_id int, new_name varchar(255), new_surname varchar(255), new_dept_code varchar(10))
-    Language sql
-As $$ update instructor set name = new_name, Surname = new_surname, dept_code = new_dept_code where id = i_id$$;
-
-Create procedure usp_delete_instructor (i_id int)
-    Language sql
-As $$ delete from instructor where id = i_id$$;
 -------------------------------------------------
 CREATE TABLE course (
     code varchar(10),
@@ -117,17 +107,6 @@ CREATE TABLE course (
     PRIMARY KEY(code)
 );
 
-Create procedure usp_insert_course(c_code varchar(10), c_name varchar(255), c_credit smallint)
-    Language sql
-As $$ insert into course values(c_code, c_name, c_credit)$$;
-
-Create procedure usp_update_course(c_code varchar(10), new_name varchar(255), new_credit smallint)
-    Language sql
-As $$ update course set name = new_name, credit = new_credit where code = c_code$$;
-
-Create procedure usp_delete_course (c_code varchar(10))
-    Language sql
-As $$ delete from course where code = c_code$$;
 -------------------------------------------------
 CREATE TABLE curriculum_course(
     curriculum_id int,
@@ -136,19 +115,6 @@ CREATE TABLE curriculum_course(
     FOREIGN KEY(curriculum_id) REFERENCES Curriculum (id),
     FOREIGN KEY(course_code) REFERENCES course (Code)
 );
-Create procedure usp_insert_curriculum_course(c_curriculum_id int, c_course_code varchar(10))
-    Language sql
-As $$ insert into curriculum_course values(c_curriculum_id, c_course_code)$$;
-
-Create procedure usp_update_curriculum_course(new_curriculum_id int, new_course_code varchar(10),
-                                              c_curriculum_id int, c_course_code varchar(10))
-    Language sql
-As $$ update curriculum_course set curriculum_id = new_curriculum_id, course_code = new_course_code
-        where curriculum_id = c_curriculum_id and course_code = c_course_code$$;
-
-Create procedure usp_delete_curriculum_course (c_curriculum_id int, c_course_code varchar(10))
-    Language sql
-As $$ delete from curriculum_course where curriculum_id = c_curriculum_id and course_code = c_course_code $$;
 
 -----------------------------------------------
 create sequence course_learning_objective_id_seq;
@@ -160,17 +126,7 @@ CREATE TABLE courseLearningObjective(
     PRIMARY KEY(Id),
     FOREIGN KEY(course_code) REFERENCES course (code)
 );
-Create procedure usp_insert_courseLearningObjective(c_course_code varchar(10), c_body varchar(1000))
-    Language sql
-As $$ insert into courseLearningObjective values(default, c_course_code, c_body) $$;
 
-Create procedure usp_update_courseLearningObjective(c_id int ,new_course_code varchar(10), new_body varchar(1000))
-    Language sql
-As $$ update courseLearningObjective set course_code = new_course_code, Body = new_body where id = c_id$$;
-
-Create procedure usp_delete_courseLearningObjective (c_id int)
-    Language sql
-As $$ delete from courseLearningObjective where id = c_id $$;
 ---------------------------------------
 create sequence course_offering_id_seq;
 
@@ -184,17 +140,6 @@ CREATE TABLE courseOffering (
     FOREIGN KEY(course_code) REFERENCES course (code)
 );
 
-Create procedure usp_insert_courseOffering(c_semester_id int, c_course_code varchar(10), c_letter_grades bytea)
-    Language sql
-As $$ insert into courseOffering values(default, c_semester_id, c_course_code, c_letter_grades) $$;
-
-Create procedure usp_update_courseOffering(c_id int,new_semester_id int, new_course_code varchar(10), new_letter_grades bytea)
-    Language sql
-As $$ update courseOffering set semester_id = new_semester_id, course_code = new_course_code, letter_grades = new_letter_grades where id = c_id$$;
-
-Create procedure usp_delete_courseOffering(c_id int)
-    Language sql
-As $$ delete from courseOffering where id = c_id $$;
 ----------------------------------------------------
 create sequence assessment_id_seq;
 
@@ -206,17 +151,6 @@ CREATE TABLE assessment  (
     PRIMARY KEY(id),
     FOREIGN KEY(courseOffering_id) REFERENCES courseOffering (id)
 );
-Create procedure usp_insert_assessment(a_course_offering_id int, a_weight float, a_files bytea)
-    Language sql
-As $$ insert into assessment values(default, a_course_offering_id, a_files, a_weight) $$;
-
-Create procedure usp_update_assessment(a_id int,new_course_offering_id int, new_weight float, new_files bytea)
-    Language sql
-As $$ update assessment set courseOffering_id = new_course_offering_id, weight = new_weight, files = new_files where id = a_id $$;
-
-Create procedure usp_delete_assessment(a_id int)
-    Language sql
-As $$ delete from assessment where id = a_id $$;
 ---------------------------------------------------
 CREATE TABLE question (
     id int,
