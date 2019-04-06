@@ -23,7 +23,7 @@ As $$ delete from Department where Code = dep_code  $$;
 create sequence curriculum_id_seq;
 
 CREATE TABLE Curriculum (
-    id int default nextval(curriculum_id_seq) not null,
+    id int default nextval('curriculum_id_seq') not null,
     version int,
     dept_code Varchar(10),
     PRIMARY KEY (id),
@@ -32,9 +32,9 @@ CREATE TABLE Curriculum (
 
 Create procedure usp_insert_curriculum  (c_version int, c_dept_code Varchar(10))
 Language sql
-As $$ INSERT INTO Curriculum(version, dept_code) VALUES (c_version, c_dept_code)$$;
+As $$ INSERT INTO Curriculum VALUES (default ,c_version, c_dept_code)$$;
 
-Create procedure usp_update_curriculum  ( new_version int, new_dept_code Varchar(10), c_id int)
+Create procedure usp_update_curriculum  (new_version int, new_dept_code Varchar(10), c_id int)
 Language sql
 As $$ update Curriculum set  version = new_version, dept_code = new_dept_code where id = c_id$$;
 
@@ -43,23 +43,55 @@ Create procedure usp_delete_curriculum (c_id int)
 As $$ delete from Curriculum where id = c_id  $$;
 
 ------------------------------------------------------
+CREATE sequence key_learning_outcome_id_seq;
+
 CREATE TABLE keyLearningOutcome(
-    id int,
+    id int default nextval('key_learning_outcome_id_seq') not null,
     body varchar(1000),
     dept_code varchar(10),
     PRIMARY KEY (id),
     FOREIGN KEY (dept_code) REFERENCES Department(code)
 );
 
+Create procedure usp_insert_keyLearningOutcome  (o_body varchar(1000) , o_dept_code varchar(10))
+Language sql
+As $$ INSERT INTO keyLearningOutcome VALUES(default, o_body, o_dept_code)  $$;
+
+Create procedure usp_update_keyLearningOutcome  (new_body varchar(1000) , new_dept_code varchar(10), o_id int)
+Language sql
+As $$ update keyLearningOutcome set body = new_body, dept_code = new_dept_code where id = o_id$$;
+
+Create procedure usp_delete_keyLearningOutcome (o_id int)
+    Language sql
+As $$ delete from keyLearningOutcome where id = o_id $$;
+
+
+-----------------------------------------------------
+create sequence semester_id_seq;
+
 CREATE TABLE semester (
-    id int,
+    id int default nextval('semester_id_seq') not null,
     type varchar(10),
     year char(4),
     PRIMARY KEY(id)
 );
+Create procedure usp_insert_semester (s_type varchar(10), s_year char(4))
+    Language sql
+As $$ INSERT INTO semester VALUES(default, s_type, s_year)$$;
+
+Create procedure usp_update_semester (s_type varchar(10), s_year char(4),s_id int)
+    Language sql
+As $$ update semester set type = s_type, year = s_year where id = s_id$$;
+
+Create procedure usp_delete_semester (s_id int)
+    Language sql
+As $$ delete from semester where id = s_id $$;
+
+-----------------------------------------------------
+create sequence instructor_id_seq;
 
 CREATE TABLE instructor(
-    id int,
+    id int default nextval('instructor_id_seq') not null,
     name varchar(255),
     Surname varchar(255),
     dept_code Varchar(10),
@@ -67,6 +99,7 @@ CREATE TABLE instructor(
     FOREIGN KEY(dept_code) REFERENCES Department (code)
 );
 
+-------------------------------------------------
 CREATE TABLE course (
     code varchar(10),
     name varchar(255),
@@ -74,6 +107,7 @@ CREATE TABLE course (
     PRIMARY KEY(code)
 );
 
+-------------------------------------------------
 CREATE TABLE curriculum_course(
     curriculum_id int,
     course_code varchar(10),
@@ -82,16 +116,22 @@ CREATE TABLE curriculum_course(
     FOREIGN KEY(course_code) REFERENCES course (Code)
 );
 
+-----------------------------------------------
+create sequence course_learning_objective_id_seq;
+
 CREATE TABLE courseLearningObjective(
-    id int,
+    id int default nextval('course_learning_objective_id_seq') not null,
     course_code varchar(10),
     Body varchar(1000) ,
     PRIMARY KEY(Id),
     FOREIGN KEY(course_code) REFERENCES course (code)
 );
 
+---------------------------------------
+create sequence course_offering_id_seq;
+
 CREATE TABLE courseOffering (
-    id int,
+    id int default nextval('course_offering_id_seq') not null,
     semester_id int,
     course_code varchar(10),
     letter_grades bytea,
@@ -100,15 +140,18 @@ CREATE TABLE courseOffering (
     FOREIGN KEY(course_code) REFERENCES course (code)
 );
 
+----------------------------------------------------
+create sequence assessment_id_seq;
+
 CREATE TABLE assessment  (
-    id int,
+    id int default nextval('assessment_id_seq') not null,
     courseOffering_id int,
     files bytea,
     weight float,
     PRIMARY KEY(id),
     FOREIGN KEY(courseOffering_id) REFERENCES courseOffering (id)
 );
-
+---------------------------------------------------
 CREATE TABLE question (
     id int,
     body varchar(1000),
