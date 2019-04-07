@@ -117,7 +117,7 @@ CREATE TABLE course (
     PRIMARY KEY(code)
 );
 
-Create procedure usp_insert_course(c_code varchar(10), c_name varchar(255), c_credit int)
+Create procedure usp_insert_course(c_code varchar(10), c_name varchar(255), c_credit smallint)
     Language sql
 As $$ insert into course values(c_code, c_name, c_credit)$$;
 
@@ -255,7 +255,7 @@ As $$ insert into question_courseLearningObjective values(q_question_id, q_cours
 
 Create procedure usp_update_question_courseLearningObjective(q_question_id int, q_courseLearningObjective_id int,new_question_id int, new_courseLearningObjective_id int, new_value smallint)
     Language sql
-As $$ update question_courseLearningObjective set question_id = new_question_id, courseLearningObjective_id = new_courseLearningObjective_id
+As $$ update question_courseLearningObjective set question_id = new_question_id, courseLearningObjective_id = new_courseLearningObjective_id, Value = new_value
       where question_id = q_question_id and courseLearningObjective_id = q_courseLearningObjective_id$$;
 
 Create procedure usp_delete_question_courseLearningObjective(q_question_id int, q_courseLearningObjective_id int)
@@ -289,11 +289,11 @@ As $$ delete from question_keyLearningOutcome where question_id = q_question_id 
 CREATE SEQUENCE section_id_seq;
 
 CREATE TABLE section (
-                         id int default nextval('section_id_seq'),
-                         courseOffering_id int,
-                         number int,
-                         PRIMARY KEY (id),
-                         FOREIGN KEY (courseOffering_id) REFERENCES courseOffering (id)
+    id int default nextval('section_id_seq'),
+    courseOffering_id int,
+    number int,
+    PRIMARY KEY (id),
+    FOREIGN KEY (courseOffering_id) REFERENCES courseOffering (id)
 );
 Create procedure usp_insert_section(s_courseOffering_id int, s_number int)
     Language sql
@@ -309,10 +309,10 @@ As $$delete from section where id = s_id$$;
 
 ----------------------------------------------------
 CREATE TABLE section_instructor (
-     section_id int,
-     instructor_id int,
-     PRIMARY KEY (section_id, instructor_id),
-     FOREIGN KEY (section_id) REFERENCES section (id),
+    section_id int,
+    instructor_id int,
+    PRIMARY KEY (section_id, instructor_id),
+    FOREIGN KEY (section_id) REFERENCES section (id),
     FOREIGN KEY (instructor_id) REFERENCES instructor (id)
 );
 Create procedure usp_insert_section_instructor(s_section_id int, s_instructor_id int)
@@ -370,12 +370,12 @@ As $$ delete from section_student where section_id = s_section_id and student_id
 
 ----------------------------------------------------
 CREATE TABLE assessment_student (
-                                    student_id int,
-                                    assessment_id int,
-                                    grade float,
-                                    PRIMARY KEY(student_id, assessment_id),
-                                    FOREIGN KEY(student_id) REFERENCES student(id),
-                                    FOREIGN KEY(assessment_id) REFERENCES assessment(id)
+    student_id int,
+    assessment_id int,
+    grade float,
+    PRIMARY KEY(student_id, assessment_id),
+    FOREIGN KEY(student_id) REFERENCES student(id),
+    FOREIGN KEY(assessment_id) REFERENCES assessment(id)
 );
 Create procedure usp_insert_assessment_student(a_student_id int, a_assessment_id int, a_grade float)
     Language sql
@@ -394,13 +394,13 @@ As $$ delete from assessment_student where student_id = a_student_id and assessm
 CREATE SEQUENCE quiz_id_seq;
 
 CREATE TABLE quiz (
-                      id int default nextval('quiz_id_seq'),
-                      courseOffering_id int,
-                      files bytea,
-                      weight float,
-                      duration smallint,
-                      date date,
-                      PRIMARY KEY(id)
+    id int default nextval('quiz_id_seq'),
+    courseOffering_id int,
+    files bytea,
+    weight float,
+    duration smallint,
+    date date,
+    PRIMARY KEY(id)
 );
 Create procedure usp_insert_quiz(q_course_offering_id int,q_files bytea,q_weight float, q_duration smallint,q_date date)
     Language sql
@@ -420,17 +420,17 @@ As $$ delete from quiz where id = q_id$$;
 CREATE SEQUENCE assignment_id_seq;
 
 CREATE TABLE assignment (
-                            id int default nextval('assignment_id_seq'),
-                            courseOffering_id int,
-                            files bytea,
-                            weight float,
-                            start_date date,
-                            due_date date,
-                            PRIMARY KEY(id)
+    id int default nextval('assignment_id_seq'),
+    courseOffering_id int,
+    files bytea,
+    weight float,
+    start_date date,
+    due_date date,
+    PRIMARY KEY(id)
 );
-Create procedure usp_insert_assignment(a_course_offering_id int,a_files bytea,a_weight float, a_start_date date, a_duedate date)
+Create procedure usp_insert_assignment(a_course_offering_id int,a_files bytea,a_weight float, a_start_date date, a_due_date date)
     Language sql
-As $$ insert into assignment values(default, a_course_offering_id, a_files, a_weight, a_start_date, a_duedate)$$;
+As $$ insert into assignment values(default, a_course_offering_id, a_files, a_weight, a_start_date, a_due_date)$$;
 
 Create procedure usp_update_assignment(a_id int,new_course_offering_id int,new_files bytea,new_weight float, new_start_date date, new_duedate date)
     Language sql
@@ -445,14 +445,14 @@ As $$ delete from assignment where id = a_id$$;
 CREATE sequence midterm_id_seq;
 
 CREATE TABLE midterm (
-                         id int default nextval('midterm_id_seq'),
-                         courseOffering_id int,
-                         files bytea,
-                         weight float,
-                         room smallint,
-                         date date,
-                         duration smallint,
-                         PRIMARY KEY(id)
+    id int default nextval('midterm_id_seq'),
+    courseOffering_id int,
+    files bytea,
+    weight float,
+    room smallint,
+    date date,
+    duration smallint,
+    PRIMARY KEY(id)
 );
 Create procedure usp_insert_midterm(m_course_offering_id int,m_files bytea ,m_weight float, m_room smallint,m_date date, m_duration smallint)
     Language sql
@@ -472,14 +472,14 @@ As $$ delete from midterm where id = m_id$$;
 CREATE SEQUENCE final_id_seq;
 
 CREATE TABLE final (
-                       id int default nextval('final_id_seq'),
-                       courseOffering_id int,
-                       files bytea,
-                       weight float,
-                       room smallint,
-                       date date,
-                       duration smallint,
-                       PRIMARY KEY(id)
+    id int default nextval('final_id_seq'),
+    courseOffering_id int,
+    files bytea,
+    weight float,
+    room smallint,
+    date date,
+    duration smallint,
+    PRIMARY KEY(id)
 );
 Create procedure usp_insert_final(f_course_offering_id int,f_files bytea ,f_weight float,f_room smallint ,f_date date,
                                  f_duration smallint)
