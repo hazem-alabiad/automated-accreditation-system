@@ -7,5 +7,5 @@ CALL usp_insert_instructor('fuat', 'akal', 'BBM');
 CALL usp_insert_course('BBM471', 'Into to DBMS', 10);
 CALL usp_insert_curriculum_course(1, 'BBM471');
 CALL usp_insert_courseLearningObjective('BBM471', 'yes');
-CALL usp_insert_courseoffering(1, 'BBM471');
-CALL usp_insert_assessment(1, 0.3);
+CALL usp_insert_courseoffering(1, 'BBM471', NULL);
+CALL usp_insert_assessment(1, 0.3, NULL);
