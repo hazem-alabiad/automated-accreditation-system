@@ -11,9 +11,9 @@ Create procedure usp_insert_department(dep_code Varchar(10), dep_name varchar(25
 Language sql
 As $$ INSERT INTO department VALUES(dep_code, dep_name)$$;
 
-Create procedure usp_update_department(new_code Varchar(10), new_name varchar(25) )
+Create procedure usp_update_department(dep_code Varchar(10), new_name varchar(25) )
 Language sql
-As $$ update Department set Code=new_code, Name=new_name  where Code = new_code$$;
+As $$ update Department set Name = new_name  where Code = dep_code$$;
 
 Create procedure usp_delete_department (dep_code Varchar(10))
 Language sql
@@ -34,7 +34,7 @@ Create procedure usp_insert_curriculum  (c_version int, c_dept_code Varchar(10))
 Language sql
 As $$ INSERT INTO Curriculum VALUES (default ,c_version, c_dept_code)$$;
 
-Create procedure usp_update_curriculum  (new_version int, new_dept_code Varchar(10), c_id int)
+Create procedure usp_update_curriculum  (c_id int ,new_version int, new_dept_code Varchar(10))
 Language sql
 As $$ update Curriculum set  version = new_version, dept_code = new_dept_code where id = c_id$$;
 
@@ -57,14 +57,13 @@ Create procedure usp_insert_keyLearningOutcome  (o_body varchar(1000) , o_dept_c
 Language sql
 As $$ INSERT INTO keyLearningOutcome VALUES(default, o_body, o_dept_code)  $$;
 
-Create procedure usp_update_keyLearningOutcome  (new_body varchar(1000) , new_dept_code varchar(10), o_id int)
+Create procedure usp_update_keyLearningOutcome  (o_id int ,new_body varchar(1000) , new_dept_code varchar(10))
 Language sql
 As $$ update keyLearningOutcome set body = new_body, dept_code = new_dept_code where id = o_id$$;
 
 Create procedure usp_delete_keyLearningOutcome (o_id int)
     Language sql
 As $$ delete from keyLearningOutcome where id = o_id $$;
-
 
 -----------------------------------------------------
 create sequence semester_id_seq;
@@ -79,7 +78,7 @@ Create procedure usp_insert_semester (s_type varchar(10), s_year char(4))
     Language sql
 As $$ INSERT INTO semester VALUES(default, s_type, s_year)$$;
 
-Create procedure usp_update_semester (new_type varchar(10), new_year char(4),s_id int)
+Create procedure usp_update_semester (s_id int ,new_type varchar(10), new_year char(4))
     Language sql
 As $$ update semester set type = new_type, year = new_year where id = s_id$$;
 
@@ -140,11 +139,6 @@ Create procedure usp_insert_curriculum_course(c_curriculum_id int, c_course_code
     Language sql
 As $$ insert into curriculum_course values(c_curriculum_id, c_course_code)$$;
 
-Create procedure usp_update_curriculum_course(new_curriculum_id int, new_course_code varchar(10),
-                                              c_curriculum_id int, c_course_code varchar(10))
-    Language sql
-As $$ update curriculum_course set curriculum_id = new_curriculum_id, course_code = new_course_code
-        where curriculum_id = c_curriculum_id and course_code = c_course_code$$;
 
 Create procedure usp_delete_curriculum_course (c_curriculum_id int, c_course_code varchar(10))
     Language sql
@@ -253,9 +247,9 @@ Create procedure usp_insert_question_courseLearningObjective(q_question_id int, 
     Language sql
 As $$ insert into question_courseLearningObjective values(q_question_id, q_courseLearningObjective_id, q_value)$$;
 
-Create procedure usp_update_question_courseLearningObjective(q_question_id int, q_courseLearningObjective_id int,new_question_id int, new_courseLearningObjective_id int, new_value smallint)
+Create procedure usp_update_question_courseLearningObjective(q_question_id int, q_courseLearningObjective_id int, new_value smallint)
     Language sql
-As $$ update question_courseLearningObjective set question_id = new_question_id, courseLearningObjective_id = new_courseLearningObjective_id, Value = new_value
+As $$ update question_courseLearningObjective set Value = new_value
       where question_id = q_question_id and courseLearningObjective_id = q_courseLearningObjective_id$$;
 
 Create procedure usp_delete_question_courseLearningObjective(q_question_id int, q_courseLearningObjective_id int)
@@ -276,9 +270,9 @@ Create procedure usp_insert_question_keyLearningOutcome(q_question_id int, q_key
     Language sql
 As $$ insert into question_keyLearningOutcome values(q_question_id, q_keyLearningOutcome_id, q_value)$$;
 
-Create procedure usp_update_question_keyLearningOutcome(q_question_id int, q_keyLearningOutcome_id int,new_question_id int, new_keyLearningOutcome_id int ,new_value smallint)
+Create procedure usp_update_question_keyLearningOutcome(q_question_id int, q_keyLearningOutcome_id int, new_value smallint)
     Language sql
-As $$ update question_keyLearningOutcome set question_id = new_question_id, key_learning_outcome_id = new_keyLearningOutcome_id, Value = new_value
+As $$ update question_keyLearningOutcome set Value = new_value
        where question_id = q_question_id and key_learning_outcome_id = q_keyLearningOutcome_id$$;
 
 Create procedure usp_delete_question_keyLearningOutcome(q_question_id int, q_keyLearningOutcome_id int)
@@ -319,11 +313,6 @@ Create procedure usp_insert_section_instructor(s_section_id int, s_instructor_id
     Language sql
 As $$ insert into section_instructor values(s_section_id, s_instructor_id)$$;
 
-Create procedure usp_update_section_instructor(s_section_id int, s_instructor_id int, new_section_id int, new_instructor_id int)
-    Language sql
-As $$ update section_instructor set section_id = new_section_id, instructor_id = new_instructor_id
-       where instructor_id = s_instructor_id and section_id = s_section_id$$;
-
 Create procedure usp_delete_section_instructor(s_section_id int, s_instructor_id int)
     Language sql
 As $$ delete from section_instructor where section_id = s_section_id and instructor_id = s_instructor_id$$;
@@ -359,11 +348,6 @@ Create procedure usp_insert_section_student(s_section_id int, s_student_id int)
     Language sql
 As $$ insert into section_student values(s_section_id, s_student_id)  $$;
 
-Create procedure usp_update_section_student(s_section_id int, s_student_id int, new_section_id int, new_student_id int)
-    Language sql
-As $$ update section_student set section_id = new_section_id, student_id = new_student_id where
-       section_id = s_section_id and student_id = s_student_id$$;
-
 Create procedure usp_delete_section_student(s_section_id int, s_student_id int)
     Language sql
 As $$ delete from section_student where section_id = s_section_id and student_id = s_student_id$$;
@@ -381,9 +365,9 @@ Create procedure usp_insert_assessment_student(a_student_id int, a_assessment_id
     Language sql
 As $$ insert into assessment_student values(a_student_id, a_assessment_id, a_grade)  $$;
 
-Create procedure usp_update_assessment_student(a_student_id int, a_assessment_id int, new_student_id int, new_assessment_id int,new_grade float)
+Create procedure usp_update_assessment_student(a_student_id int, a_assessment_id int, new_grade float)
     Language sql
-As $$ update assessment_student set student_id = new_student_id, assessment_id = new_assessment_id, grade = new_grade
+As $$ update assessment_student set grade = new_grade
        where assessment_id = a_assessment_id and student_id = a_student_id$$;
 
 Create procedure usp_delete_assessment_student(a_student_id int, a_assessment_id int)
