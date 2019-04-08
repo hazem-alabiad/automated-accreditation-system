@@ -4,10 +4,28 @@ CALL usp_insert_keylearningoutcome('keylearningoutcome', 'BBM');
 CALL usp_insert_semester('fall', '2019');
 CALL usp_insert_semester('fall', '2019');
 CALL usp_insert_instructor('fuat', 'akal', 'BBM');
-CALL usp_insert_course('BBM471', 'Into to DBMS', 10::smallint);
+
+CALL usp_insert_course('BBM471', 'Intro to DBMS', 10::smallint);
+CALL usp_insert_course('BBM495', 'Intro to NLP', 10::smallint);
+CALL usp_insert_course('BBM451', 'Networking', 10::smallint);
+CALL usp_insert_course('EMU475', 'Intro to PM', 10::smallint);
+CALL usp_insert_course('EMU446', 'Supply Chain', 6::smallint);
+CALL usp_insert_course('EMU443', 'Revenue Management', 6::smallint);
+CALL usp_insert_course('ELE110', 'Intro to ELE', 5::smallint);
+
 CALL usp_insert_curriculum_course(1, 'BBM471');
+
 CALL usp_insert_courseLearningObjective('BBM471', 'courseLearningObjective');
+
 CALL usp_insert_courseoffering(1, 'BBM471', NULL);
+CALL usp_insert_courseoffering(1, 'BBM495', NULL);
+CALL usp_insert_courseoffering(1, 'BBM451', NULL);
+CALL usp_insert_courseoffering(1, 'EMU475', NULL);
+CALL usp_insert_courseoffering(1, 'EMU446', NULL);
+CALL usp_insert_courseoffering(1, 'EMU443', NULL);
+CALL usp_insert_courseoffering(1, 'ELE110', NULL);
+
+
 CALL usp_insert_assessment(1, 0.3, NULL);
 CALL usp_insert_question('question_body', 0.2, 1);
 CALL usp_insert_question_courselearningobjective(1, 1, 2::smallint);
