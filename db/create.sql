@@ -322,15 +322,17 @@ CREATE TABLE student  (
     id int,
     name varchar(30),
     surname varchar(30),
-    PRIMARY KEY(id)
+    dep_code varchar(10),
+    PRIMARY KEY(id),
+    FOREIGN KEY (dep_code) REFERENCES Department (Code)
 );
-Create procedure usp_insert_student(s_id int,s_name varchar(30), s_surname varchar(30))
+Create procedure usp_insert_student(s_id int,s_name varchar(30), s_surname varchar(30), s_dep_code varchar(10))
     Language sql
-As $$ insert into student values(s_id, s_name, s_surname)  $$;
+As $$ insert into student values(s_id, s_name, s_surname, s_dep_code)  $$;
 
-Create procedure usp_update_student(s_id int,new_name varchar(30), new_surname varchar(30))
+Create procedure usp_update_student(s_id int,new_name varchar(30), new_surname varchar(30), s_dep_code varchar(10))
     Language sql
-As $$ update student set name = new_name, surname = new_surname where id = s_id$$;
+As $$ update student set name = new_name, surname = new_surname, dep_code = s_dep_code where id = s_id$$;
 
 Create procedure usp_delete_student(s_id int)
     Language sql
