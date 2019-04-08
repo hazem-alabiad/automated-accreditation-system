@@ -435,17 +435,17 @@ CREATE TABLE midterm (
     courseOffering_id int,
     files bytea,
     weight float,
-    room smallint,
+    room varchar(10),
     date date,
     duration smallint,
     PRIMARY KEY(id)
 );
-Create procedure usp_insert_midterm(m_course_offering_id int,m_files bytea ,m_weight float, m_room smallint,m_date date, m_duration smallint)
+Create procedure usp_insert_midterm(m_course_offering_id int,m_files bytea ,m_weight float, m_room varchar(10),m_date date, m_duration smallint)
     Language sql
 As $$ insert into midterm values(default, m_course_offering_id, m_files, m_weight, m_room, m_date, m_duration) $$;
 
 Create procedure usp_update_midterm(m_id int,new_course_offering_id int,new_files bytea ,new_weight float,
-                            new_room smallint,new_date date, new_duration smallint)
+                            new_room varchar(10),new_date date, new_duration smallint)
     Language sql
 As $$ update midterm set courseOffering_id = new_course_offering_id, files = new_files, weight = new_weight,
                         room = new_room, date = new_date, duration = new_duration where id = m_id $$;
@@ -462,17 +462,17 @@ CREATE TABLE final (
     courseOffering_id int,
     files bytea,
     weight float,
-    room smallint,
+    room varchar(10),
     date date,
     duration smallint,
     PRIMARY KEY(id)
 );
-Create procedure usp_insert_final(f_course_offering_id int,f_files bytea ,f_weight float,f_room smallint ,f_date date,
+Create procedure usp_insert_final(f_course_offering_id int,f_files bytea ,f_weight float,f_room varchar(10) ,f_date date,
                                  f_duration smallint)
     Language sql
 As $$  insert into final values(default, f_course_offering_id, f_files, f_weight, f_room, f_date, f_duration) $$;
 
-Create procedure usp_update_final(f_id int,new_course_offering_id int,new_files bytea ,new_weight float,new_room smallint ,new_date date,
+Create procedure usp_update_final(f_id int,new_course_offering_id int,new_files bytea ,new_weight float,new_room varchar(10) ,new_date date,
                                   new_duration smallint)
     Language sql
 As $$ update final set courseOffering_id = new_course_offering_id, files = new_files, weight = new_weight, room = new_room,

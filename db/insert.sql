@@ -8,14 +8,13 @@ CALL usp_insert_curriculum(1, 'EMU');
 CALL usp_insert_curriculum(2, 'EMU');
 CALL usp_insert_curriculum(2, 'BBM');
 
-CALL usp_insert_keylearningoutcome('keylearningoutcome', 'BBM');
-CALL usp_insert_keylearningoutcome('keylearningoutcome', 'ELE');
-CALL usp_insert_keylearningoutcome('keylearningoutcome', 'EMU');
-
+CALL usp_insert_keylearningoutcome('keylearningoutcome_BBM', 'BBM');
+CALL usp_insert_keylearningoutcome('keylearningoutcome_ELE', 'ELE');
+CALL usp_insert_keylearningoutcome('keylearningoutcome_EMU', 'EMU');
 
 CALL usp_insert_semester('fall', '2019');
-CALL usp_insert_semester('spring', '2019');
-CALL usp_insert_semester('spring', '2020');
+CALL usp_insert_semester('spring', '2017');
+CALL usp_insert_semester('summer', '2018');
 
 CALL usp_insert_instructor('fuat', 'akal', 'BBM');
 CALL usp_insert_instructor('Adnan', 'Ozsoy', 'BBM');
@@ -46,12 +45,11 @@ CALL usp_insert_courseLearningObjective('EMU475', 'courseLearningObjective');
 
 CALL usp_insert_courseoffering(1, 'BBM471', NULL);
 CALL usp_insert_courseoffering(1, 'BBM495', NULL);
-CALL usp_insert_courseoffering(1, 'BBM451', NULL);
-CALL usp_insert_courseoffering(1, 'EMU475', NULL);
-CALL usp_insert_courseoffering(1, 'EMU446', NULL);
-CALL usp_insert_courseoffering(1, 'EMU443', NULL);
+CALL usp_insert_courseoffering(2, 'BBM451', NULL);
+CALL usp_insert_courseoffering(2, 'EMU475', NULL);
+CALL usp_insert_courseoffering(3, 'EMU446', NULL);
+CALL usp_insert_courseoffering(3, 'EMU443', NULL);
 CALL usp_insert_courseoffering(1, 'ELE110', NULL);
-
 
 CALL usp_insert_assessment(1, 0.3, NULL);
 CALL usp_insert_assessment(2, 0.5, NULL);
@@ -59,20 +57,38 @@ CALL usp_insert_assessment(3, 0.2, NULL);
 CALL usp_insert_assessment(3, 0.1, NULL);
 CALL usp_insert_assessment(1, 0.3, NULL);
 
-CALL usp_insert_question('question_body', 0.2, 1);
-CALL usp_insert_question('question_body', 0.3, 2);
-CALL usp_insert_question('question_body', 0.2, 3);
+CALL usp_insert_question('question_body_1', 0.2, 1);
+CALL usp_insert_question('question_body_2', 0.3, 1);
+CALL usp_insert_question('question_body_3', 0.2, 1);
+CALL usp_insert_question('q_1', 0.4, 2);
+CALL usp_insert_question('q_2', 0.1, 2);
 
 CALL usp_insert_question_courselearningobjective(1, 1, 2::smallint);
 
 CALL usp_insert_question_keyLearningOutcome(1, 1, 5::smallint);
 
-CALL usp_insert_section(1, 3);
-CALL usp_insert_section(2, 2);
 CALL usp_insert_section(1, 1);
+CALL usp_insert_section(1, 2);
+CALL usp_insert_section(2, 1);
+CALL usp_insert_section(3, 1);
+CALL usp_insert_section(4, 1);
+CALL usp_insert_section(4, 2);
+CALL usp_insert_section(4, 3);
+CALL usp_insert_section(4, 4);
+CALL usp_insert_section(5, 1);
+CALL usp_insert_section(6, 1);
+CALL usp_insert_section(7, 1);
 
 CALL usp_insert_section_instructor(1, 1);
-CALL usp_insert_section_instructor(2, 1);
+CALL usp_insert_section_instructor(2, 2);
+CALL usp_insert_section_instructor(3, 1);
+CALL usp_insert_section_instructor(4, 1);
+CALL usp_insert_section_instructor(5, 1);
+CALL usp_insert_section_instructor(6, 2);
+CALL usp_insert_section_instructor(7, 3);
+CALL usp_insert_section_instructor(8, 4);
+CALL usp_insert_section_instructor(9, 4);
+CALL usp_insert_section_instructor(10, 4);
 
 CALL usp_insert_student(2140, 'Hazem', 'White', 'BBM');
 CALL usp_insert_student(2150, 'George', 'Gerogenazi', 'BBM');
@@ -83,7 +99,7 @@ CALL usp_insert_student(2141, 'Abueljod', 'Albadin', 'ELE');
 CALL usp_insert_section_student(1, 2140);
 CALL usp_insert_section_student(2, 2150);
 CALL usp_insert_section_student(2, 2131);
-CALL usp_insert_section_student(2, 2150);
+CALL usp_insert_section_student(2, 2141);
 
 CALL usp_insert_assessment_student(2140, 1, 91.0);
 CALL usp_insert_assessment_student(2150, 2, 61.0);
@@ -94,5 +110,10 @@ CALL usp_insert_quiz(1, NULL, 0.2, 50::smallint, '2019-08-01');
 CALL usp_insert_quiz(2, NULL, 0.1, 40::smallint, '2019-08-04');
 
 CALL usp_insert_assignment(1, NULL, 0.1, '2019-03-02', '2019-03-10');
-CALL usp_insert_midterm(1, NULL, 0.4, 1::smallint, '2019-04-15', 120::smallint);
-CALL usp_insert_final(1, NULL, 0.5, 2::SMALLINT, '2019-05-03', 150::smallint);
+CALL usp_insert_assignment(2, NULL, 0.2, '2019-05-01', '2019-05-15');
+CALL usp_insert_assignment(3, NULL, 0.5, '2019-01-16', '2019-01-16');
+
+CALL usp_insert_midterm(1, NULL, 0.4, 'd2', '2019-04-15', 120::smallint);
+
+CALL usp_insert_final(1, NULL, 0.5, 'd1', '2019-05-03', 150::smallint);
+CALL usp_insert_final(3, NULL, 0.6, 'e2', '2018-01-07', 180::smallint)
