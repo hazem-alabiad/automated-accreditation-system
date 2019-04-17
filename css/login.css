@@ -1,0 +1,43 @@
+﻿body {
+	background: linear-gradient(to right, #ad5389, #3c1053)
+}
+
+.card-login{
+	border: 0;
+	border-radius: 3rem;
+	border-collapse: separate; 
+	box-shadow: 0 1rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-login .card-title {
+	margin-bottom: 2rem;
+	font-weight: 300;
+	font-size: 2rem;
+}
+
+.card-login .card-body {
+	padding: 2rem;
+}
+
+.form-login{
+	width: 100%;
+}
+
+#btn-login{
+	font-size: 80%;
+	border-radius: 5rem;
+	letter-spacing: .1rem;
+	font-weight: bold;
+	padding: 1rem;
+	transition: all 0.2s;
+}
+
+.input-group {
+	position: relative;
+	margin-bottom: 1rem;
+}
+
+.input-group input {
+	height: auto;
+	border-radius: 2rem;
+}
