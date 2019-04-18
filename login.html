@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <metach arset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- <meta http-equiv="refresh" content="2" > -->
 
     <!--Cutomized CSS -->
     <link rel="stylesheet" type="text/css" href="css/login.css">
@@ -18,25 +19,30 @@
   </head>
 
   <body>
-
-    <div class="container">
+  	<div class="jumbotron">
+  		<div class="container text-center">
+  			<h1 class="display-4 font-weight-bold">H.U C.S Automated Accreditation System</h1>
+  		</div>
+  	</div>
+  	<div class="container">
 		<div class="row">
-			<div class="mx-auto col-sm-9 col-md-7 col-lg-5 my-5">
-                <div class="card card-login my-5"> 
+			<div class="mx-auto col-sm-9 col-md-7 col-lg-5 my-3">
+                <div class="card card-login my-2"> 
                     <div class="card-body">
-                        <h5 class="card-title text-center"> Sign In </h5>
+                        <h5 class="card-title text-center font-weight-bold"> Sign In </h5>
                         <form class="   ">
                             <div class="input-group">
                                 <i class="input-icon fas fa-envelope fa-2x fa-fw" aria-hidden="true"></i>&nbsp
                                 <input type="text" name="logInEmail" class="form-control" id="logInEmail" 
-                                placeholder="Email Address" required autofocus></input>
+                                placeholder="name.surname@hacettepe.edu.tr" required autofocus></input>
+                               
                             </div>
                             <div class="input-group">
                                 <i class="icon-input fas fa-key fa-2x fa-fw"></i>&nbsp
-                                <input type="password" name="logInPass" class="form-control" id="form-control"
-                                placeholder="Password" required="">
+                                <input type="password" name="logInPass" class="form-control" id="form-control" placeholder="Password" required>
+                                
                             </div><br>
-                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" id="btn-login">Sign in</button>  
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" id="btn-login">Log In</button>  
                         </form>
                     </div>
                 </div>         
