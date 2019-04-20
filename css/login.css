@@ -42,3 +42,13 @@
 	border-radius: 2rem;
 }
 
+.class-header{
+	background-color: white;
+}
+
+#header-text {
+	min-height: 6rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
