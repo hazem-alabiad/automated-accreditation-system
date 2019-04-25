@@ -51,21 +51,7 @@ CALL usp_insert_courseoffering(3, 'EMU446', NULL);
 CALL usp_insert_courseoffering(3, 'EMU443', NULL);
 CALL usp_insert_courseoffering(1, 'ELE110', NULL);
 
-CALL usp_insert_assessment(1, 0.3, NULL);
-CALL usp_insert_assessment(2, 0.5, NULL);
-CALL usp_insert_assessment(3, 0.2, NULL);
-CALL usp_insert_assessment(3, 0.1, NULL);
-CALL usp_insert_assessment(1, 0.3, NULL);
 
-CALL usp_insert_question('question_body_1', 0.2, 1);
-CALL usp_insert_question('question_body_2', 0.3, 1);
-CALL usp_insert_question('question_body_3', 0.2, 1);
-CALL usp_insert_question('q_1', 0.4, 2);
-CALL usp_insert_question('q_2', 0.1, 2);
-
-CALL usp_insert_question_courselearningobjective(1, 1, 2::smallint);
-
-CALL usp_insert_question_keyLearningOutcome(1, 1, 5::smallint);
 
 CALL usp_insert_section(1, 1);
 CALL usp_insert_section(1, 2);
@@ -101,19 +87,46 @@ CALL usp_insert_section_student(2, 2150);
 CALL usp_insert_section_student(2, 2131);
 CALL usp_insert_section_student(2, 2141);
 
+-- to insert child assessments we first insert a parent assessment and then insert its corresponding child assessmemt (midterm, quiz, ..)
+CALL usp_insert_assessment(1, 0.3, NULL);
+CALL usp_insert_quiz(50::smallint, '2019-08-01');
+
+CALL usp_insert_assessment(2, 0.5, NULL);
+CALL usp_insert_quiz(40::smallint, '2019-08-04');
+
+CALL usp_insert_assessment(3, 0.2, NULL);
+CALL usp_insert_assignment('2019-03-02', '2019-03-10');
+
+CALL usp_insert_assessment(3, 0.1, NULL);
+CALL usp_insert_assignment('2019-05-01', '2019-05-15');
+
+CALL usp_insert_assessment(1, 0.3, NULL);
+CALL usp_insert_assignment('2019-01-16', '2019-01-16');
+
+CALL usp_insert_assessment(1, 0.3, NULL);
+CALL usp_insert_midterm('d2', '2019-04-15', 120::smallint);
+
+CALL usp_insert_assessment(2, 0.3, NULL);
+CALL usp_insert_final('d1', '2019-05-03', 150::smallint);
+
+CALL usp_insert_assessment(3, 0.3, NULL);
+CALL usp_insert_final('e2', '2018-01-07', 180::smallint);
+
+
+CALL usp_insert_question('question_body_1', 0.2, 1);
+CALL usp_insert_question('question_body_2', 0.3, 1);
+CALL usp_insert_question('question_body_3', 0.2, 1);
+CALL usp_insert_question('q_1', 0.4, 2);
+CALL usp_insert_question('q_2', 0.1, 2);
+
+CALL usp_insert_question_courselearningobjective(1, 1, 2::smallint);
+
+CALL usp_insert_question_keyLearningOutcome(1, 1, 5::smallint);
+
+
 CALL usp_insert_assessment_student(2140, 1, 91.0);
 CALL usp_insert_assessment_student(2150, 2, 61.0);
 CALL usp_insert_assessment_student(2131, 3, 41.0);
 CALL usp_insert_assessment_student(2141, 1, 41.0);
 
-CALL usp_insert_quiz(1, NULL, 0.2, 50::smallint, '2019-08-01');
-CALL usp_insert_quiz(2, NULL, 0.1, 40::smallint, '2019-08-04');
 
-CALL usp_insert_assignment(1, NULL, 0.1, '2019-03-02', '2019-03-10');
-CALL usp_insert_assignment(2, NULL, 0.2, '2019-05-01', '2019-05-15');
-CALL usp_insert_assignment(3, NULL, 0.5, '2019-01-16', '2019-01-16');
-
-CALL usp_insert_midterm(1, NULL, 0.4, 'd2', '2019-04-15', 120::smallint);
-
-CALL usp_insert_final(1, NULL, 0.5, 'd1', '2019-05-03', 150::smallint);
-CALL usp_insert_final(3, NULL, 0.6, 'e2', '2018-01-07', 180::smallint)
