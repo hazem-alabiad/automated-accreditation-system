@@ -104,13 +104,13 @@ CALL usp_insert_assessment(1, 0.3, NULL);
 CALL usp_insert_assignment('2019-01-16', '2019-01-16');
 
 CALL usp_insert_assessment(1, 0.3, NULL);
-CALL usp_insert_midterm('d2', '2019-04-15', 120::smallint);
+CALL usp_insert_examination('d2', '2019-04-15', 120::smallint, 'midterm');
 
 CALL usp_insert_assessment(2, 0.3, NULL);
-CALL usp_insert_final('d1', '2019-05-03', 150::smallint);
+CALL usp_insert_examination('d2', '2019-04-16', 120::smallint, 'final');
 
-CALL usp_insert_assessment(3, 0.3, NULL);
-CALL usp_insert_final('e2', '2018-01-07', 180::smallint);
+CALL usp_insert_assessment(1, 0.3, NULL);
+CALL usp_insert_examination('d2', '2019-03-15', 120::smallint, 'midterm');
 
 
 CALL usp_insert_question('question_body_1', 0.2, 1);
