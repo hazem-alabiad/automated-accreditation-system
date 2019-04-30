@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Module</title>
+</head>
+<body>
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-5 font-weight-bold text-center">H.U C.S Automated Accreditation System</h1>
+            <p class="lead text-center">Manipulating entities page</p>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <form class="form-inline mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="selection">relation</label>
+            </div>
+            <select class="custom-select form-control form-control-lg" id="selection">
+                <option selected>Choose...</option>
+                <option value="department">department</option>
+                <option value="curriculum">curriculum</option>
+                <option value="instructor">instructor</option>
+                <option value="student">student</option>
+                <option value="course">course</option>
+                <option value="key learning outcomes">key learning outcomes</option>
+                <option value="course learning outcomes">course learning outcomes</option>
+                <option value="section">section</option>
+                <option value="semester">semester</option>
+                <option value="question">question</option>
+                <option value="assessment">assessment</option>
+
+            </select>
+        </form>
+
+        <br>
+
+
+        <form class="student_fields" style="display: none;">
+            <h3 class="my-4 font-weight-bold">insert / update students:</h3>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="s_id">id</label>
+                    <input type="number" id="s_id" class="form-control" placeholder="id">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="s_name">name</label>
+                    <input type="text" id="s_name" class="form-control" placeholder="name">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="s_surname">surname</label>
+                    <input type="text" id="s_surname" class="form-control" placeholder="surname">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="s_dep_code">department code</label>
+                    <input type="text" id="s_dep_code" class="form-control" placeholder="department code">
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="insert_or_update_students">insert or update</label>
+                    <select class="custom-select form-control" id="insert_or_update_students">
+                        <option value="insert" selected>insert</option>
+                        <option value="update">update</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <h3 class="my-4 font-weight-bold"> delete students:</h3>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="s_id_delete">id</label>
+                    <input type="number" id="s_id_delete" class="form-control" placeholder="id">
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+        <form class="curriculum_fields" style="display: none;">
+            <h3 class="my-4 font-weight-bold">insert / update curriculums:</h3>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="c_version">version</label>
+                    <input type="number" id="c_version" class="form-control" placeholder="version">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="c_dept_code">department code</label>
+                    <input type="text" id="c_dept_code" class="form-control" placeholder="department code">
+                </div>
+            </div>
+
+            <br>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="insert_or_update">insert or update</label>
+                    <select class="custom-select form-control" id="insert_or_update">
+                        <option value="insert" selected>insert</option>
+                        <option value="update">update</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <h3 class="my-4 font-weight-bold"> delete curriculums:</h3>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="c_id_delete">id</label>
+                    <input type="number" id="c_id_delete" class="form-control" placeholder="id">
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+        <form class="department_fields" style="display: none;">
+            <h3 class="my-4 font-weight-bold">insert / update departments:</h3>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="dep_code">code</label>
+                    <input type="number" id="dep_code" class="form-control" placeholder="code">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="dep_name">name</label>
+                    <input type="text" id="dep_name" class="form-control" placeholder="name">
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="insert_or_update_dep">insert or update</label>
+                    <select class="custom-select form-control" id="insert_or_update_dep">
+                        <option value="insert" selected>insert</option>
+                        <option value="update">update</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <h3 class="my-4 font-weight-bold"> delete departments:</h3>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="dep_code_delete">code</label>
+                    <input type="number" id="dep_code_delete" class="form-control" placeholder="code">
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+        <form class="key_outcomes_fields" style="display: none;">
+            <h3 class="my-4 font-weight-bold">insert / update key learning outcomes:</h3>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="o_dept_code">department code</label>
+                    <input type="text" id="o_dept_code" class="form-control" placeholder="department code">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    <label for="o_body">key learning objective body</label>
+                    <textarea id="o_body" class="form-control rounder-0" placeholder="body" rows="10"></textarea>
+                </div>
+            </div>
+
+            <br>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="insert_or_update_klo">insert or update</label>
+                    <select class="custom-select form-control" id="insert_or_update_klo">
+                        <option value="insert" selected>insert</option>
+                        <option value="update">update</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <h3 class="my-4 font-weight-bold"> delete key learning outcomes:</h3>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="o_id_delete">id</label>
+                    <input type="number" id="o_id_delete" class="form-control" placeholder="id">
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+        <form class="semester_fields" style="display: none;">
+            <h3 class="my-4 font-weight-bold">insert / update semesters:</h3>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="s_type">type</label>
+                    <input type="text" id="s_type" class="form-control" placeholder="fall / spring / summer">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="s_year">year</label>
+                    <input type="text" id="s_year" class="form-control" placeholder="2016">
+                </div>
+            </div>
+
+            <br>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="insert_or_update_semester">insert or update</label>
+                    <select class="custom-select form-control" id="insert_or_update_semester">
+                        <option value="insert" selected>insert</option>
+                        <option value="update">update</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <h3 class="my-4 font-weight-bold"> delete semesters:</h3>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="sem_id_delete">id</label>
+                    <input type="number" id="sem_id_delete" class="form-control" placeholder="id">
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+        <form class="instructor_fields" style="display: none;">
+            <h3 class="my-4 font-weight-bold">insert / update instructors:</h3>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="i_name">name</label>
+                    <input type="text" id="i_name" class="form-control" placeholder="name">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="i_surname">surname</label>
+                    <input type="text" id="i_surname" class="form-control" placeholder="surname">
+                </div>
+                
+                <div class="form-group col-md-4">
+                    <label for="i_dept_code">department code</label>
+                    <input type="text" id="i_dept_code" class="form-control" placeholder="department code">
+                </div>
+            </div>
+
+            <br>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="insert_or_update_instructor">insert or update</label>
+                    <select class="custom-select form-control" id="insert_or_update_instructor">
+                        <option value="insert" selected>insert</option>
+                        <option value="update">update</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <h3 class="my-4 font-weight-bold"> delete instructors:</h3>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="i_id_delete">id</label>
+                    <input type="number" id="i_id_delete" class="form-control" placeholder="id">
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+
+
+
+        <form class="course_fields">
+            <div class="form-row">
+                <div class="form-group col-md-7">
+
+                </div>
+            </div>
+        </form>
+
+
+        <form class="course_outcomes_fields">
+            <div class="form-row">
+                <div class="form-group col-md-7">
+
+                </div>
+            </div>
+        </form>
+
+        <form class="section_fields">
+            <div class="form-row">
+                <div class="form-group col-md-7">
+
+                </div>
+            </div>
+        </form>
+
+
+        <form class="question_fields">
+            <div class="form-row">
+                <div class="form-group col-md-7">
+
+                </div>
+            </div>
+        </form>
+
+        <form class="assessment_fields">
+            <div class="form-row">
+                <div class="form-group col-md-7">
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#selection').on('change', function () {
+            var selectedVal = $('#selection').val();
+            if (selectedVal === 'student') {
+                $(".student_fields").show();
+            } else {
+                $(".student_fields").hide();
+            }
+
+            if (selectedVal === 'curriculum') {
+                $(".curriculum_fields").show();
+            } else {
+                $(".curriculum_fields").hide();
+            }
+
+            if (selectedVal === 'department') {
+                $(".department_fields").show();
+            } else {
+                $(".department_fields").hide();
+            }
+
+            if (selectedVal === 'key learning outcomes') {
+                $(".key_outcomes_fields").show();
+            } else {
+                $(".key_outcomes_fields").hide();
+            }
+
+            if (selectedVal === 'semester') {
+                $(".semester_fields").show();
+            } else {
+                $(".semester_fields").hide();
+            }
+
+            if (selectedVal === 'instructor') {
+                $(".instructor_fields").show();
+            } else {
+                $(".instructor_fields").hide();
+            }
+
+
+
+
+        })
+    })
+</script>
+
+<div class="container">
+    <hr>
+    <footer>
+        <div class="panel-footer footer-copyright text-center py-4">
+            © 2018 all copyrights reserved,<br> designed by <b>Hazem. W</b>, coded by <b>Jalil. J</b>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

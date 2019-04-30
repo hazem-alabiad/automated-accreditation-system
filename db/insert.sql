@@ -112,12 +112,19 @@ CALL usp_insert_final('d1', '2019-05-03', 150::smallint);
 CALL usp_insert_assessment(3, 0.3, NULL);
 CALL usp_insert_final('e2', '2018-01-07', 180::smallint);
 
+CALL usp_insert_assessment(6, 0.3, NULL);
+CALL usp_insert_final('f1', '2018-03-08', 180::smallint);
+
+CALL usp_insert_assessment(5, 0.3, NULL);
+CALL usp_insert_midterm('m1', '2018-03-08', 120::smallint);
 
 CALL usp_insert_question('question_body_1', 0.2, 1);
 CALL usp_insert_question('question_body_2', 0.3, 1);
 CALL usp_insert_question('question_body_3', 0.2, 1);
 CALL usp_insert_question('q_1', 0.4, 2);
 CALL usp_insert_question('q_2', 0.1, 2);
+CALL usp_insert_question('q_1', 0.3, 9);
+CALL usp_insert_question('q_1', 0.4, 10);
 
 CALL usp_insert_question_courselearningobjective(1, 1, 2::smallint);
 

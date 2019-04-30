@@ -78,13 +78,13 @@ Create procedure usp_insert_semester (s_type varchar(10), s_year char(4))
     Language sql
 As $$ INSERT INTO semester VALUES(default, s_type, s_year)$$;
 
-Create procedure usp_update_semester (s_id int ,new_type varchar(10), new_year char(4))
+Create procedure usp_update_semester (sem_id int ,new_type varchar(10), new_year char(4))
     Language sql
-As $$ update semester set type = new_type, year = new_year where id = s_id$$;
+As $$ update semester set type = new_type, year = new_year where id = sem_id $$;
 
-Create procedure usp_delete_semester (s_id int)
+Create procedure usp_delete_semester (sem_id int)
     Language sql
-As $$ delete from semester where id = s_id $$;
+As $$ delete from semester where id = sem_id $$;
 
 -----------------------------------------------------
 create sequence instructor_id_seq;
