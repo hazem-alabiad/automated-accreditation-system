@@ -162,9 +162,9 @@ Create procedure usp_update_courseLearningObjective(c_id int ,new_course_code va
     Language sql
 As $$ update courseLearningObjective set course_code = new_course_code, Body = new_body where id = c_id$$;
 
-Create procedure usp_delete_courseLearningObjective (c_id int)
+Create procedure usp_delete_courseLearningObjective (clo_id int)
     Language sql
-As $$ delete from courseLearningObjective where id = c_id $$;
+As $$ delete from courseLearningObjective where id = clo_id $$;
 ---------------------------------------
 create sequence course_offering_id_seq;
 
@@ -178,17 +178,17 @@ CREATE TABLE courseOffering (
     FOREIGN KEY(course_code) REFERENCES course (code)
 );
 
-Create procedure usp_insert_courseOffering(c_semester_id int, c_course_code varchar(10), c_letter_grades bytea)
+Create procedure usp_insert_courseOffering(c_semester_id int, co_course_code varchar(10), c_letter_grades bytea)
     Language sql
-As $$ insert into courseOffering values(default, c_semester_id, c_course_code, c_letter_grades) $$;
+As $$ insert into courseOffering values(default, c_semester_id, co_course_code, c_letter_grades) $$;
 
 Create procedure usp_update_courseOffering(c_id int,new_semester_id int, new_course_code varchar(10), new_letter_grades bytea)
     Language sql
 As $$ update courseOffering set semester_id = new_semester_id, course_code = new_course_code, letter_grades = new_letter_grades where id = c_id$$;
 
-Create procedure usp_delete_courseOffering(c_id int)
+Create procedure usp_delete_courseOffering(co_id int)
     Language sql
-As $$ delete from courseOffering where id = c_id $$;
+As $$ delete from courseOffering where id = co_id $$;
 ----------------------------------------------------
 create sequence assessment_id_seq;
 
@@ -297,9 +297,9 @@ Create procedure usp_update_section(s_id int,new_courseOffering_id int, new_numb
     Language sql
 As $$ update section set courseOffering_id = new_courseOffering_id, number = new_number where id = s_id$$;
 
-Create procedure usp_delete_section(s_id int)
+Create procedure usp_delete_section(sec_id int)
     Language sql
-As $$delete from section where id = s_id$$;
+As $$delete from section where id = sec_id$$;
 
 ----------------------------------------------------
 CREATE TABLE section_instructor (
