@@ -417,46 +417,25 @@ Create procedure usp_delete_assignment(a_id int)
 As $$ delete from assignment where id = a_id$$;
 
 ----------------------------------------------------
-CREATE TABLE midterm (
+CREATE TABLE examination (
     id int,
     room varchar(10),
     m_date date,
     duration smallint,
+    type varchar(7),
     PRIMARY KEY(id)
 );
-Create procedure usp_insert_midterm(m_room varchar(10),m_date date, m_duration smallint)
+Create procedure usp_insert_examination(e_room varchar(10),e_date date, e_duration smallint, e_type varchar(7) )
     Language sql
-As $$ insert into midterm values(currval('assessment_id_seq'), m_room, m_date, m_duration) $$;
+As $$ insert into examination values(currval('assessment_id_seq'), e_room, e_date, e_duration, e_type) $$;
 
-Create procedure usp_update_midterm(m_id int,
-                            new_room varchar(10),new_date date, new_duration smallint)
+Create procedure usp_update_examination(m_id int,
+                            new_room varchar(10),new_date date, new_duration smallint, new_type varchar(7))
     Language sql
-As $$ update midterm set room = new_room, m_date = new_date, duration = new_duration where id = m_id $$;
+As $$ update examination set room = new_room, m_date = new_date, duration = new_duration, type = new_type where id = m_id $$;
 
-Create procedure usp_delete_midterm(m_id int)
+Create procedure usp_delete_examination(m_id int)
     Language sql
-As $$ delete from midterm where id = m_id$$;
-
-----------------------------------------------------
-CREATE TABLE final (
-    id int,
-    room varchar(10),
-    f_date date,
-    duration smallint,
-    PRIMARY KEY(id)
-);
-Create procedure usp_insert_final(f_room varchar(10) ,f_date date, f_duration smallint)
-    Language sql
-As $$  insert into final values(currval('assessment_id_seq'),f_room, f_date, f_duration) $$;
-
-Create procedure usp_update_final(f_id int,new_room varchar(10) ,new_date date,
-                                  new_duration smallint)
-    Language sql
-As $$ update final set room = new_room,
-        f_date = new_date, duration = new_duration where id = f_id$$;
-
-Create procedure usp_delete_final(f_id int)
-    Language sql
-As $$ delete from final where id = f_id $$;
+As $$ delete from examination where id = m_id$$;
 
 ----------------------------------------------------
