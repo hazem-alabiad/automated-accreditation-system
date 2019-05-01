@@ -5,7 +5,7 @@ from django.db import IntegrityError, DataError
 
 from app.models import *
 
-modified_table_names = {"key learning outcomes": "keylearningoutcome", "course learning objectives": "courselearningobjective"}
+modified_table_names = {"key learning outcomes": "keylearningoutcome", "course learning objectives": "courselearningobjective", "course offering":"courseoffering"}
 # returns three boolean values representing the is_insert, is_delete values.
 # the is_update is the negation of is_insert
 def get_insert_delete_values(relation_name, request):
@@ -23,6 +23,11 @@ def int_or_0(value):
     except:
         return 0
 
+def float_or_0(value):
+    try:
+        return float(value)
+    except:
+        return 0.0
 
 
 def do_transaction_from_form_to_table(request):
@@ -174,6 +179,107 @@ def do_transaction_from_form_to_table(request):
                 # becuase the id here is incremental we first delete the row and reinsert it
                 Courselearningobjective.objects.filter(id=clo_id).delete()
                 Courselearningobjective.objects.create(body=clo_body, course_code=Course.objects.get(code=clo_dep_code))
+
+        #################################### semester ##############################
+        elif relation_name == "semester":
+            s_type = request.POST.get("name_s_type")
+            s_year = request.POST.get('name_s_year')
+            semester_id = int_or_0(request.POST.get('name_sem_id'))
+            semester_id_delete = int_or_0(request.POST.get('name_semester_delete'))
+
+            if is_delete:
+                Semester.objects.filter(id=semester_id_delete).delete()
+                return
+
+            if is_insert:
+                Semester.objects.create(type=s_type, year=s_year)
+                return
+            else:
+                # becuase the id here is incremental we first delete the row and reinsert it
+                Semester.objects.filter(id=semester_id).delete()
+                Semester.objects.create(type=s_type, year=s_year)
+
+        #################################### course offering ##############################
+        elif relation_name == "course offering":
+            co_semester_id = request.POST.get("name_cof_semester_id")
+            co_course_code = request.POST.get('name_cof_course_code')
+            #co_letter_grades = bin(request.POST.get('name_cof_letter_grades'))
+            co_id = int_or_0(request.POST.get('name_co_id'))
+            co_id_delete = int_or_0(request.POST.get('name_courseoffering_delete'))
+
+            if is_delete:
+                Courseoffering.objects.filter(id=co_id_delete).delete()
+                return
+
+            if is_insert:
+                Courseoffering.objects.create(semester=Semester.objects.get(id=co_semester_id),
+                                              course_code=Course.objects.get(code=co_course_code))
+                return
+            else:
+                # becuase the id here is incremental we first delete the row and reinsert it
+                Courseoffering.objects.filter(id=co_id).delete()
+                Courseoffering.objects.create(semester=Semester.objects.get(id=co_semester_id),
+                                              course_code=Course.objects.get(code=co_course_code))
+
+        #################################### assessement ##############################
+        elif relation_name == "assessment":
+            a_co_id = int_or_0(request.POST.get("name_a_course_offering_id"))
+            a_files = request.POST.get('name_a_files')
+            a_weight = float_or_0(request.POST.get('name_a_weight'))
+            a_id = int_or_0(request.POST.get('name_a_id'))
+            a_id_delete = int_or_0(request.POST.get('name_a_delete'))
+
+            if is_delete:
+                Assessment.objects.filter(id=a_id_delete).delete()
+                return
+
+            if is_insert:
+                Assessment.objects.create(courseoffering=Courseoffering.objects.get(id=a_co_id), weight=a_weight)
+                return
+            else:
+                # becuase the id here is incremental we first delete the row and reinsert it
+                Assessment.objects.filter(id=a_id).delete()
+                Assessment.objects.create(courseoffering=Courseoffering.objects.get(id=a_co_id), weight=a_weight)
+
+        #################################### section ##############################
+        elif relation_name == "section":
+            s_co_id = int_or_0(request.POST.get("name_s_courseOffering_id"))
+            s_num = int_or_0(request.POST.get('name_s_number'))
+            s_id = int_or_0(request.POST.get('name_sec_id'))
+            s_id_delete = int_or_0(request.POST.get('name_section_delete'))
+
+            if is_delete:
+                Section.objects.filter(id=s_id_delete).delete()
+                return
+
+            if is_insert:
+                Section.objects.create(courseoffering=Courseoffering.objects.get(id=s_co_id), number=s_num)
+                return
+            else:
+                # becuase the id here is incremental we first delete the row and reinsert it
+                Section.objects.filter(id=s_id).delete()
+                Section.objects.create(courseoffering=Courseoffering.objects.get(id=s_co_id), number=s_num)
+
+        #################################### question ##############################
+        elif relation_name == "question":
+            q_body = int_or_0(request.POST.get("name_q_body"))
+            q_weight = int_or_0(request.POST.get('name_q_weight'))
+            q_assessemnt = int_or_0(request.POST.get('name_q_assessment_id'))
+            q_id = int_or_0(request.POST.get('name_q_id'))
+            q_id_delete = int_or_0(request.POST.get('name_question_delete'))
+
+            if is_delete:
+                Question.objects.filter(id=q_id_delete).delete()
+                return
+
+            if is_insert:
+                Question.objects.create(body=q_body, weight=q_weight, assessment=Assessment.objects.get(id=q_assessemnt))
+                return
+            else:
+                # becuase the id here is incremental we first delete the row and reinsert it
+                Question.objects.filter(id=q_id).delete()
+                Question.objects.create(body=q_body, weight=q_weight, assessment=Assessment.objects.get(id=q_assessemnt))
+
 
     except IntegrityError as e:
         print(str(e).split("\n")[0])

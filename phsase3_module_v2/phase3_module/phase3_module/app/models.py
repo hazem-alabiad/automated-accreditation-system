@@ -54,7 +54,6 @@ class Keylearningoutcome(models.Model):
         managed = True
         db_table = 'keylearningoutcome'
 
-
 class Courselearningobjective(models.Model):
     course_code = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_code', blank=True, null=True)
     body = models.CharField(max_length=1000, blank=True, null=True)
@@ -63,7 +62,22 @@ class Courselearningobjective(models.Model):
         managed = True
         db_table = 'courselearningobjective'
 
+class Semester(models.Model):
+    type = models.CharField(max_length=10, blank=True, null=True)
+    year = models.CharField(max_length=4, blank=True, null=True)
 
+    class Meta:
+        managed = True
+        db_table = 'semester'
+
+class Courseoffering(models.Model):
+    semester = models.ForeignKey('Semester', models.DO_NOTHING, blank=True, null=True)
+    course_code = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_code', blank=True, null=True)
+    letter_grades = models.BinaryField(blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'courseoffering'
 
 class Assessment(models.Model):
     courseoffering = models.ForeignKey('Courseoffering', models.DO_NOTHING, blank=True, null=True)
@@ -73,6 +87,24 @@ class Assessment(models.Model):
     class Meta:
         managed = True
         db_table = 'assessment'
+
+class Section(models.Model):
+    courseoffering = models.ForeignKey(Courseoffering, models.DO_NOTHING, blank=True, null=True)
+    number = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'section'
+
+class Question(models.Model):
+    body = models.CharField(max_length=1000, blank=True, null=True)
+    weight = models.FloatField(blank=True, null=True)
+    assessment = models.ForeignKey(Assessment, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'question'
+
 
 
 class AssessmentStudent(models.Model):
@@ -85,7 +117,6 @@ class AssessmentStudent(models.Model):
         db_table = 'assessment_student'
         unique_together = (('student', 'assessment'),)
 
-
 class Assignment(models.Model):
     id = models.IntegerField(primary_key=True)
     start_date = models.DateField(blank=True, null=True)
@@ -95,22 +126,6 @@ class Assignment(models.Model):
         managed = True
         db_table = 'assignment'
 
-
-
-
-class Courseoffering(models.Model):
-    semester = models.ForeignKey('Semester', models.DO_NOTHING, blank=True, null=True)
-    course_code = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_code', blank=True, null=True)
-    letter_grades = models.BinaryField(blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'courseoffering'
-
-
-
-
-
 class CurriculumCourse(models.Model):
     curriculum = models.ForeignKey(Curriculum, models.DO_NOTHING, primary_key=True)
     course_code = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_code')
@@ -119,8 +134,6 @@ class CurriculumCourse(models.Model):
         managed = True
         db_table = 'curriculum_course'
         unique_together = (('curriculum', 'course_code'),)
-
-
 
 class Examination(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -133,19 +146,6 @@ class Examination(models.Model):
         managed = True
         db_table = 'examination'
 
-
-
-
-class Question(models.Model):
-    body = models.CharField(max_length=1000, blank=True, null=True)
-    weight = models.FloatField(blank=True, null=True)
-    assessment = models.ForeignKey(Assessment, models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'question'
-
-
 class QuestionCourselearningobjective(models.Model):
     question = models.ForeignKey(Question, models.DO_NOTHING)
     courselearningobjective = models.ForeignKey(Courselearningobjective, models.DO_NOTHING, primary_key=True)
@@ -155,7 +155,6 @@ class QuestionCourselearningobjective(models.Model):
         managed = True
         db_table = 'question_courselearningobjective'
         unique_together = (('courselearningobjective', 'question'),)
-
 
 class QuestionKeylearningoutcome(models.Model):
     question = models.ForeignKey(Question, models.DO_NOTHING, primary_key=True)
@@ -167,7 +166,6 @@ class QuestionKeylearningoutcome(models.Model):
         db_table = 'question_keylearningoutcome'
         unique_together = (('question', 'key_learning_outcome'),)
 
-
 class Quiz(models.Model):
     id = models.IntegerField(primary_key=True)
     duration = models.SmallIntegerField(blank=True, null=True)
@@ -176,16 +174,6 @@ class Quiz(models.Model):
     class Meta:
         managed = True
         db_table = 'quiz'
-
-
-class Section(models.Model):
-    courseoffering = models.ForeignKey(Courseoffering, models.DO_NOTHING, blank=True, null=True)
-    number = models.IntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'section'
-
 
 class SectionInstructor(models.Model):
     section = models.ForeignKey(Section, models.DO_NOTHING, primary_key=True)
@@ -196,7 +184,6 @@ class SectionInstructor(models.Model):
         db_table = 'section_instructor'
         unique_together = (('section', 'instructor'),)
 
-
 class SectionStudent(models.Model):
     section = models.ForeignKey(Section, models.DO_NOTHING, primary_key=True)
     student = models.ForeignKey('Student', models.DO_NOTHING)
@@ -206,14 +193,6 @@ class SectionStudent(models.Model):
         db_table = 'section_student'
         unique_together = (('section', 'student'),)
 
-
-class Semester(models.Model):
-    type = models.CharField(max_length=10, blank=True, null=True)
-    year = models.CharField(max_length=4, blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'semester'
 
 
 

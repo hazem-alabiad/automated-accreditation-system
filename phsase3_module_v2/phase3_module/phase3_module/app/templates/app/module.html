@@ -209,6 +209,10 @@
 
                 <div class="form-row my-4">
                     <div class="form-group col-md-4">
+                        <label for="id_s_type">id (for update purpose)</label>
+                        <input type="number" id="id_sem_id" name="name_sem_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="id_s_type">type</label>
                         <input type="text" id="id_s_type" name="name_s_type" class="form-control" placeholder="fall / spring / summer">
                     </div>
@@ -369,6 +373,10 @@
 
                 <div class="form-row my-4">
                     <div class="form-group col-md-4">
+                        <label for="id_co_id">id (used for update purposes)</label>
+                        <input type="number" name="name_co_id"  id="id_co_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="id_cof_semester_id">semester id</label>
                         <input type="number" name="name_cof_semester_id"  id="id_cof_semester_id" class="form-control" placeholder="semester id">
                     </div>
@@ -402,7 +410,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="id_cof_id_delete">id</label>
-                        <input type="number" name="name_cof_id_delete" id="id_courseoffering_delete" class="form-control" placeholder="id">
+                        <input type="number" name="name_courseoffering_delete" id="id_courseoffering_delete" class="form-control" placeholder="id">
                     </div>
                 </div>
             </div>
@@ -412,6 +420,10 @@
                 <h3 class="my-4 font-weight-bold">insert / update course sections:</h3>
 
                 <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_sec_id">id (for update purposes)</label>
+                        <input type="number" name="name_sec_id"  id="id_sec_id" class="form-control" placeholder="id">
+                    </div>
                     <div class="form-group col-md-4">
                         <label for="id_s_courseOffering_id">course offering id</label>
                         <input type="number" name="name_s_courseOffering_id"  id="id_s_courseOffering_id" class="form-control" placeholder="course offering id">
@@ -437,8 +449,8 @@
                 <h3 class="my-4 font-weight-bold"> delete sections:</h3>
                 <div class="form-row">
                     <div class="form-group col-md-4">
-                        <label for="id_sec_id_delete">id</label>
-                        <input type="number" name="name_section_delete" id="id_sec_id_delete" class="form-control" placeholder="id">
+                        <label for="id_section_delete">id</label>
+                        <input type="number" name="name_section_delete" id="id_section_delete" class="form-control" placeholder="id">
                     </div>
                 </div>
             </div>
@@ -449,11 +461,15 @@
 
                 <div class="form-row my-4">
                     <div class="form-group col-md-4">
+                        <label for="id_q_id">id (for update purposes)</label>
+                        <input type="number" name="name_q_id" id="id_q_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="id_q_assessment_id">assessment id</label>
                         <input type="number" name="name_q_assessment_id" id="id_q_assessment_id" class="form-control" placeholder="assessment id">
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="id_q_weight">assessment id</label>
+                        <label for="id_q_weight">assessment weight</label>
                         <input type="number" name="name_q_weight" id="id_q_weight" class="form-control" placeholder="weight">
                     </div>
                 </div>
@@ -490,6 +506,10 @@
 
                 <div class="form-row my-4">
                     <div class="form-group col-md-4">
+                        <label for="id_a_id">id (for update purposes)</label>
+                        <input type="number" id="id_a_id" name=name_a_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="id_a_course_offering_id">course offering id</label>
                         <input type="number" id="id_a_course_offering_id" name="name_a_course_offering_id" class="form-control" placeholder="course offering id">
                     </div>
@@ -520,14 +540,14 @@
                 <h3 class="my-4 font-weight-bold"> delete assessments:</h3>
                 <div class="form-row">
                     <div class="form-group col-md-4">
-                        <label for="id_a_id_delete">id</label>
-                        <input type="number" id="id_a_id_delete" name="name_assessment_delete" class="form-control" placeholder="id">
+                        <label for="id_a_delete">id</label>
+                        <input type="number" id="id_a_delete" name="name_a_delete" class="form-control" placeholder="id">
                     </div>
                 </div>
             </div>
             
             <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            <button type="submit" class="btn btn-primary btn-lg submit-btn" style="display: none">Submit</button>
 
         </form>
         <br>
@@ -624,6 +644,8 @@
             } else {
                 $(".assessment_fields").hide();
             }
+
+            $(".submit-btn").show();
         })
     })
 
