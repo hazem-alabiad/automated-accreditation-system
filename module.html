@@ -526,7 +526,14 @@
     </div>
 
 
-
+    <div class="container">
+        <hr>
+        <footer>
+            <div class="panel-footer footer-copyright text-center py-4">
+                &copy; 2019 all copyrights reserved,<br> designed by <b>Hazem. W</b>, coded by <b>Jalil. J</b>
+            </div>
+        </footer>
+    </div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -617,16 +624,15 @@
             }
         })
     })
-</script>
 
-<div class="container">
-    <hr>
-    <footer>
-        <div class="panel-footer footer-copyright text-center py-4">
-            &copy; 2019 all copyrights reserved,<br> designed by <b>Hazem. W</b>, coded by <b>Jalil. J</b>
-        </div>
-    </footer>
-</div>
+    $(function() {
+        $('input[type=file]').change(function(){
+            var t = $(this).val();
+            var labelText = 'File : ' + t.substr(12, t.length);
+            $(this).prev('label').text(labelText);
+        })
+    });
+</script>
 
 </body>
 </html>
