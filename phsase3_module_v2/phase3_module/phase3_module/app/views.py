@@ -95,6 +95,86 @@ def do_transaction_from_form_to_table(request):
                 i.dep_code = i_dep_code
                 i.save()
 
+        #################################### course ##############################
+        elif relation_name == "course":
+            c_code = request.POST.get('name_c_code')
+            c_name = request.POST.get('name_c_name')
+            c_credit = int_or_0(request.POST.get('name_c_credit'))
+            c_code_delete = request.POST.get('name_course_delete')
+
+
+            if is_delete:
+                Course.objects.filter(code=c_code_delete).delete()
+                return
+
+            if is_insert:
+                Course.objects.create(code=c_code, name=c_name, credit=c_credit)
+                return
+            else:
+                c = Course.objects.get(code=c_code)
+                c.name = c_name
+                c.credit = c_credit
+                c.save()
+
+        #################################### curriculum ##############################
+        elif relation_name == "curriculum":
+            cu_id = int_or_0(request.POST.get("name_cu_id"))
+            cu_version = int_or_0(request.POST.get('name_c_version'))
+            cu_dep_code = request.POST.get('name_c_dept_code')
+            cu_id_delete = int_or_0(request.POST.get('name_curriculum_delete'))
+
+
+            if is_delete:
+                Curriculum.objects.filter(id=cu_id_delete).delete()
+                return
+
+            if is_insert:
+                Curriculum.objects.create(version=cu_version, dept_code=Department.objects.get(code=cu_dep_code))
+                return
+            else:
+                # becuase the id here is incremental we first delete the row and reinsert it
+                Curriculum.objects.filter(id=cu_id).delete()
+                Curriculum.objects.create(version=cu_version, dept_code=Department.objects.get(code=cu_dep_code))
+
+        #################################### keylearningoutcome ##############################
+        elif relation_name == "key learning outcomes":
+            klo_id = int_or_0(request.POST.get("name_klo_id"))
+            klo_body = request.POST.get('name_o_body')
+            klo_dep_code = request.POST.get('name_o_dept_code')
+            klo_id_delete = int_or_0(request.POST.get('name_keylearningoutcome_delete'))
+
+            if is_delete:
+                Keylearningoutcome.objects.filter(id=klo_id_delete).delete()
+                return
+
+            if is_insert:
+                print("inserting "+klo_dep_code)
+                Keylearningoutcome.objects.create(body=klo_body, dept_code=Department.objects.get(code=klo_dep_code))
+                return
+            else:
+                # becuase the id here is incremental we first delete the row and reinsert it
+                Keylearningoutcome.objects.filter(id=klo_id).delete()
+                Keylearningoutcome.objects.create(body=klo_body, dept_code=Department.objects.get(code=klo_dep_code))
+
+        #################################### keylearningoutcome ##############################
+        elif relation_name == "course learning objectives":
+            clo_id = int_or_0(request.POST.get("name_co_id"))
+            clo_body = request.POST.get('name_co_body')
+            clo_dep_code = request.POST.get('name_co_course_code')
+            clo_id_delete = int_or_0(request.POST.get('name_courselearningobjective_delete'))
+
+            if is_delete:
+                Courselearningobjective.objects.filter(id=clo_id_delete).delete()
+                return
+
+            if is_insert:
+                Courselearningobjective.objects.create(body=clo_body, course_code=Course.objects.get(code=clo_dep_code))
+                return
+            else:
+                # becuase the id here is incremental we first delete the row and reinsert it
+                Courselearningobjective.objects.filter(id=clo_id).delete()
+                Courselearningobjective.objects.create(body=clo_body, course_code=Course.objects.get(code=clo_dep_code))
+
     except IntegrityError as e:
         print(str(e).split("\n")[0])
     except DataError as e:

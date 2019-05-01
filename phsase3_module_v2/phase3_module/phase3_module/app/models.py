@@ -29,7 +29,39 @@ class Instructor(models.Model):
         managed = True
         db_table = 'instructor'
 
+class Course(models.Model):
+    code = models.CharField(primary_key=True, max_length=10)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    credit = models.SmallIntegerField(blank=True, null=True)
 
+    class Meta:
+        managed = True
+        db_table = 'course'
+
+class Curriculum(models.Model):
+    version = models.IntegerField(blank=True, null=True)
+    dept_code = models.ForeignKey('Department', models.DO_NOTHING, db_column='dept_code', blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'curriculum'
+
+class Keylearningoutcome(models.Model):
+    body = models.CharField(max_length=1000, blank=True, null=True)
+    dept_code = models.ForeignKey(Department, models.DO_NOTHING, db_column='dept_code', blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'keylearningoutcome'
+
+
+class Courselearningobjective(models.Model):
+    course_code = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_code', blank=True, null=True)
+    body = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'courselearningobjective'
 
 
 
@@ -64,23 +96,6 @@ class Assignment(models.Model):
         db_table = 'assignment'
 
 
-class Course(models.Model):
-    code = models.CharField(primary_key=True, max_length=10)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    credit = models.SmallIntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'course'
-
-
-class Courselearningobjective(models.Model):
-    course_code = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_code', blank=True, null=True)
-    body = models.CharField(max_length=1000, blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'courselearningobjective'
 
 
 class Courseoffering(models.Model):
@@ -93,13 +108,7 @@ class Courseoffering(models.Model):
         db_table = 'courseoffering'
 
 
-class Curriculum(models.Model):
-    version = models.IntegerField(blank=True, null=True)
-    dept_code = models.ForeignKey('Department', models.DO_NOTHING, db_column='dept_code', blank=True, null=True)
 
-    class Meta:
-        managed = True
-        db_table = 'curriculum'
 
 
 class CurriculumCourse(models.Model):
@@ -125,13 +134,6 @@ class Examination(models.Model):
         db_table = 'examination'
 
 
-class Keylearningoutcome(models.Model):
-    body = models.CharField(max_length=1000, blank=True, null=True)
-    dept_code = models.ForeignKey(Department, models.DO_NOTHING, db_column='dept_code', blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'keylearningoutcome'
 
 
 class Question(models.Model):

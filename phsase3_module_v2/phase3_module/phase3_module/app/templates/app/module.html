@@ -94,6 +94,10 @@
 
                 <div class="form-row my-4">
                     <div class="form-group col-md-4">
+                        <label for="id_cu_id">id (for update purpose)</label>
+                        <input type="number" id="id_cu_id" name="name_cu_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="id_c_version">version</label>
                         <input type="number" id="id_c_version" name="name_c_version" class="form-control" placeholder="version">
                     </div>
@@ -112,6 +116,7 @@
                             <option value="update">update</option>
                         </select>
                     </div>
+
                 </div>
                 <hr>
                 <h3 class="my-4 font-weight-bold"> delete curriculum:</h3>
@@ -163,14 +168,18 @@
 
                 <div class="form-row my-4">
                     <div class="form-group col-md-4">
+                        <label for="o_dept_code">id (for update purpose)</label>
+                        <input type="number" id="id_klo_id" name="name_klo_id" class="form-control" placeholder="KeyLearningObjective id">
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="o_dept_code">department code</label>
                         <input type="text" id="id_o_dept_code" name="name_o_dept_code" class="form-control" placeholder="department code">
                     </div>
                 </div>
                 <div class="form-row my-4">
                     <div class="form-group col-md-8">
-                        <label for="o_body">key learning objective body</label>
-                        <textarea id="o_body" class="form-control rounder-0" placeholder="body" rows="10"></textarea>
+                        <label for="id_o_body">key learning objective body</label>
+                        <textarea id="id_o_body" name="name_o_body" class="form-control rounder-0" placeholder="body" rows="10"></textarea>
                     </div>
                 </div>
 
@@ -308,7 +317,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="id_c_code_delete">id</label>
-                        <input type="number" id="id_c_code_delete" name="name_course_delete" class="form-control" placeholder="code">
+                        <input type="text" id="id_c_code_delete" name="name_course_delete" class="form-control" placeholder="code">
                     </div>
                 </div>
             </div>
@@ -318,6 +327,10 @@
                 <h3 class="my-4 font-weight-bold">insert / update course learning objectives:</h3>
 
                 <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="c_course_code">CourseLearningObjective id</label>
+                        <input type="text" id="id_co_id" name="name_co_id" class="form-control" placeholder="course code">
+                    </div>
                     <div class="form-group col-md-4">
                         <label for="c_course_code">course code</label>
                         <input type="text" id="id_co_course_code" name="name_co_course_code" class="form-control" placeholder="course code">
@@ -344,8 +357,8 @@
                 <h3 class="my-4 font-weight-bold"> delete course learning objectives:</h3>
                 <div class="form-row">
                     <div class="form-group col-md-4">
-                        <label for="clo_id_delete">id</label>
-                        <input type="number" id="id_co_id_delete" name="name_courselearningobjective_delete" class="form-control" placeholder="id">
+                        <label for="id_courselearningobjective_delete">id</label>
+                        <input type="number" id="id_courselearningobjective_delete" name="name_courselearningobjective_delete" class="form-control" placeholder="id">
                     </div>
                 </div>
             </div>
