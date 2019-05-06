@@ -13,6 +13,7 @@
 <body>
 
     <div class="jumbotron jumbotron-fluid">
+
         <div class="container">
             <h1 class="display-5 font-weight-bold text-center">H.U C.S Automated Accreditation System</h1>
             <div class="lead text-center">Manipulating entities page</div>
@@ -20,6 +21,7 @@
     </div>
 
     <div class="container my-5">
+
         <form method="post" action=".">{%csrf_token%}
             <div class="form-inline form-group">
                 <div class="input-group-prepend">
@@ -550,7 +552,51 @@
             <button type="submit" class="btn btn-primary btn-lg submit-btn" style="display: none">Submit</button>
 
         </form>
+
+        <div style="position: absolute; top: 40px; right: 40px;">
+            <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                <div class="toast-header">
+                    <svg class=" rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                         preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                        <rect fill="red" width="100%" height="100%" /></svg>
+                    <strong class="mr-auto">Bootstrap</strong>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    <!-- HERE -->
+                    {{ error }}
+                </div>
+            </div>
+        </div>
         <br>
+
+        <hr><br>
+        <h2 class="display-5 font-weight-bold text-center">Module Statistics</h2>
+        <br>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Table Name</th>
+                    <th scope="col">Table Rows Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tables Count</td>
+                    <td>{{ table_count.0 }}</td>
+                </tr>
+                {% for item in query_results %}
+                    <tr>
+                        <td>{{ item.0 }}</td>
+                        <td>{{ item.1 }}</td>
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
 
     </div>
 
@@ -647,7 +693,13 @@
 
             $(".submit-btn").show();
         })
+        var isError = "{{ error }}";
+        if (isError) {
+            $('.toast').toast('show');
+        }
+
     })
+
 
 </script>
 
