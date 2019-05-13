@@ -13,6 +13,7 @@
 <body>
 
     <div class="jumbotron jumbotron-fluid">
+
         <div class="container">
             <h1 class="display-5 font-weight-bold text-center">H.U C.S Automated Accreditation System</h1>
             <div class="lead text-center">Manipulating entities page</div>
@@ -20,60 +21,59 @@
     </div>
 
     <div class="container my-5">
-        <form class="form-inline mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="selection">relation</label>
-            </div>
-            <select class="custom-select form-control form-control-lg" id="selection">
-                <option selected>Choose...</option>
-                <option value="department">department</option>
-                <option value="curriculum">curriculum</option>
-                <option value="instructor">instructor</option>
-                <option value="student">student</option>
-                <option value="course">course</option>
-                <option value="key learning outcomes">key learning outcomes</option>
-                <option value="course learning objectives">course learning objectives</option>
-                <option value="course offering">course offering</option>
-                <option value="section">section</option>
-                <option value="semester">semester</option>
-                <option value="question">question</option>
-                <option value="assessment">assessment</option>
 
-            </select>
-        </form>
-
-        <br>
-
-
-        <form class="student_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update students:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="s_id">id</label>
-                    <input type="number" id="s_id" class="form-control" placeholder="id">
+        <form method="post" action=".">{%csrf_token%}
+            <div class="form-inline form-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="id_selection">relation</label>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="s_name">name</label>
-                    <input type="text" id="s_name" class="form-control" placeholder="name">
-                </div>
-            </div>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="s_surname">surname</label>
-                    <input type="text" id="s_surname" class="form-control" placeholder="surname">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="s_dep_code">department code</label>
-                    <input type="text" id="s_dep_code" class="form-control" placeholder="department code">
-                </div>
+                <select class="custom-select form-control" id="id_selection" name="name_selection">
+                    <option selected>Choose...</option>
+                    <option value="department">department</option>
+                    <option value="curriculum">curriculum</option>
+                    <option value="instructor">instructor</option>
+                    <option value="student">student</option>
+                    <option value="course">course</option>
+                    <option value="key learning outcomes">key learning outcomes</option>
+                    <option value="course learning objectives">course learning objectives</option>
+                    <option value="course offering">course offering</option>
+                    <option value="section">section</option>
+                    <option value="semester">semester</option>
+                    <option value="question">question</option>
+                    <option value="assessment">assessment</option>
+                </select>
             </div>
             <br>
+            <!--------------------------------Student---------------------------------->
+            <div class="student_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update students:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="s_id">id</label>
+                        <input type="number" id="s_id" name="name_s_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_s_name">name</label>
+                        <input type="text" id="id_s_name" name="name_s_name" class="form-control" placeholder="name">
+                    </div>
+                </div>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_s_surname">surname</label>
+                        <input type="text" id="id_s_surname" name="name_s_surname" class="form-control" placeholder="surname">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_s_dep_code">department code</label>
+                        <input type="text" id="id_s_dep_code" name="name_s_dep_code" class="form-control" placeholder="department code">
+                    </div>
+                </div>
+                <br>
                 <div class="form-row my-4">
                     <div class="form-group">
-                        <label for="insert_or_update_students">insert or update</label>
-                        <select class="custom-select form-control" id="insert_or_update_students">
+                        <label for="id_insert_or_update_students">insert or update</label>
+                        <select class="custom-select form-control" id="id_insert_or_update_students" name="name_insert_or_update_student">
                             <option value="insert" selected>insert</option>
                             <option value="update">update</option>
                         </select>
@@ -84,456 +84,524 @@
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="s_id_delete">id</label>
-                        <input type="number" id="s_id_delete" class="form-control" placeholder="id">
+                        <input type="number" id="id_s_delete" name="name_student_delete" class="form-control" placeholder="id">
                     </div>
                 </div>
                 <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
-        <form class="curriculum_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update curriculums:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="c_version">version</label>
-                    <input type="number" id="c_version" class="form-control" placeholder="version">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="c_dept_code">department code</label>
-                    <input type="text" id="c_dept_code" class="form-control" placeholder="department code">
-                </div>
             </div>
 
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="insert_or_update">insert or update</label>
-                    <select class="custom-select form-control" id="insert_or_update">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete curriculums:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="c_id_delete">id</label>
-                    <input type="number" id="c_id_delete" class="form-control" placeholder="id">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
+            <!--------------------------------Curriculum---------------------------------->
+            <div class="curriculum_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update curriculum:</h3>
 
-        <form class="department_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update departments:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="dep_code">code</label>
-                    <input type="number" id="dep_code" class="form-control" placeholder="code">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="dep_name">name</label>
-                    <input type="text" id="dep_name" class="form-control" placeholder="name">
-                </div>
-            </div>
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="insert_or_update_dep">insert or update</label>
-                    <select class="custom-select form-control" id="insert_or_update_dep">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete departments:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="dep_code_delete">code</label>
-                    <input type="number" id="dep_code_delete" class="form-control" placeholder="code">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
-        <form class="key_outcomes_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update key learning outcomes:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="o_dept_code">department code</label>
-                    <input type="text" id="o_dept_code" class="form-control" placeholder="department code">
-                </div>
-            </div>
-            <div class="form-row my-4">
-                <div class="form-group col-md-8">
-                    <label for="o_body">key learning objective body</label>
-                    <textarea id="o_body" class="form-control rounder-0" placeholder="body" rows="10"></textarea>
-                </div>
-            </div>
-
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="insert_or_update_klo">insert or update</label>
-                    <select class="custom-select form-control" id="insert_or_update_klo">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete key learning outcomes:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="o_id_delete">id</label>
-                    <input type="number" id="o_id_delete" class="form-control" placeholder="id">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
-        <form class="semester_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update semesters:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="s_type">type</label>
-                    <input type="text" id="s_type" class="form-control" placeholder="fall / spring / summer">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="s_year">year</label>
-                    <input type="text" id="s_year" class="form-control" placeholder="2016">
-                </div>
-            </div>
-
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="insert_or_update_semester">insert or update</label>
-                    <select class="custom-select form-control" id="insert_or_update_semester">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete semesters:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="sem_id_delete">id</label>
-                    <input type="number" id="sem_id_delete" class="form-control" placeholder="id">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
-        <form class="instructor_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update instructors:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="i_name">name</label>
-                    <input type="text" id="i_name" class="form-control" placeholder="name">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="i_surname">surname</label>
-                    <input type="text" id="i_surname" class="form-control" placeholder="surname">
-                </div>
-                
-                <div class="form-group col-md-4">
-                    <label for="i_dept_code">department code</label>
-                    <input type="text" id="i_dept_code" class="form-control" placeholder="department code">
-                </div>
-            </div>
-
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="insert_or_update_instructor">insert or update</label>
-                    <select class="custom-select form-control" id="insert_or_update_instructor">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete instructors:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="i_id_delete">id</label>
-                    <input type="number" id="i_id_delete" class="form-control" placeholder="id">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
-        <form class="course_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update courses:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="c_code">code</label>
-                    <input type="text" id="c_code" class="form-control" placeholder="code">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="c_name">name</label>
-                    <input type="text" id="c_name" class="form-control" placeholder="name">
-                </div>
-
-                <div class="form-group col-md-4">
-                    <label for="c_credit">credit</label>
-                    <input type="number" id="c_credit" class="form-control" placeholder="credit">
-                </div>
-            </div>
-
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="insert_or_update_course">insert or update</label>
-                    <select class="custom-select form-control" id="insert_or_update_course">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete courses:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="c_code_delete">id</label>
-                    <input type="number" id="c_code_delete" class="form-control" placeholder="code">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
-        <form class="course_objectives_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update course learning objectives:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="c_course_code">course code</label>
-                    <input type="text" id="c_course_code" class="form-control" placeholder="course code">
-                </div>
-            </div>
-            <div class="form-row my-4">
-                <div class="form-group col-md-8">
-                    <label for="c_body">course learning objectives body</label>
-                    <textarea id="c_body" class="form-control rounder-0" placeholder="body" rows="10"></textarea>
-                </div>
-            </div>
-
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="insert_or_update_clo">insert or update</label>
-                    <select class="custom-select form-control" id="insert_or_update_clo">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete course learning objectives:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="clo_id_delete">id</label>
-                    <input type="number" id="clo_id_delete" class="form-control" placeholder="id">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
-        <form class="course_offering_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update course offerings:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="id_c_semester_id">semester id</label>
-                    <input type="number" name="name_c_semester_id"  id="id_c_semester_id" class="form-control" placeholder="semester id">
-                </div>
-
-                <div class="form-group col-md-4">
-                    <label for="id_c_course_code">course code</label>
-                    <input type="text" name="name_c_course_code" id="id_c_course_code" class="form-control" placeholder="name">
-                </div>
-
-            </div>
-            <div class="form-row my-4">
-                <div class="input-group col-md-8">
-                    <div class="custom-file">
-                        <label for="id_c_letter_grades" class="custom-file-label">letter grades</label>
-                        <input type="file" name="name_c_letter_grades" id="id_c_letter_grades" class="custom-file-input">
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_cu_id">id (for update purpose)</label>
+                        <input type="number" id="id_cu_id" name="name_cu_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_c_version">version</label>
+                        <input type="number" id="id_c_version" name="name_c_version" class="form-control" placeholder="version">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="c_dept_code">department code</label>
+                        <input type="text" id="id_c_dept_code" name="name_c_dept_code" class="form-control" placeholder="department code">
                     </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="id_insert_or_update_co">insert or update</label>
-                    <select class="custom-select form-control" name="name_insert_or_update_co" id="id_insert_or_update_co">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete course offerings:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="id_co_id_delete">id</label>
-                    <input type="number" name="name_co_id_delete" id="id_co_id_delete" class="form-control" placeholder="id">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
 
-        <form class="section_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update course sections:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="id_s_courseOffering_id">course offering id</label>
-                    <input type="number" name="name_s_courseOffering_id"  id="id_s_courseOffering_id" class="form-control" placeholder="course offering id">
-                </div>
-
-                <div class="form-group col-md-4">
-                    <label for="id_s_number">section number</label>
-                    <input type="number" name="name_s_number" id="id_s_number" class="form-control" placeholder="section number">
-                </div>
-
-            </div>
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="id_insert_or_update_sec">insert or update</label>
-                    <select class="custom-select form-control" name="name_insert_or_update_sec" id="id_insert_or_update_sec">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete sections:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="id_sec_id_delete">id</label>
-                    <input type="number" name="name_sec_id_delete" id="id_sec_id_delete" class="form-control" placeholder="id">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
-        <form class="question_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update questions:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="id_q_assessment_id">assessment id</label>
-                    <input type="number" name="name_q_assessment_id" id="id_q_assessment_id" class="form-control" placeholder="assessment id">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="id_q_weight">assessment id</label>
-                    <input type="number" name="name_q_weight" id="id_q_weight" class="form-control" placeholder="weight">
-                </div>
-            </div>
-            <div class="form-row my-4">
-                <div class="form-group col-md-8">
-                    <label for="id_q_body">question body</label>
-                    <textarea name="name_q_body" id="id_q_body" class="form-control rounder-0" placeholder="body" rows="10"></textarea>
-                </div>
-            </div>
-
-            <br>
-            <div class="form-row my-4">
-                <div class="form-group">
-                    <label for="id_insert_or_update_q">insert or update</label>
-                    <select class="custom-select form-control" name="name_insert_or_update_q" id="id_insert_or_update_q">
-                        <option value="insert" selected>insert</option>
-                        <option value="update">update</option>
-                    </select>
-                </div>
-            </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete questions:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="id_q_id_delete">id</label>
-                    <input type="number" id="id_q_id_delete" name="name_q_id_delete" class="form-control" placeholder="id">
-                </div>
-            </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        </form>
-
-        <form class="assessment_fields" style="display: none;">
-            <h3 class="my-4 font-weight-bold">insert / update assessments:</h3>
-
-            <div class="form-row my-4">
-                <div class="form-group col-md-4">
-                    <label for="id_a_course_offering_id">course offering id</label>
-                    <input type="number" id="id_a_course_offering_id" name="name_a_course_offering_id" class="form-control" placeholder="course offering id">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="id_a_weight">weight</label>
-                    <input type="text" id="id_a_weight" name="name_a_weight" class="form-control" placeholder="weight">
-                </div>
-            </div>
-
-            <br>
-            <div class="form-row">
-                <div class="input-group col-md-8">
-                    <div class="custom-file">
-                        <label for="id_a_files" class="custom-file-label">solution key, best, avg, and worst paper</label>
-                        <input type="file" name="name_a_files" id="id_a_files" class="custom-file-input">
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="id_insert_or_update_c">insert or update</label>
+                        <select class="custom-select form-control" id="id_insert_or_update_c" name="name_insert_or_update_curriculum">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
                     </div>
 
                 </div>
-            </div>
-            <div class="form-row mb-4">
-                <div class="form-group col-sm-5">
-                    <div class="alert alert-info">
-                        You must upload a single file!
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete curriculum:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_c_id_delete">id</label>
+                        <input type="number" id="id_c_id_delete" name="name_curriculum_delete" class="form-control" placeholder="id">
                     </div>
                 </div>
             </div>
-            <hr>
-            <h3 class="my-4 font-weight-bold"> delete assessments:</h3>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="id_a_id_delete">id</label>
-                    <input type="number" id="id_a_id_delete" name="name_a_id_delete" class="form-control" placeholder="id">
+
+            <!--------------------------------Department---------------------------------->
+            <div class="department_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update departments:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_dep_code">code</label>
+                        <input type="text" id="id_dep_code" name="name_dep_code" class="form-control" placeholder="code">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_dep_name">name</label>
+                        <input type="text" id="id_dep_name" name="name_dep_name" class="form-control" placeholder="name">
+                    </div>
+                </div>
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="id_insert_or_update_dep">insert or update</label>
+                        <select class="custom-select form-control" id="id_insert_or_update_dep" name="name_insert_or_update_department">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete departments:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_dep_code_delete">code</label>
+                        <input type="text" id="id_department_delete" name="name_department_delete" class="form-control" placeholder="code">
+                    </div>
                 </div>
             </div>
+
+            <!--------------------------------Key outcome---------------------------------->
+            <div class="key_outcomes_fields" style="display: none;" >
+                <h3 class="my-4 font-weight-bold">insert / update key learning outcomes:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="o_dept_code">id (for update purpose)</label>
+                        <input type="number" id="id_klo_id" name="name_klo_id" class="form-control" placeholder="KeyLearningObjective id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="o_dept_code">department code</label>
+                        <input type="text" id="id_o_dept_code" name="name_o_dept_code" class="form-control" placeholder="department code">
+                    </div>
+                </div>
+                <div class="form-row my-4">
+                    <div class="form-group col-md-8">
+                        <label for="id_o_body">key learning objective body</label>
+                        <textarea id="id_o_body" name="name_o_body" class="form-control rounder-0" placeholder="body" rows="10"></textarea>
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="id_insert_or_update_klo">insert or update</label>
+                        <select class="custom-select form-control" id="id_insert_or_update_klo" name="name_insert_or_update_keylearningoutcome">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete key learning outcomes:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="o_id_delete">id</label>
+                        <input type="number" id="id_o_id_delete" name="name_keylearningoutcome_delete" class="form-control" placeholder="id">
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------Semester---------------------------------->
+            <div class="semester_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update semesters:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_s_type">id (for update purpose)</label>
+                        <input type="number" id="id_sem_id" name="name_sem_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_s_type">type</label>
+                        <input type="text" id="id_s_type" name="name_s_type" class="form-control" placeholder="fall / spring / summer">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="s_year">year</label>
+                        <input type="text" id="id_s_year" name="name_s_year" class="form-control" placeholder="2016">
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="id_insert_or_update_s">insert or update</label>
+                        <select class="custom-select form-control" id="id_insert_or_update_s" name="name_insert_or_update_semester">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete semesters:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_sem_id_delete">id</label>
+                        <input type="number" id="id_sem_id_delete" name="name_semester_delete" class="form-control" placeholder="id">
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------Instructor---------------------------------->
+            <div class="instructor_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update instructors:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_i_id">id</label>
+                        <input type="text" id="id_i_id" name="name_i_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="i_name">name</label>
+                        <input type="text" id="id_i_name" name="name_i_name" class="form-control" placeholder="name">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="i_surname">surname</label>
+                        <input type="text" id="id_i_surname" name="name_i_surname" class="form-control" placeholder="surname">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="i_dept_code">department code</label>
+                        <input type="text" id="id_i_dept_code" name="name_i_dept_code" class="form-control" placeholder="department code">
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="insert_or_update_instructor">insert or update</label>
+                        <select class="custom-select form-control" id="id_insert_or_update_instructor" name="name_insert_or_update_instructor">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete instructors:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_i_delete">id</label>
+                        <input type="number" id="id_i_delete" name="name_instructor_delete" class="form-control" placeholder="id">
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------Course---------------------------------->
+            <div class="course_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update courses:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="c_code">code</label>
+                        <input type="text" id="id_c_code" name="name_c_code" class="form-control" placeholder="code">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="c_name">name</label>
+                        <input type="text" id="id_c_name" name="name_c_name" class="form-control" placeholder="name">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="c_credit">credit</label>
+                        <input type="number" id="id_c_credit" name="name_c_credit" class="form-control" placeholder="credit">
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="insert_or_update_course">insert or update</label>
+                        <select class="custom-select form-control" id="id_insert_or_update_c" name="name_insert_or_update_course">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete courses:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_c_code_delete">id</label>
+                        <input type="text" id="id_c_code_delete" name="name_course_delete" class="form-control" placeholder="code">
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------Course Objectives---------------------------------->
+            <div class="course_objectives_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update course learning objectives:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="c_course_code">CourseLearningObjective id</label>
+                        <input type="text" id="id_co_id" name="name_co_id" class="form-control" placeholder="course code">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="c_course_code">course code</label>
+                        <input type="text" id="id_co_course_code" name="name_co_course_code" class="form-control" placeholder="course code">
+                    </div>
+                </div>
+                <div class="form-row my-4">
+                    <div class="form-group col-md-8">
+                        <label for="c_body">course learning objectives body</label>
+                        <textarea id="id_co_body" name="name_co_body" class="form-control rounder-0" placeholder="body" rows="10"></textarea>
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="insert_or_update_clo">insert or update</label>
+                        <select class="custom-select form-control" id="id_insert_or_update_co" name="name_insert_or_update_courselearningobjective">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete course learning objectives:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_courselearningobjective_delete">id</label>
+                        <input type="number" id="id_courselearningobjective_delete" name="name_courselearningobjective_delete" class="form-control" placeholder="id">
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------Course Offering---------------------------------->
+            <div class="course_offering_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update course offerings:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_co_id">id (used for update purposes)</label>
+                        <input type="number" name="name_co_id"  id="id_co_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_cof_semester_id">semester id</label>
+                        <input type="number" name="name_cof_semester_id"  id="id_cof_semester_id" class="form-control" placeholder="semester id">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="id_cof_course_code">course code</label>
+                        <input type="text" name="name_cof_course_code" id="id_cof_course_code" class="form-control" placeholder="name">
+                    </div>
+
+                </div>
+                <div class="form-row my-4">
+                    <div class="input-group col-md-8">
+                        <div class="custom-file">
+                            <label for="id_cof_letter_grades" class="custom-file-label">letter grades</label>
+                            <input type="file" name="name_cof_letter_grades" id="id_cof_letter_grades" class="custom-file-input">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="id_insert_or_update_cof">insert or update</label>
+                        <select class="custom-select form-control" name="name_insert_or_update_cof" id="id_insert_or_update_courseoffering">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete course offerings:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_cof_id_delete">id</label>
+                        <input type="number" name="name_courseoffering_delete" id="id_courseoffering_delete" class="form-control" placeholder="id">
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------Section---------------------------------->
+            <div class="section_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update course sections:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_sec_id">id (for update purposes)</label>
+                        <input type="number" name="name_sec_id"  id="id_sec_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_s_courseOffering_id">course offering id</label>
+                        <input type="number" name="name_s_courseOffering_id"  id="id_s_courseOffering_id" class="form-control" placeholder="course offering id">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="id_s_number">section number</label>
+                        <input type="number" name="name_s_number" id="id_s_number" class="form-control" placeholder="section number">
+                    </div>
+
+                </div>
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="id_insert_or_update_sec">insert or update</label>
+                        <select class="custom-select form-control" name="name_insert_or_update" id="id_insert_or_update_section">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete sections:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_section_delete">id</label>
+                        <input type="number" name="name_section_delete" id="id_section_delete" class="form-control" placeholder="id">
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------Question---------------------------------->
+            <div class="question_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update questions:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_q_id">id (for update purposes)</label>
+                        <input type="number" name="name_q_id" id="id_q_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_q_assessment_id">assessment id</label>
+                        <input type="number" name="name_q_assessment_id" id="id_q_assessment_id" class="form-control" placeholder="assessment id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_q_weight">assessment weight</label>
+                        <input type="number" name="name_q_weight" id="id_q_weight" class="form-control" placeholder="weight">
+                    </div>
+                </div>
+                <div class="form-row my-4">
+                    <div class="form-group col-md-8">
+                        <label for="id_q_body">question body</label>
+                        <textarea name="name_q_body" id="id_q_body" class="form-control rounder-0" placeholder="body" rows="10"></textarea>
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-row my-4">
+                    <div class="form-group">
+                        <label for="id_insert_or_update_q">insert or update</label>
+                        <select class="custom-select form-control" name="name_insert_or_update_question" id="id_insert_or_update_question">
+                            <option value="insert" selected>insert</option>
+                            <option value="update">update</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete questions:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_q_id_delete">id</label>
+                        <input type="number" id="id_q_id_delete" name="name_question_delete" class="form-control" placeholder="id">
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------Assessment---------------------------------->
+            <div class="assessment_fields" style="display: none;">
+                <h3 class="my-4 font-weight-bold">insert / update assessments:</h3>
+
+                <div class="form-row my-4">
+                    <div class="form-group col-md-4">
+                        <label for="id_a_id">id (for update purposes)</label>
+                        <input type="number" id="id_a_id" name=name_a_id" class="form-control" placeholder="id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_a_course_offering_id">course offering id</label>
+                        <input type="number" id="id_a_course_offering_id" name="name_a_course_offering_id" class="form-control" placeholder="course offering id">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="id_a_weight">weight</label>
+                        <input type="text" id="id_a_weight" name="name_a_weight" class="form-control" placeholder="weight">
+                    </div>
+                </div>
+
+                <br>
+                <div class="form-row">
+                    <div class="input-group col-md-8">
+                        <div class="custom-file">
+                            <label for="id_a_files" class="custom-file-label">solution key, best, avg, and worst paper</label>
+                            <input type="file" name="name_a_files" id="id_a_files" class="custom-file-input">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-row mb-4">
+                    <div class="form-group col-sm-5">
+                        <div class="alert alert-info">
+                            You must upload a single file!
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h3 class="my-4 font-weight-bold"> delete assessments:</h3>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="id_a_delete">id</label>
+                        <input type="number" id="id_a_delete" name="name_a_delete" class="form-control" placeholder="id">
+                    </div>
+                </div>
+            </div>
+            
             <br><br>
-            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            <button type="submit" class="btn btn-primary btn-lg submit-btn" style="display: none">Submit</button>
+
         </form>
+
+        <div style="position: absolute; top: 40px; right: 40px;">
+            <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+                <div class="toast-header">
+                    <svg class=" rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                         preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                        <rect fill="red" width="100%" height="100%" /></svg>
+                    <strong class="mr-auto">Bootstrap</strong>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    <!-- HERE -->
+                    {{ error }}
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <hr><br>
+        <h2 class="display-5 font-weight-bold text-center">Module Statistics</h2>
+        <br>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Table Name</th>
+                    <th scope="col">Table Rows Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tables Count</td>
+                    <td>{{ table_count.0 }}</td>
+                </tr>
+                {% for item in query_results %}
+                    <tr>
+                        <td>{{ item.0 }}</td>
+                        <td>{{ item.1 }}</td>
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
 
     </div>
 
 
-    <div class="container">
-        <hr>
-        <footer>
-            <div class="panel-footer footer-copyright text-center py-4">
-                &copy; 2019 all copyrights reserved,<br> designed by <b>Hazem. W</b>, coded by <b>Jalil. J</b>
-            </div>
-        </footer>
-    </div>
+
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -543,8 +611,8 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#selection').on('change', function () {
-            var selectedVal = $('#selection').val();
+        $('#id_selection').on('change', function () {
+            var selectedVal = $('#id_selection').val();
             if (selectedVal === 'student') {
                 $(".student_fields").show();
             } else {
@@ -622,17 +690,27 @@
             } else {
                 $(".assessment_fields").hide();
             }
+
+            $(".submit-btn").show();
         })
+        var isError = "{{ error }}";
+        if (isError) {
+            $('.toast').toast('show');
+        }
+
     })
 
-    $(function() {
-        $('input[type=file]').change(function(){
-            var t = $(this).val();
-            var labelText = 'File : ' + t.substr(12, t.length);
-            $(this).prev('label').text(labelText);
-        })
-    });
+
 </script>
+
+<div class="container">
+    <hr>
+    <footer>
+        <div class="panel-footer footer-copyright text-center py-4">
+            &copy; 2019 all copyrights reserved,<br> designed by <b>Hazem. W</b>, coded by <b>Jalil. J</b>
+        </div>
+    </footer>
+</div>
 
 </body>
 </html>
