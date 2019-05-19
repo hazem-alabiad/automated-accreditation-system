@@ -2,8 +2,8 @@ DROP schema if exists public cascade;
 create schema public;
 
 CREATE TABLE Department(
-    Code    Varchar(10),
-    Name varchar(25),
+    Code    Varchar(10) not null,
+    Name varchar(25) not null,
     PRIMARY KEY (code)
 );
 
@@ -24,8 +24,8 @@ create sequence curriculum_id_seq;
 
 CREATE TABLE Curriculum (
     id int default nextval('curriculum_id_seq') not null,
-    version int,
-    dept_code Varchar(10),
+    version int not null,
+    dept_code Varchar(10) not null,
     PRIMARY KEY (id),
     FOREIGN KEY (dept_code) REFERENCES Department(code)
 );
@@ -47,8 +47,8 @@ CREATE sequence key_learning_outcome_id_seq;
 
 CREATE TABLE keyLearningOutcome(
     id int default nextval('key_learning_outcome_id_seq') not null,
-    body varchar(1000),
-    dept_code varchar(10),
+    body varchar(1000) not null,
+    dept_code varchar(10) not null,
     PRIMARY KEY (id),
     FOREIGN KEY (dept_code) REFERENCES Department(code)
 );
@@ -70,8 +70,8 @@ create sequence semester_id_seq;
 
 CREATE TABLE semester (
     id int default nextval('semester_id_seq') not null,
-    type varchar(10),
-    year char(4),
+    type varchar(10) not null,
+    year char(4) not null,
     PRIMARY KEY(id)
 );
 Create procedure usp_insert_semester (s_type varchar(10), s_year char(4))
@@ -91,9 +91,9 @@ create sequence instructor_id_seq;
 
 CREATE TABLE instructor(
     id int default nextval('instructor_id_seq') not null,
-    name varchar(255),
-    Surname varchar(255),
-    dept_code Varchar(10),
+    name varchar(255) not null,
+    Surname varchar(255) not null,
+    dept_code Varchar(10) not null,
     PRIMARY KEY(id),
     FOREIGN KEY(dept_code) REFERENCES Department (code)
 );
@@ -110,9 +110,9 @@ Create procedure usp_delete_instructor (i_id int)
 As $$ delete from instructor where id = i_id$$;
 -------------------------------------------------
 CREATE TABLE course (
-    code varchar(10),
-    name varchar(255),
-    credit smallint,
+    code varchar(10) not null,
+    name varchar(255) not null,
+    credit smallint not null,
     PRIMARY KEY(code)
 );
 
@@ -129,8 +129,8 @@ Create procedure usp_delete_course (c_code varchar(10))
 As $$ delete from course where code = c_code$$;
 -------------------------------------------------
 CREATE TABLE curriculum_course(
-    curriculum_id int,
-    course_code varchar(10),
+    curriculum_id int not null,
+    course_code varchar(10) not null,
     PRIMARY KEY(curriculum_id , course_code),
     FOREIGN KEY(curriculum_id) REFERENCES Curriculum (id),
     FOREIGN KEY(course_code) REFERENCES course (Code)
@@ -149,8 +149,8 @@ create sequence course_learning_objective_id_seq;
 
 CREATE TABLE courseLearningObjective(
     id int default nextval('course_learning_objective_id_seq') not null,
-    course_code varchar(10),
-    Body varchar(1000) ,
+    course_code varchar(10) not null,
+    Body varchar(1000) not null,
     PRIMARY KEY(Id),
     FOREIGN KEY(course_code) REFERENCES course (code)
 );
@@ -170,8 +170,8 @@ create sequence course_offering_id_seq;
 
 CREATE TABLE courseOffering (
     id int default nextval('course_offering_id_seq') not null,
-    semester_id int,
-    course_code varchar(10),
+    semester_id int not null,
+    course_code varchar(10) not null,
     letter_grades bytea,
     PRIMARY KEY(id),
     FOREIGN KEY(semester_id) REFERENCES semester(id),
@@ -194,9 +194,9 @@ create sequence assessment_id_seq;
 
 CREATE TABLE assessment  (
     id int default nextval('assessment_id_seq') not null,
-    courseOffering_id int,
+    courseOffering_id int not null,
     files bytea,
-    weight float,
+    weight float not null,
     PRIMARY KEY(id),
     FOREIGN KEY(courseOffering_id) REFERENCES courseOffering (id)
 );
@@ -215,10 +215,10 @@ As $$ delete from assessment where id = a_id $$;
 CREATE SEQUENCE question_id_seq;
 
 CREATE TABLE question (
-    id int default nextval('question_id_seq'),
-    body varchar(1000),
-    weight float,
-    assessment_id int,
+    id int default nextval('question_id_seq') not null,
+    body varchar(1000) not null,
+    weight float not null,
+    assessment_id int not null,
     PRIMARY KEY(id),
     FOREIGN KEY(assessment_id) REFERENCES assessment (id)
 );
@@ -236,9 +236,9 @@ As $$ delete from question where id = q_id $$;
 
 ----------------------------------------------------
 CREATE TABLE question_courseLearningObjective(
-    question_id int,
-    courseLearningObjective_id int,
-    Value smallint,
+    question_id int not null,
+    courseLearningObjective_id int not null,
+    Value smallint not null,
     PRIMARY KEY (courseLearningObjective_id, question_id),
     FOREIGN KEY (courseLearningObjective_id) REFERENCES courseLearningObjective (id),
     FOREIGN KEY (question_id) REFERENCES question (id)
@@ -259,9 +259,9 @@ As $$ delete from question_courseLearningObjective where question_id = q_questio
 ----------------------------------------------------
 
 CREATE TABLE question_keyLearningOutcome(
-    question_id int,
-    key_learning_outcome_id int,
-    Value smallint,
+    question_id int not null,
+    key_learning_outcome_id int not null,
+    Value smallint not null,
     PRIMARY KEY (question_id, key_learning_outcome_id),
     FOREIGN KEY (question_id) REFERENCES question(id),
     FOREIGN KEY (key_learning_outcome_id) REFERENCES keyLearningOutcome (id)
@@ -283,9 +283,9 @@ As $$ delete from question_keyLearningOutcome where question_id = q_question_id 
 CREATE SEQUENCE section_id_seq;
 
 CREATE TABLE section (
-    id int default nextval('section_id_seq'),
-    courseOffering_id int,
-    number int,
+    id int default nextval('section_id_seq') not null,
+    courseOffering_id int not null,
+    number int not null,
     PRIMARY KEY (id),
     FOREIGN KEY (courseOffering_id) REFERENCES courseOffering (id)
 );
@@ -303,8 +303,8 @@ As $$delete from section where id = sec_id$$;
 
 ----------------------------------------------------
 CREATE TABLE section_instructor (
-    section_id int,
-    instructor_id int,
+    section_id int not null,
+    instructor_id int not null,
     PRIMARY KEY (section_id, instructor_id),
     FOREIGN KEY (section_id) REFERENCES section (id),
     FOREIGN KEY (instructor_id) REFERENCES instructor (id)
@@ -319,10 +319,10 @@ As $$ delete from section_instructor where section_id = s_section_id and instruc
 
 ----------------------------------------------------
 CREATE TABLE student  (
-    id int,
-    name varchar(30),
-    surname varchar(30),
-    dep_code varchar(10),
+    id int not null,
+    name varchar(30) not null,
+    surname varchar(30) not null,
+    dep_code varchar(10) not null,
     PRIMARY KEY(id),
     FOREIGN KEY (dep_code) REFERENCES Department (Code)
 );
@@ -340,8 +340,8 @@ As $$ delete from student where id = s_id$$;
 
 ----------------------------------------------------
 CREATE TABLE  section_student(
-    section_id int,
-    student_id int,
+    section_id int not null,
+    student_id int not null,
     PRIMARY KEY(section_id, student_id),
     FOREIGN KEY(section_id) REFERENCES section(id),
     FOREIGN KEY(student_id) REFERENCES student(id)
@@ -356,8 +356,8 @@ As $$ delete from section_student where section_id = s_section_id and student_id
 
 ----------------------------------------------------
 CREATE TABLE assessment_student (
-    student_id int,
-    assessment_id int,
+    student_id int not null,
+    assessment_id int not null,
     grade float,
     PRIMARY KEY(student_id, assessment_id),
     FOREIGN KEY(student_id) REFERENCES student(id),
@@ -378,9 +378,9 @@ As $$ delete from assessment_student where student_id = a_student_id and assessm
 
 ----------------------------------------------------
 CREATE TABLE quiz (
-    id int,
-    duration smallint,
-    q_date date,
+    id int not null,
+    duration smallint not null,
+    q_date date not null,
     PRIMARY KEY(id)
 );
 Create procedure usp_insert_quiz(q_duration smallint,q_date date)
@@ -398,9 +398,9 @@ As $$ delete from quiz where id = q_id$$;
 
 ----------------------------------------------------
 CREATE TABLE assignment (
-    id int,
-    start_date date,
-    due_date date,
+    id int not null,
+    start_date date not null,
+    due_date date not null,
     PRIMARY KEY(id)
 );
 Create procedure usp_insert_assignment(a_start_date date, a_due_date date)
@@ -418,11 +418,11 @@ As $$ delete from assignment where id = a_id$$;
 
 ----------------------------------------------------
 CREATE TABLE examination (
-    id int,
-    room varchar(10),
-    m_date date,
-    duration smallint,
-    type varchar(7),
+    id int not null,
+    room varchar(10) not null,
+    m_date date not null,
+    duration smallint not null,
+    type varchar(7) not null,
     PRIMARY KEY(id)
 );
 Create procedure usp_insert_examination(e_room varchar(10),e_date date, e_duration smallint, e_type varchar(7) )

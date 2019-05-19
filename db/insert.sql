@@ -112,12 +112,6 @@ CALL usp_insert_examination('d2', '2019-04-16', 120::smallint, 'final');
 CALL usp_insert_assessment(1, 0.3, NULL);
 CALL usp_insert_examination('d2', '2019-03-15', 120::smallint, 'midterm');
 
-CALL usp_insert_assessment(6, 0.3, NULL);
-CALL usp_insert_final('f1', '2018-03-08', 180::smallint);
-
-CALL usp_insert_assessment(5, 0.3, NULL);
-CALL usp_insert_midterm('m1', '2018-03-08', 120::smallint);
-
 CALL usp_insert_question('question_body_1', 0.2, 1);
 CALL usp_insert_question('question_body_2', 0.3, 1);
 CALL usp_insert_question('question_body_3', 0.2, 1);
