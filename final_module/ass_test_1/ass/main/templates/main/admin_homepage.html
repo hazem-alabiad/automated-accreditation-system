@@ -1,0 +1,113 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Instruction Main Page</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static 'main/clientPage.css' %}">
+</head>
+
+<body>
+    <div class="wrapper mb-5">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h2>H.U C.S Automated Accreditation System</h2>
+            </div>
+            <div class="ml-2 my-3">
+                <h4 style="color: #d2d2d2">Relations</h4>
+            </div>
+            <hr>
+            <ul class="list-unstyled components">
+                <li><a href="{% url 'adminHomePage' %}?relation=departments">departments</a></li>
+                <li><a href="{% url 'adminHomePage' %}?relation=curriculums">curriculums</a></li>
+                <li><a href="{% url 'adminHomePage' %}?relation=instructors">instructors</a></li>
+                <li><a href="{% url 'adminHomePage' %}?relation=courses">courses</a></li>
+                <li><a href="{% url 'adminHomePage' %}?relation=courseOfferings">courseOfferings</a></li>
+                <li><a href="{% url 'adminHomePage' %}?relation=students">students</a></li>
+                <li><a href="{% url 'adminHomePage' %}?relation=semesters">semesters</a></li>
+
+            </ul>
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content">
+            <nav class="navbar-brand navbar-light bg-light">
+                <div class="mt-1 mb-5 ml-3 container">
+                    <div class="row">
+                        <button type="button" id="sidebarCollapse" class="navbar-btn ">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                        </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+
+                    </div>
+                </div>
+            </nav>
+            <hr>    
+            <table class="table">
+
+                    <thead class="thead-light">
+                        <tr>
+                            {% for head_element in table_head %}
+                            <th scope="col">{{ head_element }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for row in rows %}
+                        <!-- a row -->
+                        <tr>
+                            <td> {{ row.code }}</td><!-- a column of the row -->
+                            <td> {{ row.name }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+        
+        
+            
+            <!-- FOOTER -->
+            <br><br><hr>
+            <footer>
+                <div class="panel-footer footer-copyright text-center py-4">
+                    &copy; 2019 all copyrights reserved,<br> designed by <b>Hazem. W</b>, coded by <b>Jalil. J</b>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
