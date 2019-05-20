@@ -70,11 +70,12 @@
 
                     {% if relation_name == 'departments' %}
                         {% for row in rows %}
-                            <!-- a row -->
-                            <tr>
-                                <td> {{ row.code }}</td><!-- a column of the row -->
-                                <td> {{ row.name }}</td>
-                            </tr>
+                                <!-- a row -->
+                                <tr>
+                                    <td> {{ row.code }} </td><!-- a column of the row -->
+                                    <td> {{ row.name }}</td>
+                                </tr>
+
                         {% endfor %}
 
 

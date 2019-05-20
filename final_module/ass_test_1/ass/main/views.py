@@ -51,6 +51,10 @@ relations_dict = {'departments': 'Department',
                   'courseOfferings': 'Courseoffering',
                   'students': 'Student',
                   'semesters': 'Semester',
+                  'assessments': 'Assessment',
+                  'questions': 'Question',
+                  'question_courseLearningObjectives': 'QuestionCourselearningobjective',
+                  'question_keyLearningOutcomes': 'QuestionKeylearningoutcome',
                   }
 
 # tells us what is the head of the table corresponding to the given relation
@@ -61,15 +65,12 @@ table_head_dict = {'Department': ['Code', 'Name'],
                    'Courseoffering': ['Course code', 'Semester'],
                    'Student': ['id', 'Name', 'Surname', 'Department code'],
                    'Semester': ['Type', 'Year'],
+                   'Assessment': ['ID', 'Course Code', 'Semester'],
+                   'Question': ['ID', 'Assessment ID', 'Course Code', 'Semester'],
+                   'QuestionCourselearningobjective': ['Question ID', 'Course learning objective ID'],
+                   'QuestionKeylearningoutcome': ['Question ID', 'Key learning outcome ID'],
                    }
 
-
-
-
-
-
-
-# list of tuples that makes up the table body
 
 @login_required(login_url="/signin/")
 @user_passes_test(is_admin)
@@ -88,21 +89,29 @@ def admin_home_page_view(request):
         context['table_head'] = table_head
         context['rows'] = all_objects
 
-
-
-
-
     return render(request, 'main/admin_homepage.html', context)
 
-@login_required(login_url="/signin/")
-@user_passes_test(is_client)
+#@login_required(login_url="/signin/")
+#@user_passes_test(is_client)
 def client_home_page_view(request):
-    return render(request, 'main/client_homepage.html')
+    context = {}
+    # check if any relation is requested
+    relation_name = request.GET.get('relation', " ")
+    if relation_name != " ":
+        model_name = relations_dict[relation_name]
+        # the eval(model_name) turns a given string into a python class
+        all_objects = eval(model_name).objects.all()
+        table_head = table_head_dict[model_name]
+
+        context['relation_name'] = relation_name
+        context['table_head'] = table_head
+        context['rows'] = all_objects
+
+    return render(request, 'main/client_homepage.html', context)
 
 
 
 #super super user
-
 def create_admin_view(request):
     form = create_admin_form(request.POST or None)
 

@@ -29,10 +29,10 @@
             </div>
             <hr>
             <ul class="list-unstyled components">
-                <li><a href="#">assessment</a></li>
-                <li><a href="#">question</a></li>
-                <li><a href="#">question_courseLearningObjective</a></li>
-                <li><a href="#">question_keyLearningOutcome</a></li>
+                <li><a href="{% url 'clientHomePage' %}?relation=assessments">Assessments</a></li>
+                <li><a href="{% url 'clientHomePage' %}?relation=questions">Questions</a></li>
+                <li><a href="{% url 'clientHomePage' %}?relation=question_courseLearningObjectives">Question-CourseLearningObjectives</a></li>
+                <li><a href="{% url 'clientHomePage' %}?relation=question_keyLearningOutcomes">Question-keyLearningOutcomes</a></li>
             </ul>
         </nav>
         <!-- Page Content Holder -->
@@ -51,28 +51,58 @@
             </nav>
             <hr>    
 
-            <!-- CONTENT GOES HERE -->
-
-
-
             <table class="table">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
+                            {% for head_element in table_head %}
+                                <th scope="col">{{ head_element }}</th>
+                            {% endfor %}
                         </tr>
                     </thead>
+
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                    {% if relation_name == 'assessment' %}
+                        {% for row in rows %}
+                            <!-- a row -->
                             <tr>
-                                <td></td>
-                                <td></td>
+                                <td>{{ row.id}}</td>
+                                <td> {{ row.courseoffering.course_code }}</td><!-- a column of the row -->
+                                <td> {{ row.courseoffering.semester }}</td>
                             </tr>
-        
+                        {% endfor %}
+
+                    {% elif relation_name == 'question' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.id }}</td>
+                                <td> {{ row.assesment.id }}</td>
+                                <td> {{ row.assesment.courseoffering.course_code }}</td><!-- a column of the row -->
+                                <td> {{ row.assesment.courseoffering.semester }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% elif relation_name == 'question_courseLearningObjective' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.question.id }}</td>
+                                <td> {{ row.courselearningobjective.id }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% elif relation_name == 'question_keyLearningOutcome' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.question.id }}</td>
+                                <td> {{ row.key_learning_outcome.id }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% endif %}
                     </tbody>
+
                 </table>
         
         
