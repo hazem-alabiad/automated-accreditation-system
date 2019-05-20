@@ -68,13 +68,75 @@
 
                     <tbody>
 
-                    {% for row in rows %}
-                        <!-- a row -->
-                        <tr>
-                            <td> {{ row.code }}</td><!-- a column of the row -->
-                            <td> {{ row.name }}</td>
-                        </tr>
-                    {% endfor %}
+                    {% if relation_name == 'departments' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.code }}</td><!-- a column of the row -->
+                                <td> {{ row.name }}</td>
+                            </tr>
+                        {% endfor %}
+
+
+                    {% elif relation_name == 'curriculums' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.version }}</td><!-- a column of the row -->
+                                <td> {{ row.dept_code.code }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% elif relation_name == 'instructors' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.name }}</td><!-- a column of the row -->
+                                <td> {{ row.surname }}</td>
+                                <td> {{ row.dept_code.code }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% elif relation_name == 'courses' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.code }}</td><!-- a column of the row -->
+                                <td> {{ row.name }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% elif relation_name == 'courseOfferings' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.semester }}</td><!-- a column of the row -->
+                                <td> {{ row.course_code }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% elif relation_name == 'students' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.id }}</td><!-- a column of the row -->
+                                <td> {{ row.name }}</td>
+                                <td> {{ row.surname }}</td>
+                                <td> {{ row.dep_code.code }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% elif relation_name == 'semesters' %}
+                        {% for row in rows %}
+                            <!-- a row -->
+                            <tr>
+                                <td> {{ row.type }}</td><!-- a column of the row -->
+                                <td> {{ row.year }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% endif %}
+
 
                     </tbody>
 

@@ -66,9 +66,6 @@ table_head_dict = {'Department': ['Code', 'Name'],
 
 
 
-# returns a list of lists
-#def get_table_elements(relation_name):
-    #if relation_name == 'Department':
 
 
 
@@ -87,7 +84,9 @@ def admin_home_page_view(request):
         all_objects = eval(model_name).objects.all()
         table_head = table_head_dict[model_name]
 
+        context['relation_name'] = relation_name
         context['table_head'] = table_head
+        context['rows'] = all_objects
 
 
 
