@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.urls import reverse
 #importing models
@@ -43,6 +43,12 @@ def sign_in_view(request):
 
     return render(request, 'main/sign_in.html')
 
+@login_required(login_url="/signin/")
+def signout_view(request):
+    logout(request)
+    return redirect(reverse('signin'))
+
+
 # dictionary for getting the correctly spelled words
 relations_dict = {'departments': 'Department',
                   'curriculums': 'Curriculum',
@@ -59,12 +65,12 @@ relations_dict = {'departments': 'Department',
 
 # tells us what is the head of the table corresponding to the given relation
 table_head_dict = {'Department': ['Code', 'Name'],
-                   'Curriculum': ['Version', 'Department code'],
-                   'Instructor': ['Name','Surname', 'Department code'],
+                   'Curriculum': ['ID', 'Version', 'Department code'],
+                   'Instructor': ['ID', 'Name', 'Surname', 'Department code'],
                    'Course': ['Code', 'Name', 'Credit'],
-                   'Courseoffering': ['Course code', 'Semester'],
-                   'Student': ['id', 'Name', 'Surname', 'Department code'],
-                   'Semester': ['Type', 'Year'],
+                   'Courseoffering': ['ID', 'Course code', 'Semester'],
+                   'Student': ['ID', 'Name', 'Surname', 'Department code'],
+                   'Semester': ['ID', 'Type', 'Year'],
                    'Assessment': ['ID', 'Course Code', 'Semester'],
                    'Question': ['ID', 'Assessment ID', 'Course Code', 'Semester'],
                    'QuestionCourselearningobjective': ['Question ID', 'Course learning objective ID'],
@@ -90,6 +96,7 @@ def admin_home_page_view(request):
         context['rows'] = all_objects
 
     return render(request, 'main/admin_homepage.html', context)
+
 
 #@login_required(login_url="/signin/")
 #@user_passes_test(is_client)
@@ -135,3 +142,15 @@ def create_admin_view(request):
 
 
 
+def add_entities_view(request):
+    context = {}
+
+    return render(request, 'main/add_entity.html', context)
+
+
+def entity_detail_view(request):
+    relation_name = request.GET.get('relation_name', " ")
+    object_id = request.GET.get('object_id', 0)
+    context = {}
+    print(object_id, relation_name)
+    return render(request, 'main/add_entity.html', context)
