@@ -1,7 +1,6 @@
-@media (max-width: 768px) {
-
-}
-
+/*
+    DEMO STYLE
+*/
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
 
@@ -59,27 +58,27 @@ a, a:hover, a:focus {
 
 
 #sidebar {
-    min-width: 350px;
-    max-width: 350px;
-    background: #7386D5;
+    min-width: 250px;
+    max-width: 250px;
+    background: #924373;
     color: #fff;
     transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
     transform-origin: bottom left;
 }
 
 #sidebar.active {
-    margin-left: -350px;
+    margin-left: -250px;
     transform: rotateY(100deg);
 }
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #6d7fcc;
+    background: #843465;
 }
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
+    border-bottom: 1px solid #843465;
 }
 
 #sidebar ul p {
@@ -92,14 +91,14 @@ a, a:hover, a:focus {
     font-size: 1.1em;
     display: block;
 }
-#sidebar ul li a:hover {
-    color: #7386D5;
+#sidebar ul li a:hover{
+    color: #924373;
     background: #fff;
 }
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    background: #9C4679;
 }
 
 
@@ -118,7 +117,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: #843465;
 }
 
 ul.CTAs {
@@ -135,11 +134,11 @@ ul.CTAs a {
 
 a.download {
     background: #fff;
-    color: #7386D5;
+    color: #924373;
 }
 
-a.article, a.article:hover {
-    background: #6d7fcc !important;
+a.article, a.article:hover{
+    background: #843465 !important;
     color: #fff !important;
 }
 
@@ -167,7 +166,7 @@ a.article, a.article:hover {
     height: 2px;
     margin: 0 auto;
     display: block;
-    background: #6d7fcc;
+    background: #843465;
     transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
     transition-delay: 0.2s;
 }
@@ -195,7 +194,7 @@ a.article, a.article:hover {
 ----------------------------------------------------- */
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -350px;
+        margin-left: -250px;
         transform: rotateY(90deg);
     }
     #sidebar.active {
@@ -221,4 +220,5 @@ a.article, a.article:hover {
     #sidebarCollapse.active span:last-of-type {
         transform: rotate(-45deg) translate(1px, -1px);
     }
+
 }
