@@ -55,7 +55,7 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
                 </button>
-                <a class="btn btn-primary add-relation-btn mx-2" href="{% url 'adminAddEntityPage'%}?relation_name={{ relation_name }}">Add {{ relation_name }}</a>
+                <a class="btn btn-primary add-relation-btn mx-2" href="{% url 'adminAddEntityPage'%}?relation_name={{ relation_name }}&user_type=admin">Add {{ relation_name }}</a>
                 <a class="navbar-btn btn-danger btn btn-lg mx-2" href="/signout/">Logout</a>
             </div>
         </nav> 
@@ -83,7 +83,8 @@
                                 {{ row.code }}</a> </td><!-- a column of the row -->
                             <td> {{ row.name }}</td>
                             <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.code}}">
+                                    <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
 
@@ -96,7 +97,8 @@
                             <td> {{ row.version }}</td><!-- a column of the row -->
                             <td> {{ row.dept_code.code }}</td>
                             <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                                    <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
 
@@ -110,7 +112,8 @@
                             <td> {{ row.surname }}</td>
                             <td> {{ row.dept_code.code }}</td>
                             <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                                    <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
 
@@ -123,7 +126,8 @@
                             <td> {{ row.name }}</td>
                             <td> {{ row.credit }}</td>
                             <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.code}}">
+                                    <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
 
@@ -136,7 +140,8 @@
                             <td> {{ row.semester }}</td><!-- a column of the row -->
                             <td> {{ row.course_code }}</td>
                             <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                                    <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
 
@@ -150,7 +155,8 @@
                             <td> {{ row.surname }}</td>
                             <td> {{ row.dep_code.code }}</td>
                             <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                                    <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
 
@@ -163,7 +169,8 @@
                             <td> {{ row.type }}</td><!-- a column of the row -->
                             <td> {{ row.year }}</td>
                             <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                                    <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
                 {% endif %}

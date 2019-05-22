@@ -1,140 +1,91 @@
 {% load static %}
 
-
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Instruction Main Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <!-- Our Custom CSS -->
+    <!-- Font Awesome JS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <!-- Custome CSS -->
     <link rel="stylesheet" href="{% static 'main/clientPage.css' %}">
+
+    <title>Instructor Main Page</title>
 </head>
-
 <body>
-    <div class="wrapper mb-5">
-        <!-- Sidebar Holder -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h2>H.U C.S Automated Accreditation System</h2>
-            </div>
-            <div class="ml-2 my-3">
-                <h4 style="color: #d2d2d2">Relations</h4>
-            </div>
-            <hr>
-            <ul class="list-unstyled components">
-                <li><a href="{% url 'clientHomePage' %}?relation=assessments">Assessments</a></li>
-                <li><a href="{% url 'clientHomePage' %}?relation=questions">Questions</a></li>
-                <li><a href="{% url 'clientHomePage' %}?relation=question_courseLearningObjectives">Question-CourseLearningObjectives</a></li>
-                <li><a href="{% url 'clientHomePage' %}?relation=question_keyLearningOutcomes">Question-keyLearningOutcomes</a></li>
-            </ul>
-        </nav>
-        <!-- Page Content Holder -->
-        <div id="content">
-            <nav class="navbar-brand navbar-light bg-light">
-                <div class="mt-1 mb-5 ml-3 container">
-                    <div class="row">
-                        <button type="button" id="sidebarCollapse" class="navbar-btn ">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                        </button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
-                    </div>
-                </div>
-            </nav>
-            <hr>
 
-            <table class="table">
-                    <thead class="thead-light">
-                        <tr>
-                            {% for head_element in table_head %}
-                                <th scope="col">{{ head_element }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                    {% if relation_name == 'assessment' %}
-                        {% for row in rows %}
-                            <!-- a row -->
-                            <tr>
-                                <td>{{ row.id}}</td>
-                                <td> {{ row.courseoffering.course_code }}</td><!-- a column of the row -->
-                                <td> {{ row.courseoffering.semester }}</td>
-                            </tr>
-                        {% endfor %}
-
-                    {% elif relation_name == 'question' %}
-                        {% for row in rows %}
-                            <!-- a row -->
-                            <tr>
-                                <td> {{ row.id }}</td>
-                                <td> {{ row.assesment.id }}</td>
-                                <td> {{ row.assesment.courseoffering.course_code }}</td><!-- a column of the row -->
-                                <td> {{ row.assesment.courseoffering.semester }}</td>
-                            </tr>
-                        {% endfor %}
-
-                    {% elif relation_name == 'question_courseLearningObjective' %}
-                        {% for row in rows %}
-                            <!-- a row -->
-                            <tr>
-                                <td> {{ row.question.id }}</td>
-                                <td> {{ row.courselearningobjective.id }}</td>
-                            </tr>
-                        {% endfor %}
-
-                    {% elif relation_name == 'question_keyLearningOutcome' %}
-                        {% for row in rows %}
-                            <!-- a row -->
-                            <tr>
-                                <td> {{ row.question.id }}</td>
-                                <td> {{ row.key_learning_outcome.id }}</td>
-                            </tr>
-                        {% endfor %}
-
-                    {% endif %}
-                    </tbody>
-
-                </table>
-
-
-
-
-
-            <!-- FOOTER -->
-            <br><br><hr>
-            <footer>
-                <div class="panel-footer footer-copyright text-center py-4">
-                    &copy; 2019 all copyrights reserved,<br> designed by <b>Hazem. W</b>, coded by <b>Jalil. J</b>
-                </div>
-            </footer>
-
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-5 font-weight-bold text-center">H.U C.S Automated Accreditation System</h1>
         </div>
     </div>
 
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <div class="my-2 mx-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="btn btn-success mx-2" href="{%url 'clientHomePage'%}">Home</a>
+                <a class="btn btn-primary mx-2" href="#">Add</a>
+                <a class=" btn-danger btn btn-lg mx-2" href="/signout/">Logout</a>
+            </div>
+        </nav>
+    </div> 
+    <br>
+    <div class="my-5 mx-4">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Course code</th>
+                    <th scope="col">Semester</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-                $(this).toggleClass('active');
-            });
-        });
-    </script>
+                <tr>
+                    {% for row in rows %}
+                        <!-- a row -->
+                        <tr>
+                            <td><a href="{% url 'clientEntityDetailsPage'%}?relation_name='courseOfferings'&object_id={{row.id}}">
+                                {{ row.id }}</a></td>
+                            <td> {{ row.semester }}</td><!-- a column of the row -->
+                            <td> {{ row.course_code }}</td>
+                            <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
+                                <a href="#"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
+                        </tr>
+
+                    {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- FOOTER -->
+<div class="container mt-5">
+    <hr>
+    <footer>
+        <div class="panel-footer footer-copyright text-center py-4">
+            &copy; 2019 all copyrights reserved,<br> designed by <b>Hazem. W</b>, coded by <b>Jalil. J</b>
+        </div>
+    </footer>
+</div>
+
 </body>
-
 </html>
