@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Assessment(models.Model):
-    courseoffering = models.ForeignKey('Courseoffering', models.DO_NOTHING)
+    courseoffering = models.ForeignKey('Courseoffering', models.CASCADE)
     files = models.BinaryField(blank=True, null=True)
     weight = models.FloatField()
 
@@ -12,8 +12,8 @@ class Assessment(models.Model):
 
 
 class AssessmentStudent(models.Model):
-    student = models.ForeignKey('Student', models.DO_NOTHING, primary_key=True)
-    assessment = models.ForeignKey(Assessment, models.DO_NOTHING)
+    student = models.ForeignKey('Student', models.CASCADE, primary_key=True)
+    assessment = models.ForeignKey(Assessment, models.CASCADE)
     grade = models.FloatField(blank=True, null=True)
 
     class Meta:
@@ -43,7 +43,7 @@ class Course(models.Model):
 
 
 class Courselearningobjective(models.Model):
-    course_code = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_code')
+    course_code = models.ForeignKey(Course, models.CASCADE, db_column='course_code')
     body = models.CharField(max_length=1000)
 
     class Meta:
@@ -52,8 +52,8 @@ class Courselearningobjective(models.Model):
 
 
 class Courseoffering(models.Model):
-    semester = models.ForeignKey('Semester', models.DO_NOTHING)
-    course_code = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_code')
+    semester = models.ForeignKey('Semester', models.CASCADE)
+    course_code = models.ForeignKey('Course', models.CASCADE, db_column='course_code')
     letter_grades = models.BinaryField(blank=True, null=True)
 
     class Meta:
@@ -63,7 +63,7 @@ class Courseoffering(models.Model):
 
 class Curriculum(models.Model):
     version = models.IntegerField()
-    dept_code = models.ForeignKey('Department', models.DO_NOTHING, db_column='dept_code')
+    dept_code = models.ForeignKey('Department', models.CASCADE, db_column='dept_code')
 
     class Meta:
         managed = True
@@ -71,8 +71,8 @@ class Curriculum(models.Model):
 
 
 class CurriculumCourse(models.Model):
-    curriculum = models.ForeignKey(Curriculum, models.DO_NOTHING, primary_key=True)
-    course_code = models.ForeignKey(Course, models.DO_NOTHING, db_column='course_code')
+    curriculum = models.ForeignKey(Curriculum, models.CASCADE, primary_key=True)
+    course_code = models.ForeignKey(Course, models.CASCADE, db_column='course_code')
 
     class Meta:
         managed = True
@@ -104,7 +104,7 @@ class Examination(models.Model):
 class Instructor(models.Model):
     name = models.CharField(max_length=255)
     surname = models.CharField(max_length=255)
-    dept_code = models.ForeignKey(Department, models.DO_NOTHING, db_column='dept_code')
+    dept_code = models.ForeignKey(Department, models.CASCADE, db_column='dept_code')
 
     class Meta:
         managed = True
@@ -113,7 +113,7 @@ class Instructor(models.Model):
 
 class Keylearningoutcome(models.Model):
     body = models.CharField(max_length=1000)
-    dept_code = models.ForeignKey(Department, models.DO_NOTHING, db_column='dept_code')
+    dept_code = models.ForeignKey(Department, models.CASCADE, db_column='dept_code')
 
     class Meta:
         managed = True
@@ -123,7 +123,7 @@ class Keylearningoutcome(models.Model):
 class Question(models.Model):
     body = models.CharField(max_length=1000)
     weight = models.FloatField()
-    assessment = models.ForeignKey(Assessment, models.DO_NOTHING)
+    assessment = models.ForeignKey(Assessment, models.CASCADE)
 
     class Meta:
         managed = True
@@ -131,8 +131,8 @@ class Question(models.Model):
 
 
 class QuestionCourselearningobjective(models.Model):
-    question = models.ForeignKey(Question, models.DO_NOTHING)
-    courselearningobjective = models.ForeignKey(Courselearningobjective, models.DO_NOTHING, primary_key=True)
+    question = models.ForeignKey(Question, models.CASCADE)
+    courselearningobjective = models.ForeignKey(Courselearningobjective, models.CASCADE, primary_key=True)
     value = models.SmallIntegerField()
 
     class Meta:
@@ -142,8 +142,8 @@ class QuestionCourselearningobjective(models.Model):
 
 
 class QuestionKeylearningoutcome(models.Model):
-    question = models.ForeignKey(Question, models.DO_NOTHING, primary_key=True)
-    key_learning_outcome = models.ForeignKey(Keylearningoutcome, models.DO_NOTHING)
+    question = models.ForeignKey(Question, models.CASCADE, primary_key=True)
+    key_learning_outcome = models.ForeignKey(Keylearningoutcome, models.CASCADE)
     value = models.SmallIntegerField()
 
     class Meta:
@@ -163,7 +163,7 @@ class Quiz(models.Model):
 
 
 class Section(models.Model):
-    courseoffering = models.ForeignKey(Courseoffering, models.DO_NOTHING)
+    courseoffering = models.ForeignKey(Courseoffering, models.CASCADE)
     number = models.IntegerField()
 
     class Meta:
@@ -172,8 +172,8 @@ class Section(models.Model):
 
 
 class SectionInstructor(models.Model):
-    section = models.ForeignKey(Section, models.DO_NOTHING, primary_key=True)
-    instructor = models.ForeignKey(Instructor, models.DO_NOTHING)
+    section = models.ForeignKey(Section, models.CASCADE, primary_key=True)
+    instructor = models.ForeignKey(Instructor, models.CASCADE)
 
     class Meta:
         managed = True
@@ -182,8 +182,8 @@ class SectionInstructor(models.Model):
 
 
 class SectionStudent(models.Model):
-    section = models.ForeignKey(Section, models.DO_NOTHING, primary_key=True)
-    student = models.ForeignKey('Student', models.DO_NOTHING)
+    section = models.ForeignKey(Section, models.CASCADE, primary_key=True)
+    student = models.ForeignKey('Student', models.CASCADE)
 
     class Meta:
         managed = True
@@ -204,7 +204,7 @@ class Student(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
-    dep_code = models.ForeignKey(Department, models.DO_NOTHING, db_column='dep_code')
+    dep_code = models.ForeignKey(Department, models.CASCADE, db_column='dep_code')
 
     class Meta:
         managed = True

@@ -31,9 +31,9 @@
     <div class="my-1 mx-4">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                {%if user_type == "admin" %}
+                {%if user_type == 'admin' %}
                     <a class="btn btn-success mx-2 my-1" href="{% url 'adminHomePage' %}">Home</a>
-                {% elif user_type == "client" %}
+                {% elif user_type == 'client' %}
                     <a class="btn btn-success mx-2 my-1" href="{% url 'clientHomePage' %}">Home</a>
                 {% endif %}
                 <a class=" btn-danger btn btn-lg mx-2 my-1" href="#">Logout</a>
@@ -44,7 +44,11 @@
     <div class="my-1 mx-4">
         <form method="post" action="."> {% csrf_token %}
             {{ form|crispy }}
-            <input type="hidden" name="relation_name_to_submit" value={{ relation_name_to_submit }}>
+            <input type="hidden" name="relation_name_to_submit" value={{relation_name}}>
+            <!-- if update -->
+            {% if object_id %}
+                <input type="hidden" name="object_id_name" value={{object_id}}>
+            {% endif %}
 
             {%if user_type == "admin" %}
                 <input type="hidden" name="submitting_user_type" value=admin>

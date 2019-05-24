@@ -30,7 +30,6 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="btn btn-success mx-2" href="{%url 'clientHomePage'%}">Home</a>
-                <a class="btn btn-primary mx-2" href="#">Add</a>
                 <a class=" btn-danger btn btn-lg mx-2" href="/signout/">Logout</a>
             </div>
         </nav>
@@ -54,10 +53,10 @@
                         <tr>
                             <td><a href="{% url 'clientEntityDetailsPage'%}?relation_name='courseOfferings'&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
-                            <td> {{ row.semester }}</td><!-- a column of the row -->
-                            <td> {{ row.course_code }}</td>
-                            <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
+                            <td> {{ row.course_code }}</td><!-- a column of the row -->
+                            <td> {{ row.semester }}</td>
+                            <td><a href="{% url 'clientUpdateEntityPage' %}?relation_name=courseOfferings&user=client&object_id={{row.id}}"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
+                                <a href="{% url 'clientDeleteEntityPage' %}?relation_name=courseOfferings&user=client&object_id={{row.id}}"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
 
                     {% endfor %}

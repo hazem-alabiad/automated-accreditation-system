@@ -55,7 +55,9 @@
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
                 </button>
-                <a class="btn btn-primary add-relation-btn mx-2" href="{% url 'adminAddEntityPage'%}?relation_name={{ relation_name }}&user_type=admin">Add {{ relation_name }}</a>
+                {% if relation_name %}
+                    <a class="btn btn-primary add-relation-btn mx-2" href="{% url 'adminAddEntityPage'%}?relation_name={{ relation_name }}&user_type=admin">Add {{ relation_name }}</a>
+                {% endif %}
                 <a class="navbar-btn btn-danger btn btn-lg mx-2" href="/signout/">Logout</a>
             </div>
         </nav> 
@@ -79,11 +81,14 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
-                            <td> <a href="{% url 'adminEntityDetailsPage'%}?relation_name='departments'&object_id={{row.code}}">
+                            <td> <a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.code}}">
                                 {{ row.code }}</a> </td><!-- a column of the row -->
                             <td> {{ row.name }}</td>
-                            <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.code}}">
+                            <td>
+                                <a href="{% url 'adminUpdateEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.code}}">
+                                    <i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
+
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.code}}">
                                     <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
@@ -92,12 +97,15 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
-                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name='curriculums'&object_id={{row.id}}">
+                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
                             <td> {{ row.version }}</td><!-- a column of the row -->
                             <td> {{ row.dept_code.code }}</td>
-                            <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                            <td>
+                                <a href="{% url 'adminUpdateEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
+                                    <i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
+
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                     <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
@@ -106,13 +114,16 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
-                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name='instructors'&object_id={{row.id}}">
+                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
                             <td> {{ row.name }}</td><!-- a column of the row -->
                             <td> {{ row.surname }}</td>
                             <td> {{ row.dept_code.code }}</td>
-                            <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                            <td>
+                                <a href="{% url 'adminUpdateEntityPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
+                                    <i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
+
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                     <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
@@ -121,12 +132,15 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
-                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name='courses'&object_id={{row.code}}">
+                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.code}}">
                                 {{ row.code }}</a></td>
                             <td> {{ row.name }}</td>
                             <td> {{ row.credit }}</td>
-                            <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.code}}">
+                            <td>
+                                <a href="{% url 'adminUpdateEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.code}}">
+                                <i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
+
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.code}}">
                                     <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
@@ -135,12 +149,15 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
-                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name='courseOfferings'&object_id={{row.id}}">
+                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
-                            <td> {{ row.semester }}</td><!-- a column of the row -->
-                            <td> {{ row.course_code }}</td>
-                            <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                            <td> {{ row.course_code }}</td><!-- a column of the row -->
+                            <td> {{ row.semester }}</td>
+                            <td>
+                                <a href="{% url 'adminUpdateEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
+                                <i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
+
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                     <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
@@ -149,13 +166,16 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
-                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name='students'&object_id={{row.id}}">
+                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
                             <td> {{ row.name }}</td>
                             <td> {{ row.surname }}</td>
                             <td> {{ row.dep_code.code }}</td>
-                            <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                            <td>
+                                <a href="{% url 'adminUpdateEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
+                                <i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
+
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                     <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}
@@ -164,12 +184,15 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
-                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name='semesters'&object_id={{row.id}}">
+                            <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
                             <td> {{ row.type }}</td><!-- a column of the row -->
                             <td> {{ row.year }}</td>
-                            <td><a href="#"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="{% url 'adminDeleteEntityPage' %}?relation={{relation_name}}&user=admin&id={{row.id}}">
+                            <td>
+                                <a href="{% url 'adminUpdateEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
+                                <i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
+
+                                <a href="{% url 'adminDeleteEntityPage' %}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                     <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
                         </tr>
                     {% endfor %}

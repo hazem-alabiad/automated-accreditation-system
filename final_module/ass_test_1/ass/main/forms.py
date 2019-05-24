@@ -16,6 +16,12 @@ class departmentForm(forms.ModelForm):
         model = Department
         fields = ['code', 'name',]
 
+class departmentUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Department
+        fields = ['name',]
+
 class curriculumForm(forms.ModelForm):
 
     class Meta:
@@ -28,6 +34,12 @@ class courseForm(forms.ModelForm):
         model = Course
         fields = ['code', 'name', 'credit']
 
+class courseUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Course
+        fields = ['name', 'credit']
+
 class courseofferingForm(forms.ModelForm):
 
     class Meta:
@@ -39,6 +51,12 @@ class studentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['id', 'name', 'surname', 'dep_code']
+
+class studentUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Student
+        fields = ['name', 'surname', 'dep_code']
 
 class semesterForm(forms.ModelForm):
 
