@@ -17,17 +17,17 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 # dictionary for getting the correctly spelled words
 relations_dict = {'departments': 'Department',
-                  'curriculums': 'Curriculum',
-                  'instructors': 'Instructor',
-                  'courses': 'Course',
-                  'courseOfferings': 'Courseoffering',
-                  'students': 'Student',
-                  'semesters': 'Semester',
-                  'assessments': 'Assessment',
-                  'questions': 'Question',
-                  'question_courseLearningObjectives': 'QuestionCourselearningobjective',
-                  'question_keyLearningOutcomes': 'QuestionKeylearningoutcome',
-                  }
+                                     'curriculums': 'Curriculum',
+                                     'instructors': 'Instructor',
+                                     'courses': 'Course',
+                                     'courseOfferings': 'Courseoffering',
+                                     'students': 'Student',
+                                     'semesters': 'Semester',
+                                     'assessments': 'Assessment',
+                                     'questions': 'Question',
+                                     'question_courseLearningObjectives': 'QuestionCourselearningobjective',
+                                     'question_keyLearningOutcomes': 'QuestionKeylearningoutcome',
+                                     }
 
 # tells us what is the head of the table corresponding to the given relation
 table_head_dict = {'Department': ['Code', 'Name'],
@@ -37,13 +37,16 @@ table_head_dict = {'Department': ['Code', 'Name'],
                    'Courseoffering': ['ID', 'Course code', 'Semester'],
                    'Student': ['ID', 'Name', 'Surname', 'Department code'],
                    'Semester': ['ID', 'Type', 'Year'],
-                   'Assessment': ['ID', 'Course Code', 'Semester'],
+                   'Assessment': ['ID', 'Course Code', 'Semester', 'Type'],
                    'Question': ['ID', 'Assessment ID', 'Course Code', 'Semester'],
                    'QuestionCourselearningobjective': ['Question ID', 'Course learning objective ID'],
                    'QuestionKeylearningoutcome': ['Question ID', 'Key learning outcome ID'],
                    'Keylearningoutcome': ['body', 'dept_code'],
-                   'Courselearningobjective': ['course_code', 'body'],
-                   'Section': ['courseoffering', 'number'],
+                   'Courselearningobjective': ['body'],
+                   'Section': ['ID','courseoffering', 'number'],
+                   'Examination': ['ID', 'Type'],
+                   'Quiz': ['ID', 'Date'],
+                   'Assignment': ['ID', 'Due_date']
                    }
 
 # key : an entity, value: all other entities that have a relationship with it
@@ -52,8 +55,8 @@ related_entities = {
     'Curriculum': ['Course'],
     'Instructor': ['Section'],
     'Course': ['Courselearningobjective'],
-    'Courseoffering': ['Section', 'Assessment'],
-    'Student': ['Assessment', 'Section'],
+    'Courseoffering': ['Section', 'Examination', 'Quiz', 'Assignment'],
+    'Student': ['Section', 'Examination', 'Quiz', 'Assignment'],
     'Semester': ['Courseoffering'],
 }
 
@@ -81,19 +84,77 @@ def get_object_details(relation_name, object):
     elif relation_name == 'semesters':
         return [object.id, object.type, object.year]
 
+def get_corresponding_realted_relation_objects(relation_name ,related_relation_name, object_id):
+
+    with connection.cursor() as cursor:
+        #department -- keylearningoutcome
+        if relation_name == 'departments':
+            related_relation = related_relation_name.lower()
+            sql_query = "SELECT * FROM "+related_relation+" WHERE dept_code=%s;"
+            if related_relation == 'student':
+                sql_query = "SELECT * FROM "+related_relation+" WHERE dep_code=%s;"
+
+        elif relation_name == 'curriculums':
+            sql_query = 'SELECT c.* FROM course c,curriculum_course cc where cc.curriculum_id=%s and cc.course_code=c.code;'
+
+        elif relation_name == 'instructors':
+            sql_query = "SELECT s.* FROM section s, section_instructor s_i " \
+                        "WHERE s_i.instructor_id=%s and s.id=s_i.section_id;"
+
+        elif relation_name == 'courses':
+            sql_query = "SELECT * FROM courselearningobjective  WHERE course_code=%s;"
+
+        elif relation_name == 'courseOfferings':
+            related_relation = related_relation_name.lower()
+            if related_relation == 'section':
+                sql_query = "SELECT s.* FROM courseoffering co, section s WHERE co.id=%s and s.courseoffering_id=co.id;"
+
+            else:
+                sql_query = "SELECT ex.id FROM courseoffering co, assessment a, " \
+                            +related_relation+" ex WHERE co.id=a.courseoffering_id AND a.id=ex.id AND co.id=%s;"
+
+
+        elif relation_name == 'students':
+            related_relation = related_relation_name.lower()
+            if related_relation == 'section':
+                sql_query = "SELECT se.* FROM student st, section_student s_s, section se " \
+                            "WHERE st.id=s_s.student_id AND s_s.section_id=se.id and st.id=%s; "
+
+            elif related_relation == 'examination':
+                sql_query = "SELECT ex.id, ex.type FROM assessment_student as_st, student s, assessment a, examination ex " \
+                            "WHERE s.id=as_st.student_id AND as_st.assessment_id=a.id AND a.id=ex.id AND a.id=%s;"
+            elif related_relation == 'quiz':
+                sql_query = "SELECT q.id, q.q_date FROM assessment_student as_st, student s, assessment a, quiz q " \
+                          "WHERE s.id=as_st.student_id AND as_st.assessment_id=a.id AND a.id=q.id and a.id=%s;"
+            else:
+                sql_query = "SELECT assig.id, assig.due_date FROM assessment_student as_st, student s, assessment a, assignment assig " \
+                             "WHERE s.id=as_st.student_id AND as_st.assessment_id=a.id AND a.id=assig.id and a.id=%s;"
+
+
+
+
+        elif relation_name == 'semesters':
+            related_relation = related_relation_name.lower()
+            sql_query = "SELECT e.* FROM courseoffering co, "+related_relation+" e WHERE co.id=%s;"
+
+
+        cursor.execute(sql_query, [object_id])
+        #rows is a list of QuerySet
+        rows = cursor.fetchall()
+        return rows
+
 
 # returns (realtion_name, [columns])
-def get_related_relations_columns(relation_name):
-    related_relations_columns = []
+def get_related_relations(relation_name, object_id):
+    related_relations = []
 
     related_ent = related_entities[relations_dict[relation_name]]
 
     for r in related_ent:
-        related_relations_columns.append( (r, table_head_dict[r]) )
+        related_relations.append((r, table_head_dict[r],
+                                    get_corresponding_realted_relation_objects(relation_name, r, object_id)))
 
-    return related_relations_columns
-
-
+    return related_relations
 
 
 # works for the add, update cases
@@ -254,12 +315,19 @@ def create_admin_view(request):
 def add_entities_view(request):
     context = {}
     relation_name = request.GET.get('relation_name', " ")
+
+    if relation_name not in relations_dict:
+        relation_name = relation_name.lower()+"s"
+
     user_type = request.GET.get('user_type', " ")
 
     # if GET request
     if request.method == 'GET':
         context['user_type'] = user_type
         context['relation_name'] = relation_name
+
+
+
         add_proper_form_to_context(relation_name, None, context)
 
         return render(request, 'main/addEntity.html', context)
@@ -446,9 +514,11 @@ def entity_detail_view(request):
         context['relation_columns'] = relation_columns
         context['object_info'] = get_object_details(relation_name, get_relation_object(relation_name, object_id))
 
-        context['related_entities'] = related_entities[relations_dict[relation_name]]
 
-        context['related_entities_cloumns'] = get_related_relations_columns(relation_name)
+        context['related_entities_names'] = related_entities[relations_dict[relation_name]]
+
+        # list of tuples: [ (entity_name, entity_columns, corresponding_entity_rows), .... ]
+        context['related_entities'] = get_related_relations(relation_name, object_id)
 
 
         '''chosen_related_entity = request.GET.get('related_entity', " ")

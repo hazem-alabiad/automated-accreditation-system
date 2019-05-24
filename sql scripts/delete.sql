@@ -1,3 +1,4 @@
+delete from curriculum_course;
 delete from curriculum;
 delete from keylearningoutcome;
 delete from section_instructor;
@@ -11,7 +12,7 @@ delete from courseoffering;
 delete from semester;
 delete from courselearningobjective;
 delete from course;
-delete from curriculum_course;
+
 delete from section_student;
 delete from examination;
 delete from quiz;

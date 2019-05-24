@@ -11,6 +11,11 @@ CALL usp_insert_curriculum(2, 'BBM');
 CALL usp_insert_keylearningoutcome('keylearningoutcome_BBM', 'BBM');
 CALL usp_insert_keylearningoutcome('keylearningoutcome_ELE', 'ELE');
 CALL usp_insert_keylearningoutcome('keylearningoutcome_EMU', 'EMU');
+CALL usp_insert_keylearningoutcome('keylearningoutcome_EMU2', 'EMU');
+CALL usp_insert_keylearningoutcome('keylearningoutcome_EMU3', 'EMU');
+CALL usp_insert_keylearningoutcome('keylearningoutcome_BBM_1', 'BBM');
+CALL usp_insert_keylearningoutcome('keylearningoutcome_BBM_2', 'BBM');
+
 
 CALL usp_insert_semester('fall', '2019');
 CALL usp_insert_semester('spring', '2017');
@@ -29,12 +34,14 @@ CALL usp_insert_course('EMU446', 'Supply Chain', 6::smallint);
 CALL usp_insert_course('EMU443', 'Revenue Management', 6::smallint);
 CALL usp_insert_course('ELE110', 'Intro to ELE', 5::smallint);
 
+-------------------
 CALL usp_insert_curriculum_course(1, 'BBM471');
 CALL usp_insert_curriculum_course(1, 'BBM495');
 CALL usp_insert_curriculum_course(1, 'BBM451');
 CALL usp_insert_curriculum_course(2, 'ELE110');
 CALL usp_insert_curriculum_course(3, 'EMU475');
 CALL usp_insert_curriculum_course(3, 'EMU446');
+-------------------
 
 CALL usp_insert_courseLearningObjective('BBM471', 'courseLearningObjective');
 CALL usp_insert_courseLearningObjective('BBM451', 'courseLearningObjective');
@@ -43,6 +50,7 @@ CALL usp_insert_courseLearningObjective('ELE110', 'courseLearningObjective');
 CALL usp_insert_courseLearningObjective('EMU446', 'courseLearningObjective');
 CALL usp_insert_courseLearningObjective('EMU475', 'courseLearningObjective');
 
+-------------------
 CALL usp_insert_courseoffering(1, 'BBM471', NULL);
 CALL usp_insert_courseoffering(1, 'BBM495', NULL);
 CALL usp_insert_courseoffering(2, 'BBM451', NULL);
@@ -50,7 +58,7 @@ CALL usp_insert_courseoffering(2, 'EMU475', NULL);
 CALL usp_insert_courseoffering(3, 'EMU446', NULL);
 CALL usp_insert_courseoffering(3, 'EMU443', NULL);
 CALL usp_insert_courseoffering(1, 'ELE110', NULL);
-
+-------------------
 
 
 CALL usp_insert_section(1, 1);
@@ -81,6 +89,7 @@ CALL usp_insert_student(2150, 'George', 'Gerogenazi', 'BBM');
 CALL usp_insert_student(2130, 'Ahmad', 'Miri', 'EMU');
 CALL usp_insert_student(2131, 'omer', 'yekta', 'EMU');
 CALL usp_insert_student(2141, 'Abueljod', 'Albadin', 'ELE');
+CALL usp_insert_student(2144, 'Abueljod', 'not Badin', 'ELE');
 
 CALL usp_insert_section_student(1, 2140);
 CALL usp_insert_section_student(2, 2150);
@@ -112,7 +121,6 @@ CALL usp_insert_examination('d2', '2019-04-16', 120::smallint, 'final');
 CALL usp_insert_assessment(1, 0.3, NULL);
 CALL usp_insert_examination('d2', '2019-03-15', 120::smallint, 'midterm');
 
-
 CALL usp_insert_question('question_body_1', 0.2, 1);
 CALL usp_insert_question('question_body_2', 0.3, 1);
 CALL usp_insert_question('question_body_3', 0.2, 1);
@@ -122,11 +130,16 @@ CALL usp_insert_question('q_2', 0.1, 2);
 CALL usp_insert_question_courselearningobjective(1, 1, 2::smallint);
 
 CALL usp_insert_question_keyLearningOutcome(1, 1, 5::smallint);
+CALL usp_insert_question_keyLearningOutcome(1, 4, 3::smallint);
+CALL usp_insert_question_keyLearningOutcome(1, 5, 4::smallint);
+
 
 
 CALL usp_insert_assessment_student(2140, 1, 91.0);
 CALL usp_insert_assessment_student(2150, 2, 61.0);
 CALL usp_insert_assessment_student(2131, 3, 41.0);
 CALL usp_insert_assessment_student(2141, 1, 41.0);
+CALL usp_insert_assessment_student(2141, 6, 45);
+CALL usp_insert_assessment_student(2131, 8, 60);
 
 

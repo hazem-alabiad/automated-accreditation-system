@@ -35,7 +35,7 @@
                     {% elif user_type == 'client' %}
                         <a class="btn btn-success mx-2 my-1" href="{% url 'clientHomePage' %}">Home</a>
                     {% endif %}
-                    <a class="btn btn-primary mx-2 my-1" href="#">Add</a>
+                        <a class="btn btn-primary mx-2 my-1" href="#">Relation</a>
                     <a class=" btn-danger btn btn-lg mx-2 my-1" href="#">Logout</a>
                 </div>
             </nav>
@@ -65,10 +65,10 @@
         <hr class="my-5">
         <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
 
-            {% for related_entity in related_entities %}
+            {% for related_entity_name in related_entities_names %}
 
             <li class="nav-item">
-                <a class="nav-link" id="{{related_entity}}-tab" data-toggle="tab" href="#{{related_entity}}" role="tab" }>{{ related_entity }}</a>
+                <a class="nav-link" id="{{related_entity_name}}-tab" data-toggle="tab" href="#{{related_entity_name}}" role="tab" }>{{ related_entity_name }}</a>
             </li>
 
             {% endfor %}
@@ -76,39 +76,136 @@
         </ul>
 
         <div class="tab-content my-4" id="myTabContent">
-            {% for related_entity in related_entities %}
+            {% for related_entity_name in related_entities_names %}
 
-            <div class="tab-pane fade show" id={{related_entity}} role="tabpanel">
+            <div class="tab-pane fade show" id={{related_entity_name}} role="tabpanel">
 
-                {% for r_e in related_entities_cloumns %}
-                    {% if r_e.0 == related_entity %}
+                {% for related_entitiy in related_entities %}
+                    {% if related_entitiy.0 == related_entity_name %}
+
+                    <a class="btn btn-primary mx-2 my-1 mb-3" href={% url 'adminAddEntityPage'%}?relation_name={{ related_entity_name }}&user_type=admin>Add {{ related_entity_name }}</a>
+
                     <table class="table table-striped">
-
                         <thead style="color: white; background:#a14d80;">
                         <tr>
-                        <th scope="col" style="width: 5%"></th>
-                        {% for c in r_e.1 %}
-                            <th scope="col">{{c}}</th>
-                        {% endfor %}
+                            <th scope="col" style="width: 5%"></th>
+                            {% for c in related_entitiy.1 %}
+                                <th scope="col">{{c}}</th>
+                            {% endfor %}
                         </tr>
                         </thead>
 
                         <tbody>
-                        <tr>
-                            <th scope="col" style="width: 5%"></th>
-                            {% for c in r_e.1 %}
-                            <td>{{ c }}</td>
+
+                    {%if related_entity_name == 'Keylearningoutcome'%}
+                            {% for r in related_entitiy.2 %}
+                                <tr>
+                                    <td></td>
+                                    <td>{{ r.1 }}</td>
+                                    <td>{{ r.2 }}</td>
+                                </tr>
+                            {% endfor %}
+
+                    {%elif related_entity_name == 'Student'%}
+                        {% for r in related_entitiy.2 %}
+                            <tr>
+                                <td></td>
+                                <td>{{ r.0 }}</td>
+                                <td>{{ r.1 }}</td>
+                                <td>{{ r.2 }}</td>
+                                <td>{{ r.3 }}</td>
+                            </tr>
                         {% endfor %}
-                        </tr>
+
+                    {%elif related_entity_name == 'Instructor'%}
+                        {% for r in related_entitiy.2 %}
+                            <tr>
+                                <td></td>
+                                <td>{{ r.0 }}</td>
+                                <td>{{ r.1 }}</td>
+                                <td>{{ r.2 }}</td>
+                                <td>{{ r.3 }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {%elif related_entity_name == 'Curriculum'%}
+                        {% for r in related_entitiy.2 %}
+                            <tr>
+                                <td></td>
+                                <td>{{ r.0 }}</td>
+                                <td>{{ r.1 }}</td>
+                                <td>{{ r.2 }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {%elif related_entity_name == 'Section'%}
+                        {% for r in related_entitiy.2 %}
+                            <tr>
+                                <td></td>
+                                <td>{{ r.0 }}</td>
+                                <td>{{ r.1 }}</td>
+                                <td>{{ r.2 }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {%elif related_entity_name == 'Course'%}
+                        {% for r in related_entitiy.2 %}
+                            <tr>
+                                <td></td>
+                                <td>{{ r.0 }}</td>
+                                <td>{{ r.1 }}</td>
+                                <td>{{ r.2 }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {%elif related_entity_name == 'Courseoffering'%}
+                        {% for r in related_entitiy.2 %}
+                            <tr>
+                                <td></td>
+                                <td>{{ r.1 }}</td>
+                                <td>{{ r.2 }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {%elif related_entity_name == 'Assessement'%}
+                        {% for r in related_entitiy.2 %}
+                            <tr>
+                                <td></td>
+                                <td>{{ r.0 }}</td>
+                                <td>{{ r.1 }}</td>
+                                <td>{{ r.2 }}</td>
+                                <td>{{ r.3 }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {%elif related_entity_name == 'Courselearningobjective'%}
+                        {% for r in related_entitiy.2 %}
+                            <tr>
+                                <td></td>
+                                <td>{{ r.2 }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {%elif related_entity_name == 'Examination' or related_entity_name == 'Quiz' or related_entity_name == 'Assignment'%}
+                        {% for r in related_entitiy.2 %}
+                            <tr>
+                                <td></td>
+                                <td>{{ r.0 }}</td>
+                                <td>{{ r.1 }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% endif %}
+
+
+
                         </tbody>
 
                     </table>
 
                     {% endif %}
-
                 {% endfor %}
             </div>
-
             {% endfor %}
         </div>
     </div>
