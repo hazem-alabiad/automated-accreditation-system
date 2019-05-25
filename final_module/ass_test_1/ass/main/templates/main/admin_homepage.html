@@ -30,13 +30,13 @@
         </div>
 
         <ul class="list-unstyled ml-2">
-            <li><a href="{% url 'adminHomePage' %}?relation=departments" active>Departments</a></li>
-            <li><a href="{% url 'adminHomePage' %}?relation=curriculums">Curriculums</a></li>
-            <li><a href="{% url 'adminHomePage' %}?relation=instructors">Instructors</a></li>
-            <li><a href="{% url 'adminHomePage' %}?relation=courses">Courses</a></li>
-            <li><a href="{% url 'adminHomePage' %}?relation=courseOfferings">CourseOfferings</a></li>
-            <li><a href="{% url 'adminHomePage' %}?relation=students">Students</a></li>
-            <li><a href="{% url 'adminHomePage' %}?relation=semesters">Semesters</a></li>
+            <li><a href="{% url 'adminHomePage' %}?relation_name=Department" active>Department</a></li>
+            <li><a href="{% url 'adminHomePage' %}?relation_name=Curriculum">Curriculum</a></li>
+            <li><a href="{% url 'adminHomePage' %}?relation_name=Instructor">Instructor</a></li>
+            <li><a href="{% url 'adminHomePage' %}?relation_name=Course">Course</a></li>
+            <li><a href="{% url 'adminHomePage' %}?relation_name=Courseoffering">CourseOffering</a></li>
+            <li><a href="{% url 'adminHomePage' %}?relation_name=Student">Student</a></li>
+            <li><a href="{% url 'adminHomePage' %}?relation_name=Semester">Semester</a></li>
         </ul>
 
     </nav>
@@ -77,7 +77,7 @@
 
                 <tbody>
 
-                {% if relation_name == 'departments' %}
+                {% if relation_name == 'Department' %}
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
@@ -93,7 +93,7 @@
                         </tr>
                     {% endfor %}
 
-                {% elif relation_name == 'curriculums' %}
+                {% elif relation_name == 'Curriculum' %}
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
@@ -110,7 +110,7 @@
                         </tr>
                     {% endfor %}
 
-                {% elif relation_name == 'instructors' %}
+                {% elif relation_name == 'Instructor' %}
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
@@ -128,7 +128,7 @@
                         </tr>
                     {% endfor %}
 
-                {% elif relation_name == 'courses' %}
+                {% elif relation_name == 'Course' %}
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
@@ -145,7 +145,7 @@
                         </tr>
                     {% endfor %}
 
-                {% elif relation_name == 'courseOfferings' %}
+                {% elif relation_name == 'Courseoffering' %}
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
@@ -162,7 +162,7 @@
                         </tr>
                     {% endfor %}
 
-                {% elif relation_name == 'students' %}
+                {% elif relation_name == 'Student' %}
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
@@ -180,7 +180,7 @@
                         </tr>
                     {% endfor %}
 
-                {% elif relation_name == 'semesters' %}
+                {% elif relation_name == 'Semester' %}
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>

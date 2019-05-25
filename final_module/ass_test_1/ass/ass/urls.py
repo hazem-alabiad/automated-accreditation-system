@@ -30,6 +30,7 @@ urlpatterns = [
     path('client_homepage/update_entity/', update_entities_view, name='clientUpdateEntityPage'),
 
     #common paths
+    path('', start_view, name='startPage')
 
 
 ]

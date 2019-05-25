@@ -44,6 +44,9 @@
     <div class="my-1 mx-4">
         <form method="post" action="."> {% csrf_token %}
             {{ form|crispy }}
+            {% if form2 %}
+                {{ form2|crispy }}
+            {% endif %}
             <input type="hidden" name="relation_name_to_submit" value={{relation_name}}>
             <!-- if update -->
             {% if object_id %}

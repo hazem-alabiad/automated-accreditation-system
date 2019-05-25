@@ -63,3 +63,67 @@ class semesterForm(forms.ModelForm):
     class Meta:
         model = Semester
         fields = ['type', 'year']
+
+class KeylearningoutcomeForm(forms.ModelForm):
+
+    class Meta:
+        model = Keylearningoutcome
+        fields = ['dept_code', 'body']
+
+class CourselearningobjectiveForm(forms.ModelForm):
+
+    class Meta:
+        model = Courselearningobjective
+        fields = ['id', 'course_code', 'body']
+
+class SectionForm(forms.ModelForm):
+
+    class Meta:
+        model = Section
+        fields = ['id', 'courseoffering', 'number']
+
+
+class QuizForm(forms.ModelForm):
+
+    q_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={"placeholder": "dd/mm/yyyy", format:"%m/%d/%Y"}
+        )
+    )
+
+    class Meta:
+        model = Quiz
+        fields = ['duration', 'q_date',]
+
+class AssignmentForm(forms.ModelForm):
+
+    start_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={"placeholder": "dd/mm/yyyy", format:"%m/%d/%Y"}
+        )
+    )
+    due_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={"placeholder": "dd/mm/yyyy", format:"%m/%d/%Y"}
+        )
+    )
+    class Meta:
+        model = Assignment
+        fields = ['start_date', 'due_date']
+
+class ExaminationForm(forms.ModelForm):
+
+    m_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={"placeholder": "dd/mm/yyyy", format:"%m/%d/%Y"}
+            )
+        )
+    class Meta:
+            model = Examination
+            fields = ['room', 'm_date', 'duration', 'type']
+
+class AssessmentForm(forms.ModelForm):
+
+    class Meta:
+        model = Assessment
+        fields = ['courseoffering', 'weight',]

@@ -15,20 +15,6 @@ from main.forms import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 
-# dictionary for getting the correctly spelled words
-relations_dict = {'departments': 'Department',
-                                     'curriculums': 'Curriculum',
-                                     'instructors': 'Instructor',
-                                     'courses': 'Course',
-                                     'courseOfferings': 'Courseoffering',
-                                     'students': 'Student',
-                                     'semesters': 'Semester',
-                                     'assessments': 'Assessment',
-                                     'questions': 'Question',
-                                     'question_courseLearningObjectives': 'QuestionCourselearningobjective',
-                                     'question_keyLearningOutcomes': 'QuestionKeylearningoutcome',
-                                     }
-
 # tells us what is the head of the table corresponding to the given relation
 table_head_dict = {'Department': ['Code', 'Name'],
                    'Curriculum': ['ID', 'Version', 'Department code'],
@@ -41,12 +27,12 @@ table_head_dict = {'Department': ['Code', 'Name'],
                    'Question': ['ID', 'Assessment ID', 'Course Code', 'Semester'],
                    'QuestionCourselearningobjective': ['Question ID', 'Course learning objective ID'],
                    'QuestionKeylearningoutcome': ['Question ID', 'Key learning outcome ID'],
-                   'Keylearningoutcome': ['body', 'dept_code'],
-                   'Courselearningobjective': ['body'],
+                   'Keylearningoutcome': ['ID', 'body',],
+                   'Courselearningobjective': ['ID', 'body'],
                    'Section': ['ID','courseoffering', 'number'],
-                   'Examination': ['ID', 'Type'],
-                   'Quiz': ['ID', 'Date'],
-                   'Assignment': ['ID', 'Due_date']
+                   'Examination': ['ID', 'Courseoffering', 'Weight', 'Room', 'Date', 'Duration', 'Type'],
+                   'Quiz': ['ID', 'Courseoffering', 'Weight','Duration', 'Date'],
+                   'Assignment': ['ID', 'Courseoffering', 'Weight', 'Start date', 'Due date'],
                    }
 
 # key : an entity, value: all other entities that have a relationship with it
@@ -58,85 +44,120 @@ related_entities = {
     'Courseoffering': ['Section', 'Examination', 'Quiz', 'Assignment'],
     'Student': ['Section', 'Examination', 'Quiz', 'Assignment'],
     'Semester': ['Courseoffering'],
+    'Section': ['Student', 'Instructor'],
+    'Examination': ['Question'],
+    'Quiz': ['Question'],
+    'Assignment': ['Question'],
 }
 
 # returns the object that belongs to the relation specified, with the id given
 def get_relation_object(relation_name, object_id):
-    if relation_name == 'departments' or relation_name == 'courses':
-        return eval(relations_dict[relation_name]).objects.get(code=object_id)
+    if relation_name == 'Department' or relation_name == 'Course':
+        return eval(relation_name).objects.get(code=object_id)
     else:
-        return eval(relations_dict[relation_name]).objects.get(id=object_id)
+        return eval(relation_name).objects.get(id=object_id)
 
-
-def get_object_details(relation_name, object):
-    if relation_name == 'departments':
+# the object_2 is for the (Examination, Quiz, Assignment) cases in which we pass the assessment object as well (object_2)
+def get_object_details(relation_name, object, object_2):
+    if relation_name == 'Department':
         return [object.code, object.name]
-    elif relation_name == 'curriculums':
+    elif relation_name == 'Curriculum':
         return [object.id, object.version, object.dept_code]
-    elif relation_name == 'instructors':
+    elif relation_name == 'Instructor':
         return [object.id, object.name, object.surname, object.dept_code]
-    elif relation_name == 'courses':
+    elif relation_name == 'Course':
         return [object.code, object.name, object.credit]
-    elif relation_name == 'courseOfferings':
+    elif relation_name == 'Courseoffering':
         return [object.id, object.course_code, object.semester]
-    elif relation_name == 'students':
+    elif relation_name == 'Student':
         return [object.id, object.name, object.surname, object.dep_code]
-    elif relation_name == 'semesters':
+    elif relation_name == 'Semester':
         return [object.id, object.type, object.year]
+    elif relation_name == 'Section':
+        return [object.id, object.courseoffering, object.number]
+    elif relation_name == 'Examination':
+        return [object.id, object_2.courseoffering, object_2.weight, object.room, object.m_date, object.duration, object.type]
+    elif relation_name == 'Quiz':
+        return [object.id, object_2.courseoffering, object_2.weight, object.duration, object.q_date]
+    elif relation_name == 'Assignment':
+        return [object.id, object_2.courseoffering, object_2.weight, object.start_date, object.due_date]
+
+
 
 def get_corresponding_realted_relation_objects(relation_name ,related_relation_name, object_id):
-
     with connection.cursor() as cursor:
         #department -- keylearningoutcome
-        if relation_name == 'departments':
-            related_relation = related_relation_name.lower()
+
+        related_relation = related_relation_name.lower()
+        sql_query = ""
+
+        if relation_name == 'Department':
             sql_query = "SELECT * FROM "+related_relation+" WHERE dept_code=%s;"
             if related_relation == 'student':
                 sql_query = "SELECT * FROM "+related_relation+" WHERE dep_code=%s;"
 
-        elif relation_name == 'curriculums':
+        elif relation_name == 'Curriculum':
             sql_query = 'SELECT c.* FROM course c,curriculum_course cc where cc.curriculum_id=%s and cc.course_code=c.code;'
 
-        elif relation_name == 'instructors':
+        elif relation_name == 'Instructor':
             sql_query = "SELECT s.* FROM section s, section_instructor s_i " \
                         "WHERE s_i.instructor_id=%s and s.id=s_i.section_id;"
 
-        elif relation_name == 'courses':
+        elif relation_name == 'Course':
             sql_query = "SELECT * FROM courselearningobjective  WHERE course_code=%s;"
 
-        elif relation_name == 'courseOfferings':
-            related_relation = related_relation_name.lower()
+        elif relation_name == 'Courseoffering':
             if related_relation == 'section':
                 sql_query = "SELECT s.* FROM courseoffering co, section s WHERE co.id=%s and s.courseoffering_id=co.id;"
 
-            else:
-                sql_query = "SELECT ex.id FROM courseoffering co, assessment a, " \
-                            +related_relation+" ex WHERE co.id=a.courseoffering_id AND a.id=ex.id AND co.id=%s;"
+            elif related_relation == 'quiz':
+                sql_query = "SELECT a.id, co.course_code, a.weight,q.duration, q.q_date FROM courseoffering co, assessment a, " \
+                            "quiz q WHERE co.id=a.courseoffering_id AND a.id=q.id AND co.id=%s;"
 
+            elif related_relation == 'examination':
+                sql_query = "SELECT a.id, co.course_code, a.weight, e.room, e.m_date, e.duration, e.type FROM courseoffering co, assessment a, " \
+                            "examination e WHERE co.id=a.courseoffering_id AND a.id=e.id AND co.id=%s;"
 
-        elif relation_name == 'students':
-            related_relation = related_relation_name.lower()
+            elif related_relation == 'assignment':
+                sql_query = "SELECT a.id, co.course_code, a.weight, assig.start_date, assig.due_date FROM courseoffering co, assessment a, " \
+                            "assignment assig WHERE co.id=a.courseoffering_id AND a.id=assig.id AND co.id=%s;"
+
+        elif relation_name == 'Student':
             if related_relation == 'section':
                 sql_query = "SELECT se.* FROM student st, section_student s_s, section se " \
                             "WHERE st.id=s_s.student_id AND s_s.section_id=se.id and st.id=%s; "
 
-            elif related_relation == 'examination':
-                sql_query = "SELECT ex.id, ex.type FROM assessment_student as_st, student s, assessment a, examination ex " \
-                            "WHERE s.id=as_st.student_id AND as_st.assessment_id=a.id AND a.id=ex.id AND a.id=%s;"
             elif related_relation == 'quiz':
-                sql_query = "SELECT q.id, q.q_date FROM assessment_student as_st, student s, assessment a, quiz q " \
-                          "WHERE s.id=as_st.student_id AND as_st.assessment_id=a.id AND a.id=q.id and a.id=%s;"
-            else:
-                sql_query = "SELECT assig.id, assig.due_date FROM assessment_student as_st, student s, assessment a, assignment assig " \
-                             "WHERE s.id=as_st.student_id AND as_st.assessment_id=a.id AND a.id=assig.id and a.id=%s;"
+                sql_query = 'SELECT a.id, co.course_code, a.weight,q.duration, q.q_date FROM assessment_student as_st, student s, assessment a,' \
+                                'quiz q, courseOffering co ' \
+                            'WHERE s.id=as_st.student_id AND as_st.assessment_id=a.id AND a.id=q.id AND a.courseoffering_id=co.id and s.id=%s;'
 
+            elif related_relation == 'examination':
+                sql_query = 'SELECT a.id, co.course_code, a.weight, e.room, e.m_date, e.duration, e.type ' \
+                            'FROM assessment_student as_st, student s, assessment a,' \
+                            'examination e, courseOffering co ' \
+                            'WHERE s.id=as_st.student_id AND as_st.assessment_id=a.id AND a.id=e.id AND a.courseoffering_id=co.id and s.id=%s;'
 
+            elif related_relation == 'assignment':
+                sql_query = 'SELECT a.id, co.course_code, a.weight, assig.start_date, assig.due_date FROM assessment_student as_st, student s, assessment a,' \
+                            'assignment assig, courseOffering co ' \
+                            'WHERE s.id=as_st.student_id AND as_st.assessment_id=a.id AND a.id=assig.id AND a.courseoffering_id=co.id and s.id=%s;'
 
-
-        elif relation_name == 'semesters':
-            related_relation = related_relation_name.lower()
+        elif relation_name == 'Semester':
             sql_query = "SELECT e.* FROM courseoffering co, "+related_relation+" e WHERE co.id=%s;"
 
+        elif relation_name == 'Section':
+            if related_relation == 'student':
+                sql_query ='SELECT st.id, st.name, st.surname, st.dep_code FROM student st, section_student s_s, section se ' \
+                           'WHERE st.id=s_s.student_id AND s_s.section_id=se.id and se.id=%s;'
+
+            elif related_relation == 'instructor':
+                sql_query = 'SELECT i.id, i.name, i.surname, i.dept_code FROM section s, section_instructor s_i, instructor i ' \
+                            'WHERE s.id=s_i.section_id AND s_i.instructor_id=i.id and s.id=%s;'
+
+        elif relation_name in ['Examination', 'Quiz', 'Assignment']:
+            sql_query = 'SELECT * FROM '+relation_name.lower()+' e, assessment asses, question q ' \
+                        'WHERE asses.id=e.id AND asses.id=q.assessment_id and e.id=%s ;'
 
         cursor.execute(sql_query, [object_id])
         #rows is a list of QuerySet
@@ -148,7 +169,7 @@ def get_corresponding_realted_relation_objects(relation_name ,related_relation_n
 def get_related_relations(relation_name, object_id):
     related_relations = []
 
-    related_ent = related_entities[relations_dict[relation_name]]
+    related_ent = related_entities[relation_name]
 
     for r in related_ent:
         related_relations.append((r, table_head_dict[r],
@@ -162,7 +183,7 @@ def get_related_relations(relation_name, object_id):
 # the form corresponding to the relation name is initialized and added to the context
 def add_proper_form_to_context(relation_name, object_id, context):
     if relation_name != " ":
-        if relation_name == 'departments':
+        if relation_name == 'Department':
             if object_id:
                 instance = get_relation_object(relation_name, object_id)
                 form = departmentForm(instance=instance)
@@ -171,7 +192,7 @@ def add_proper_form_to_context(relation_name, object_id, context):
                 form = departmentForm(None)
                 context['form'] = form
 
-        elif relation_name == 'curriculums':
+        elif relation_name == 'Curriculum':
             if object_id:
                 instance = get_relation_object(relation_name, object_id)
                 form = curriculumForm(instance=instance)
@@ -180,7 +201,7 @@ def add_proper_form_to_context(relation_name, object_id, context):
                 form = curriculumForm(None)
                 context['form'] = form
 
-        elif relation_name == 'instructors':
+        elif relation_name == 'Instructor':
             if object_id:
                 instance = get_relation_object(relation_name, object_id)
                 form = instructorForm(instance=instance)
@@ -189,7 +210,7 @@ def add_proper_form_to_context(relation_name, object_id, context):
                 form = instructorForm(None)
                 context['form'] = form
 
-        elif relation_name == 'courses':
+        elif relation_name == 'Course':
             if object_id:
                 instance = get_relation_object(relation_name, object_id)
                 form = courseForm(instance=instance)
@@ -198,7 +219,7 @@ def add_proper_form_to_context(relation_name, object_id, context):
                 form = courseForm(None)
                 context['form'] = form
 
-        elif relation_name == 'courseOfferings':
+        elif relation_name == 'Courseoffering':
             if object_id:
                 instance = get_relation_object(relation_name, object_id)
                 form = courseofferingForm(instance=instance)
@@ -207,7 +228,7 @@ def add_proper_form_to_context(relation_name, object_id, context):
                 form = courseofferingForm(None)
                 context['form'] = form
 
-        elif relation_name == 'students':
+        elif relation_name == 'Student':
             if object_id:
                 instance = get_relation_object(relation_name, object_id)
                 form = studentForm(instance=instance)
@@ -216,7 +237,52 @@ def add_proper_form_to_context(relation_name, object_id, context):
                 form = studentForm(None)
                 context['form'] = form
 
-        elif relation_name == 'semesters':
+        elif relation_name == 'Keylearningoutcome':
+            if object_id:
+                instance = get_relation_object(relation_name, object_id)
+                form = KeylearningoutcomeForm(instance=instance)
+                context['form'] = form
+            else:
+                form = KeylearningoutcomeForm(None)
+                context['form'] = form
+
+        elif relation_name == 'Courselearningobjective':
+            if object_id:
+                instance = get_relation_object(relation_name, object_id)
+                form = CourselearningobjectiveForm(instance=instance)
+                context['form'] = form
+            else:
+                form = CourselearningobjectiveForm(None)
+                context['form'] = form
+
+        elif relation_name == 'Section':
+            if object_id:
+                instance = get_relation_object(relation_name, object_id)
+                form = SectionForm(instance=instance)
+                context['form'] = form
+            else:
+                form = SectionForm(None)
+                context['form'] = form
+
+        elif relation_name in ['Quiz', 'Assignment', 'Examination']:
+            if object_id:
+
+                instance = get_relation_object('Assessment', object_id)
+                instance2 = get_relation_object(relation_name, object_id)
+
+                form = AssessmentForm(instance)
+                form2 = eval(relation_name+"Form")(instance2)
+
+                context['form'] = form
+                context['form2'] = form2
+            else:
+                form = AssessmentForm(None)
+                form2 = eval(relation_name+"Form")(None)
+
+                context['form'] = form
+                context['form2'] = form2
+
+        elif relation_name == 'Semester':
             if object_id:
                 instance = get_relation_object(relation_name, object_id)
                 form = semesterForm(instance=instance)
@@ -231,6 +297,17 @@ def is_admin(user):
 
 def is_client(user):
     return user.groups.filter(name='instructor').exists()
+
+def start_view(request):
+    user = request.user
+    if not request.user.is_anonymous:
+        if is_admin(user):
+            return redirect(reverse('adminHomePage'))
+        elif is_client(user):
+            return redirect(reverse('clientHomePage'))
+    else:
+        return redirect(reverse('signin'))
+
 
 # we are using the user's email as the user's name
 def sign_in_view(request):
@@ -264,12 +341,11 @@ def admin_home_page_view(request):
     context = {}
 
     # check if any relation is requested
-    relation_name = request.GET.get('relation', " ")
+    relation_name = request.GET.get('relation_name', " ")
     if relation_name != " ":
-        model_name = relations_dict[relation_name]
         # the eval(model_name) turns a given string into a python class
-        all_objects = eval(model_name).objects.all()
-        table_head = table_head_dict[model_name]
+        all_objects = eval(relation_name).objects.all()
+        table_head = table_head_dict[relation_name]
 
         context['relation_name'] = relation_name
         context['table_head'] = table_head
@@ -315,10 +391,6 @@ def create_admin_view(request):
 def add_entities_view(request):
     context = {}
     relation_name = request.GET.get('relation_name', " ")
-
-    if relation_name not in relations_dict:
-        relation_name = relation_name.lower()+"s"
-
     user_type = request.GET.get('user_type', " ")
 
     # if GET request
@@ -326,10 +398,7 @@ def add_entities_view(request):
         context['user_type'] = user_type
         context['relation_name'] = relation_name
 
-
-
         add_proper_form_to_context(relation_name, None, context)
-
         return render(request, 'main/addEntity.html', context)
 
     # if POST request, take the POST request and save it to the DB
@@ -337,17 +406,17 @@ def add_entities_view(request):
         relation_name_to_submit = request.POST.get('relation_name_to_submit', " ")
         submitting_user_type = request.POST.get('submitting_user_type', " ")
 
-        if relation_name_to_submit == 'departments':
+        if relation_name_to_submit == 'Department':
             form = departmentForm(request.POST)
             if form.is_valid():
                 form.save()
 
-        elif relation_name_to_submit == 'curriculums':
+        elif relation_name_to_submit == 'Curriculum':
             form = curriculumForm(request.POST)
             if form.is_valid():
                 form.save()
 
-        elif relation_name_to_submit == 'instructors':
+        elif relation_name_to_submit == 'Instructor':
             form = instructorForm(request.POST)
             if form.is_valid():
                 instructor = form.save()
@@ -363,23 +432,76 @@ def add_entities_view(request):
                 user.groups.add(Group.objects.get(id=2))
                 user.save()
 
-        elif relation_name_to_submit == 'courses':
+        elif relation_name_to_submit == 'Course':
             form = courseForm(request.POST)
             if form.is_valid():
                 form.save()
 
-        elif relation_name_to_submit == 'courseOfferings':
+        elif relation_name_to_submit == 'Courseoffering':
             form = courseofferingForm(request.POST)
             if form.is_valid():
                 form.save()
 
-        elif relation_name_to_submit == 'students':
+        elif relation_name_to_submit == 'Student':
             form = studentForm(request.POST)
             if form.is_valid():
                 form.save()
 
-        elif relation_name_to_submit == 'semesters':
+        elif relation_name_to_submit == 'Courselearningobjective':
+            form = CourselearningobjectiveForm(request.POST)
+            if form.is_valid():
+                form.save()
+
+        elif relation_name_to_submit == 'Section':
+            form = SectionForm(request.POST)
+            if form.is_valid():
+                form.save()
+
+        elif relation_name_to_submit == 'Semester':
             form = semesterForm(request.POST)
+            if form.is_valid():
+                form.save()
+
+        elif relation_name_to_submit == 'Keylearningoutcome':
+            form = KeylearningoutcomeForm(request.POST)
+            if form.is_valid():
+                form.save()
+
+        elif relation_name_to_submit in ['Quiz', 'Assignment', 'Examination']:
+            form = eval('AssessmentForm')(request.POST)
+            form2 = eval(relation_name_to_submit+'Form')(request.POST)
+
+            if form.is_valid():
+                assessment = form.save()
+                if form2.is_valid():
+                    # save the object manually
+                    if relation_name_to_submit == 'Quiz':
+                        q = Quiz(id=assessment.id,
+                                 duration=form2.cleaned_data['duration'],
+                                 q_date=form2.cleaned_data['q_date']
+                                )
+                        q.save()
+
+                    elif relation_name_to_submit == 'Assignment':
+                        a = Assignment(id=assessment.id,
+                                       start_date=form2.cleaned_data['start_date'],
+                                       due_date=form2.cleaned_data['due_date']
+                                       )
+                        a.save()
+
+                    elif relation_name_to_submit == 'Examination':
+                        e = Examination(id=assessment.id,
+                                        room=form2.cleaned_data['room'],
+                                        m_date=form2.cleaned_data['m_date'],
+                                        duration=form2.cleaned_data['duration'],
+                                        type=form2.cleaned_data['type'],
+                                       )
+                        e.save()
+
+
+
+        elif relation_name_to_submit == 'Keylearningoutcome':
+            form = KeylearningoutcomeForm(request.POST)
             if form.is_valid():
                 form.save()
 
@@ -428,21 +550,21 @@ def update_entities_view(request):
 
         model_object = get_relation_object(relation_name_to_submit, object_id)
 
-        if relation_name_to_submit == "semesters":
+        if relation_name_to_submit == "Semester":
             update_form = semesterForm(request.POST)
             if update_form.is_valid():
                 model_object.type = update_form.cleaned_data['type']
                 model_object.year = update_form.cleaned_data['year']
                 model_object.save()
 
-        elif relation_name_to_submit == "curriculums":
+        elif relation_name_to_submit == "Curriculum":
             update_form = curriculumForm(request.POST)
             if update_form.is_valid():
                 model_object.version = update_form.cleaned_data['version']
                 model_object.dept_code = update_form.cleaned_data['dept_code']
                 model_object.save()
 
-        elif relation_name_to_submit == "instructors":
+        elif relation_name_to_submit == "Instructor":
             update_form = instructorForm(request.POST)
             if update_form.is_valid():
                 model_object.name = update_form.cleaned_data['name']
@@ -450,7 +572,7 @@ def update_entities_view(request):
                 model_object.dept_code = update_form.cleaned_data['dept_code']
                 model_object.save()
 
-        elif relation_name_to_submit == "courseOfferings":
+        elif relation_name_to_submit == "CourseOffering":
             update_form = courseofferingForm(request.POST)
             if update_form.is_valid():
                 model_object.semester = update_form.cleaned_data['semester']
@@ -458,20 +580,20 @@ def update_entities_view(request):
                 model_object.letter_grades = update_form.cleaned_data['letter_grades']
                 model_object.save()
 
-        elif relation_name_to_submit == "courses":
+        elif relation_name_to_submit == "Course":
             update_form = courseUpdateForm(request.POST)
             if update_form.is_valid():
                 model_object.name = update_form.cleaned_data['name']
                 model_object.credit = update_form.cleaned_data['credit']
                 model_object.save()
 
-        elif relation_name_to_submit == "departments":
+        elif relation_name_to_submit == "Department":
             update_form = departmentUpdateForm(request.POST)
             if update_form.is_valid():
                 model_object.name = update_form.cleaned_data['name']
                 model_object.save()
 
-        elif relation_name_to_submit == "students":
+        elif relation_name_to_submit == "Student":
             update_form = studentUpdateForm(request.POST)
             if update_form.is_valid():
                 model_object.name = update_form.cleaned_data['name']
@@ -479,8 +601,12 @@ def update_entities_view(request):
                 model_object.dep_code = update_form.cleaned_data['dep_code']
                 model_object.save()
 
-
-
+        elif relation_name_to_submit == "Keylearningoutcome":
+            update_form = KeylearningoutcomeForm(request.POST)
+            if update_form.is_valid():
+                model_object.dept_code = update_form.cleaned_data['dept_code']
+                model_object.body = update_form.cleaned_data['body']
+                model_object.save()
 
 
 
@@ -499,34 +625,28 @@ def update_entities_view(request):
             new_name =
             ret = cursor.callproc('usp_update_department', )'''
 
-
 def entity_detail_view(request):
     context = {}
     if request.method == 'GET':
         relation_name = request.GET.get('relation_name', " ")
         object_id = request.GET.get('object_id', 0)
         user_type = request.GET.get('user', " ")
-        relation_columns = table_head_dict[relations_dict[relation_name]]
+        relation_columns = table_head_dict[relation_name]
 
         context['relation_name'] = relation_name
         context['object_id'] = object_id
         context['user_type'] = user_type
         context['relation_columns'] = relation_columns
-        context['object_info'] = get_object_details(relation_name, get_relation_object(relation_name, object_id))
 
+        if relation_name in ['Quiz', 'Assignment', 'Examination']:
+            assessment = Assessment.objects.get(id=object_id)
+            context['object_info'] = get_object_details(relation_name, get_relation_object(relation_name, object_id), assessment)
+        else:
+            context['object_info'] = get_object_details(relation_name, get_relation_object(relation_name, object_id), None)
 
-        context['related_entities_names'] = related_entities[relations_dict[relation_name]]
+        context['related_entities_names'] = related_entities[relation_name]
 
         # list of tuples: [ (entity_name, entity_columns, corresponding_entity_rows), .... ]
         context['related_entities'] = get_related_relations(relation_name, object_id)
-
-
-        '''chosen_related_entity = request.GET.get('related_entity', " ")
-        if chosen_related_entity != " ":
-            print("chosen_related_entity", chosen_related_entity)
-            context['chosen_related_entity'] = chosen_related_entity
-            context['chosen_related_entity_columns'] = table_head_dict[chosen_related_entity]'''
-
-
 
     return render(request, 'main/objectDetailsView.html', context)
