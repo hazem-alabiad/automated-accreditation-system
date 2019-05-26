@@ -81,14 +81,7 @@
                 {% for related_entitiy in related_entities %}
                     {% if related_entitiy.0 == related_entity_name %}
 
-                        {% if related_entity_name == 'QuestionCourselearningobjective' or related_entity_name == 'QuestionKeylearningoutcome'%}
-                            <a class="btn btn-primary mx-2 my-1 mb-3"> Submit messurments</a>
-
-
-                        {% else %}
-                            <a class="btn btn-primary mx-2 my-1 mb-3" href={% url 'adminAddEntityPage'%}
-                                    ?relation_name={{ related_entity_name }}&user_type=admin>Add {{ related_entity_name }}</a>
-                        {% endif %}
+                    <a class="btn btn-primary mx-2 my-1 mb-3" href={% url 'adminAddEntityPage'%}?relation_name={{ related_entity_name }}&user_type=admin>Add {{ related_entity_name }}</a>
 
                     <table class="table table-striped">
                         <thead style="color: white; background:#a14d80;">
@@ -274,38 +267,9 @@
                         {% for r in related_entitiy.2 %}
                             <tr>
                                 <td></td>
-                                <td> <a href="{% url 'adminEntityDetailsPage'%}?relation_name={{related_entity_name}}&user=admin&object_id={{r.0}}">
-                                    {{ r.0 }}</a></td>
+                                <td>{{ r.0 }}</td>
                                 <td>{{ r.1 }}</td>
-
-                                <td><a href="{% url 'adminUpdateEntityPage' %}?relation_name={{related_entity_name}}&user=admin&object_id={{r.0}}">
-                                    <i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-
-                                    <a href="{% url 'adminDeleteEntityPage' %}?relation_name={{related_entity_name}}&user=admin&object_id={{r.0}}">
-                                        <i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
-                            </tr>
-                        {% endfor %}
-
-                    {%elif related_entity_name == 'QuestionCourselearningobjective' or related_entity_name == 'QuestionKeylearningoutcome'%}
-                        {% for r in related_entitiy.2 %}
-                            <tr>
-                                <td></td>
-                                <td>{{ r.1 }}</td>
-
-                                <td>
-                                    <div style="width: 60%" class="range">
-                                        <input name={{r.0}} type="range" class="custom-range slider" min="1" max="5" value="1" data-slider-step="1">
-                                        <div class="ticks">
-                                            <!-- You could generate the ticks based on your min, max & step values. -->
-                                            <span class="tick">1</span>
-                                            <span class="tick">2</span>
-                                            <span class="tick">3</span>
-                                            <span class="tick">4</span>
-                                            <span class="tick">5</span>
-                                        </div>
-                                    </div>
-                                </td>
-
+                                <td>{{ r.2 }}</td>
                                 <td><a href="{% url 'adminUpdateEntityPage' %}?relation_name={{related_entity_name}}&user=admin&object_id={{r.0}}">
                                     <i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
 
