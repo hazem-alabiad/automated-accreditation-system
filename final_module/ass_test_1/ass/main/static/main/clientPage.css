@@ -45,7 +45,12 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
-  
+
+.card {
+    margin: 5rem 10rem 5rem 10rem; /* Added */
+    float: none; /* Added */
+    display: block;
+}
 
 
 

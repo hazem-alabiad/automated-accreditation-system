@@ -26,6 +26,7 @@ urlpatterns = [
     #client paths
     path('client_homepage/', client_home_page_view, name='clientHomePage'),
     path('client_homepage/details/', entity_detail_view, name='clientEntityDetailsPage'),
+    path('client_homepage/add_entity/', add_entities_view, name='clientAddEntityPage'),
     path('client_homepage/delete_entity/', delete_entities_view, name='clientDeleteEntityPage'),
     path('client_homepage/update_entity/', update_entities_view, name='clientUpdateEntityPage'),
 

@@ -10,6 +10,9 @@ class Assessment(models.Model):
         managed = True
         db_table = 'assessment'
 
+    def __str__(self):
+        return str(self.id)+" - "+str(self.courseoffering.course_code) + " - " + str(self.courseoffering.semester)
+
 
 class AssessmentStudent(models.Model):
     student = models.ForeignKey('Student', models.CASCADE, primary_key=True)

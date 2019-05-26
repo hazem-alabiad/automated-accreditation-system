@@ -55,6 +55,11 @@ related_entities = {
 
 }
 
+urls = {
+    'client': ('clientHomePage', 'clientEntityDetailsPage', 'clientAddEntityPage', 'clientDeleteEntityPage', 'clientUpdateEntityPage'),
+    'admin': ('adminHomePage', 'adminEntityDetailsPage', 'adminAddEntityPage', 'adminDeleteEntityPage', 'adminUpdateEntityPage'),
+}
+
 # returns the object that belongs to the relation specified, with the id given
 def get_relation_object(relation_name, object_id):
     if relation_name == 'Department' or relation_name == 'Course':
@@ -88,8 +93,6 @@ def get_object_details(relation_name, object, object_2):
         return [object.id, object_2.courseoffering, object_2.weight, object.start_date, object.due_date]
     elif relation_name == 'Question':
         return [object.id, object.weight, object.assessment_id]
-
-
 
 def get_corresponding_related_relation_objects(relation_name ,related_relation_name, object_id):
     with connection.cursor() as cursor:
@@ -162,6 +165,22 @@ def get_corresponding_related_relation_objects(relation_name ,related_relation_n
             elif related_relation == 'instructor':
                 sql_query = 'SELECT i.id, i.name, i.surname, i.dept_code FROM section s, section_instructor s_i, instructor i ' \
                             'WHERE s.id=s_i.section_id AND s_i.instructor_id=i.id and s.id=%s;'
+
+            elif related_relation == 'quiz':
+                sql_query = "SELECT a.id, co.course_code, a.weight,q.duration, q.q_date " \
+                            "FROM courseoffering co, assessment a,quiz q , section s " \
+                            "WHERE co.id=a.courseoffering_id AND a.id=q.id AND co.id=s.courseoffering_id AND s.id=%s;"
+
+            elif related_relation == 'examination':
+                sql_query = 'SELECT a.id, co.course_code, a.weight, e.room, e.m_date, e.duration, e.type ' \
+                            'FROM courseoffering co, assessment a, section s,examination e  '  \
+                            'WHERE co.id=a.courseoffering_id AND a.id=e.id AND co.id=s.courseoffering_id AND s.id=%s;'
+
+            elif related_relation == 'assignment':
+                sql_query = 'SELECT a.id, co.course_code, a.weight, assig.start_date, assig.due_date ' \
+                            'FROM courseoffering co, assessment a, assignment assig, section s ' \
+                            'WHERE co.id=a.courseoffering_id AND a.id=assig.id AND co.id=s.courseoffering_id AND s.id=%s;'
+
         ############################################################################################
         elif relation_name in ['Examination', 'Quiz', 'Assignment']:
             sql_query = 'SELECT q.id, asses.id  FROM '+relation_name.lower()+' e, assessment asses, question q ' \
@@ -182,12 +201,13 @@ def get_corresponding_related_relation_objects(relation_name ,related_relation_n
         rows = cursor.fetchall()
         return rows
 
-
 # returns (realtion_name, [columns])
 def get_related_relations(relation_name, object_id):
     related_relations = []
 
     related_ent = related_entities[relation_name]
+    if relation_name == 'client-Section':
+        relation_name = 'Section'
 
     for r in related_ent:
         related_relations.append((r, table_head_dict[r],
@@ -394,11 +414,8 @@ def client_home_page_view(request):
 
     instructor_object = Instructor.objects.get(id=int(request.user.username))
 
-    print(instructor_object)
-
     section_objects = SectionInstructor.objects.filter(instructor=instructor_object)
 
-    print(section_objects)
 
     context['rows'] = section_objects
 
@@ -500,7 +517,6 @@ def add_entities_view(request):
                     sec = form.save()
                     SectionInstructor.objects.create(instructor=ins, section=sec)
 
-
         elif relation_name_to_submit == 'Semester':
             form = semesterForm(request.POST)
             if form.is_valid():
@@ -514,6 +530,7 @@ def add_entities_view(request):
         elif relation_name_to_submit in ['Quiz', 'Assignment', 'Examination']:
             form = eval('AssessmentForm')(request.POST)
             form2 = eval(relation_name_to_submit+'Form')(request.POST)
+            print(relation_name_to_submit)
 
             if form.is_valid():
                 assessment = form.save()
@@ -527,11 +544,13 @@ def add_entities_view(request):
                         q.save()
 
                     elif relation_name_to_submit == 'Assignment':
+                        print('IN ASSIGNMENT', )
                         a = Assignment(id=assessment.id,
                                        start_date=form2.cleaned_data['start_date'],
                                        due_date=form2.cleaned_data['due_date']
                                        )
                         a.save()
+                        print('IN ASSIGNMENT', a)
 
                     elif relation_name_to_submit == 'Examination':
                         e = Examination(id=assessment.id,
@@ -545,7 +564,14 @@ def add_entities_view(request):
         elif relation_name_to_submit == 'Question':
             form = QuestionForm(request.POST)
             if form.is_valid():
-                form.save()
+                question = form.save()
+                with connection.cursor() as cursor:
+                    cursor.execute(sql_query, question.assessment.id)
+                    clo_ids = cursor.fetchall()
+
+                    cursor.execute(sql_query, question.assessment.id)
+                    klo_ids = cursor.fetchall()
+
 
 
 
@@ -553,6 +579,7 @@ def add_entities_view(request):
             form = KeylearningoutcomeForm(request.POST)
             if form.is_valid():
                 form.save()
+
 
         if submitting_user_type == 'admin':
             return redirect(reverse('adminHomePage'))
@@ -566,9 +593,6 @@ def delete_entities_view(request):
 
     model_object = get_relation_object(relation_name, object_id)
     model_object.delete()
-# if the model is the instructor, delete the corresponding user object
-    #if relation_name == 'instructors':
-        #auth_user = User.objects.filter(model_object.id)
 
 
     if user == 'admin':
@@ -663,15 +687,6 @@ def update_entities_view(request):
         elif submitting_user_type == 'client':
             return redirect(reverse('clientHomePage'))
 
-
-
-
-
-    '''if relation_name_to_submit == 'departments':
-            dep_code = model_object.code
-            new_name =
-            ret = cursor.callproc('usp_update_department', )'''
-
 def entity_detail_view(request):
     context = {}
     if request.method == 'GET':
@@ -680,10 +695,17 @@ def entity_detail_view(request):
         user_type = request.GET.get('user', " ")
         relation_columns = table_head_dict[relation_name]
 
+        # 0: homepage, 1: detail, 2: add, 3: delete, 4: update
+        context['user_urls'] = urls[user_type]
+
         context['relation_name'] = relation_name
         context['object_id'] = object_id
         context['user_type'] = user_type
         context['relation_columns'] = relation_columns
+
+        if relation_name == 'Question':
+            question_obj = Question.objects.get(id=object_id)
+            context['question_body'] = question_obj.body
 
         if relation_name in ['Quiz', 'Assignment', 'Examination']:
             assessment = Assessment.objects.get(id=object_id)
@@ -691,12 +713,43 @@ def entity_detail_view(request):
         else:
             context['object_info'] = get_object_details(relation_name, get_relation_object(relation_name, object_id), None)
 
+
         # for the client view of the section we show him the Student, Quiz, Assignment, Examination
-        #if user_type == 'client' and relation_name == 'Section':
-        context['related_entities_names'] = related_entities[relation_name]
+        if user_type == 'client' and relation_name == 'Section':
+            context['related_entities_names'] = related_entities['client-Section']
+            # list of tuples: [ (entity_name, entity_columns, corresponding_entity_rows), .... ]
+            context['related_entities'] = get_related_relations('client-Section', object_id)
+
+        # for the rest of the cases
+        else:
+            context['related_entities_names'] = related_entities[relation_name]
+            # list of tuples: [ (entity_name, entity_columns, corresponding_entity_rows), .... ]
+            context['related_entities'] = get_related_relations(relation_name, object_id)
+
+        return render(request, 'main/objectDetailsView.html', context)
+
+    elif request.method == 'POST' and request.POST.get('question_objective_outcome'):
+        question_id = int(request.POST.get('question_id'))
+        question_obj = Question.objects.get(id=question_id)
+
+        related_entity_name = request.POST.get('related_entity_name')
+        print(question_id)
+        print(question_obj)
+        print(related_entity_name)
+
+        objects = QuestionCourselearningobjective.objects.filter(question_id=question_id)
+
+        print(objects)
 
 
-        # list of tuples: [ (entity_name, entity_columns, corresponding_entity_rows), .... ]
-        context['related_entities'] = get_related_relations(relation_name, object_id)
 
-    return render(request, 'main/objectDetailsView.html', context)
+        #assessment_questions = Question.objects.filter(assessment=assessment_id)
+
+        if request.POST.get('user_type') == 'admin':
+            return redirect(reverse('adminHomePage'))
+
+        elif request.POST.get('user_type') == 'client':
+            return redirect(reverse('cleintHomePage'))
+
+
+
