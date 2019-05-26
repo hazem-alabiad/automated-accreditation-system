@@ -58,7 +58,15 @@
             </table>
         </div>
         <hr class="my-5" style="width: 80%">
-        <div>
+        <div class="alert alert-info col-5" role="alert">
+            Do not forget to <strong>click on Submit</strong> button at the end of the form 
+        </div>
+            
+        <div class="alert alert-danger col-5" role="alert">
+            <strong>NOTE:</strong> Default values are set to <strong>one</strong> if they are changed
+        </div>
+
+        <form>
             <table class="table table-striped">
                 <thead style="color: white; background:#a14d80;">
                     <tr>
@@ -67,80 +75,72 @@
                         <th scope="col" style="width: 35%">Measurements</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>obj-1</td>
-                        <td>
-                            <div style="width: 60%" class="range">
-                                <input type="range" class="custom-range slider" min="1" max="5" value="1" data-slider-step="1">
-                                <div class="ticks">
-                                <!-- You could generate the ticks based on your min, max & step values. -->
-                                    <span class="tick">1</span>
-                                    <span class="tick">2</span>
-                                    <span class="tick">3</span>
-                                    <span class="tick">4</span>
-                                    <span class="tick">5</span>
+                <tbody>                    <tr>
+                            <td>1</td>
+                            <td>obj-1</td>
+                            <td>
+                                <div style="width: 60%" class="range">
+                                    <input type="range" class="custom-range slider" min="1" max="5" value="" data-slider-step="1" required>
+                                    <div class="ticks">
+                                    <!-- You could generate the ticks based on your min, max & step values. -->
+                                        <span class="tick">1</span>
+                                        <span class="tick">2</span>
+                                        <span class="tick">3</span>
+                                        <span class="tick">4</span>
+                                        <span class="tick">5</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>obj-2</td>
-                        <td>
-                            <div style="width: 60%" class="range">
-                                <input type="range" class="custom-range slider" min="1" max="5" value="1" data-slider-step="1">
-                                <div class="ticks">
-                                <!-- You could generate the ticks based on your min, max & step values. -->
-                                    <span class="tick">1</span>
-                                    <span class="tick">2</span>
-                                    <span class="tick">3</span>
-                                    <span class="tick">4</span>
-                                    <span class="tick">5</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>obj-2</td>
+                            <td>
+                                <div style="width: 60%" class="range">
+                                    <input type="range" class="custom-range slider" min="1" max="5" value="" data-slider-step="1" required>
+                                    <div class="ticks">
+                                    <!-- You could generate the ticks based on your min, max & step values. -->
+                                        <span class="tick">1</span>
+                                        <span class="tick">2</span>
+                                        <span class="tick">3</span>
+                                        <span class="tick">4</span>
+                                        <span class="tick">5</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>obj-3</td>
-                        <td>
-                            <div style="width: 60%" class="range">
-                                <input type="range" class="custom-range slider" min="1" max="5" value="1" data-slider-step="1">
-                                <div class="ticks">
-                                <!-- You could generate the ticks based on your min, max & step values. -->
-                                    <span class="tick">1</span>
-                                    <span class="tick">2</span>
-                                    <span class="tick">3</span>
-                                    <span class="tick">4</span>
-                                    <span class="tick">5</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>obj-3</td>
+                            <td>
+                                <div style="width: 60%" class="range">
+                                    <input type="range" class="custom-range slider" min="1" max="5" value="" data-slider-step="1" required>
+                                    <div class="ticks">
+                                    <!-- You could generate the ticks based on your min, max & step values. -->
+                                        <span class="tick">1</span>
+                                        <span class="tick">2</span>
+                                        <span class="tick">3</span>
+                                        <span class="tick">4</span>
+                                        <span class="tick">5</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                 </tbody>
             </table>
-        </div>
+            <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+        </form>
     </div>
 
 
 
-<!-- Optional JavaScript -->
+<!-- Optional JavaScript -->    
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-wp-preserve="%3Cscript%20src%3D%E2%80%9D%2F%2Fajax.googleapis.com%2Fajax%2Flibs%2Fjquery%2F1.11.0%2Fjquery.min.js%E2%80%9D%3E%3C%2Fscript%3E" data-mce-resize="false" data-mce-placeholder="1" class="mce-object" width="20" height="20" alt="<script&gt;" title="<script&gt;" />
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script type="application/javascript">
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("demo");
-    output.innerHTML = slider.value; // Display the default slider value
 
-    // Update the current slider value (each time you drag the slider handle)
-    slider.oninput = function() {
-    output.innerHTML = this.value;
-}
 </script>
 
 <!-- FOOTER -->
