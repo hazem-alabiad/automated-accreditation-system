@@ -24,9 +24,9 @@ table_head_dict = {'Department': ['Code', 'Name'],
                    'Student': ['ID', 'Name', 'Surname', 'Department code'],
                    'Semester': ['ID', 'Type', 'Year'],
                    'Assessment': ['ID', 'Course Code', 'Semester', 'Type'],
-                   'Question': ['ID', 'Assessment ID', 'Course Code', 'Semester'],
-                   'QuestionCourselearningobjective': ['Question ID', 'Course learning objective ID'],
-                   'QuestionKeylearningoutcome': ['Question ID', 'Key learning outcome ID'],
+                   'Question': ['ID', 'Weight','Assessment ID'],
+                   'QuestionCourselearningobjective': ['Objective', 'Measurement'],
+                   'QuestionKeylearningoutcome': ['Outcome', 'Measurement'],
                    'Keylearningoutcome': ['ID', 'body',],
                    'Courselearningobjective': ['ID', 'body'],
                    'Section': ['ID','courseoffering', 'number'],
@@ -48,6 +48,7 @@ related_entities = {
     'Examination': ['Question'],
     'Quiz': ['Question'],
     'Assignment': ['Question'],
+    'Question': ['QuestionCourselearningobjective', 'QuestionKeylearningoutcome']
 }
 
 # returns the object that belongs to the relation specified, with the id given
@@ -81,12 +82,13 @@ def get_object_details(relation_name, object, object_2):
         return [object.id, object_2.courseoffering, object_2.weight, object.duration, object.q_date]
     elif relation_name == 'Assignment':
         return [object.id, object_2.courseoffering, object_2.weight, object.start_date, object.due_date]
+    elif relation_name == 'Question':
+        return [object.id, object.weight, object.assessment_id]
 
 
 
 def get_corresponding_realted_relation_objects(relation_name ,related_relation_name, object_id):
     with connection.cursor() as cursor:
-        #department -- keylearningoutcome
 
         related_relation = related_relation_name.lower()
         sql_query = ""
@@ -156,8 +158,18 @@ def get_corresponding_realted_relation_objects(relation_name ,related_relation_n
                             'WHERE s.id=s_i.section_id AND s_i.instructor_id=i.id and s.id=%s;'
 
         elif relation_name in ['Examination', 'Quiz', 'Assignment']:
-            sql_query = 'SELECT * FROM '+relation_name.lower()+' e, assessment asses, question q ' \
+            sql_query = 'SELECT q.id, asses.id  FROM '+relation_name.lower()+' e, assessment asses, question q ' \
                         'WHERE asses.id=e.id AND asses.id=q.assessment_id and e.id=%s ;'
+
+        elif relation_name == 'Question':
+            if related_relation == 'questioncourselearningobjective':
+                sql_query ='SELECT clo.id,clo.body FROM question q, question_courselearningobjective q_c, courselearningobjective clo  ' \
+                           'WHERE q.id=q_c.question_id AND q_c.courselearningobjective_id=clo.id;'
+
+            elif related_relation == 'questionkeylearningoutcome':
+                sql_query = 'SELECT klo.id,klo.body FROM question q, question_keylearningoutcome q_k, keylearningoutcome klo' \
+                            ' WHERE q.id=q_k.question_id AND q_k.key_learning_outcome_id=klo.id;'
+
 
         cursor.execute(sql_query, [object_id])
         #rows is a list of QuerySet
@@ -289,6 +301,15 @@ def add_proper_form_to_context(relation_name, object_id, context):
                 context['form'] = form
             else:
                 form = semesterForm(None)
+                context['form'] = form
+
+        elif relation_name == 'Question':
+            if object_id:
+                instance = get_relation_object(relation_name, object_id)
+                form = QuestionForm(instance=instance)
+                context['form'] = form
+            else:
+                form = QuestionForm(None)
                 context['form'] = form
 
 #test functions
@@ -498,6 +519,11 @@ def add_entities_view(request):
                                        )
                         e.save()
 
+        elif relation_name_to_submit == 'Question':
+            form = QuestionForm(request.POST)
+            if form.is_valid():
+                form.save()
+
 
 
         elif relation_name_to_submit == 'Keylearningoutcome':
@@ -607,8 +633,6 @@ def update_entities_view(request):
                 model_object.dept_code = update_form.cleaned_data['dept_code']
                 model_object.body = update_form.cleaned_data['body']
                 model_object.save()
-
-
 
 
         if submitting_user_type == 'admin':
