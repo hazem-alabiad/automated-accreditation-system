@@ -39,9 +39,8 @@
         <table class="table">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Course code</th>
-                    <th scope="col">Semester</th>
+                    <th scope="col">Section ID</th>
+                    <th scope="col">Course Offering</th>
                     <th></th>
                 </tr>
             </thead>
@@ -51,13 +50,10 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
-                            <td><a href="{% url 'clientEntityDetailsPage'%}?relation_name='courseOfferings'&object_id={{row.id}}">
-                                {{ row.id }}</a></td>
-                            <td> {{ row.course_code }}</td><!-- a column of the row -->
-                            <td> {{ row.semester }}</td>
-                            <td><a href="{% url 'clientUpdateEntityPage' %}?relation_name=courseOfferings&user=client&object_id={{row.id}}"><i class="fas fa-pen-alt mx-2" id="update-fa" name="update-fa"></i></a>
-                                <a href="{% url 'clientDeleteEntityPage' %}?relation_name=courseOfferings&user=client&object_id={{row.id}}"><i class="fas fa-trash-alt mx-2" id="delete-fa" name="delete-fa"></i></a></td>
-                        </tr>
+                            <td><a href="{% url 'clientEntityDetailsPage'%}?relation_name=Section&user=client&object_id={{row.section.id}}">
+                                {{ row.section.id}}</a></td>
+                            <td>{{ row.section.courseoffering}}</td>
+                            </tr>
 
                     {% endfor %}
 

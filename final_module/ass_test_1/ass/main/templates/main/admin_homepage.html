@@ -30,7 +30,7 @@
         </div>
 
         <ul class="list-unstyled ml-2">
-            <li><a href="{% url 'adminHomePage' %}?relation_name=Department" active>Department</a></li>
+            <li><a href="{% url 'adminHomePage' %}?relation_name=Department">Department</a></li>
             <li><a href="{% url 'adminHomePage' %}?relation_name=Curriculum">Curriculum</a></li>
             <li><a href="{% url 'adminHomePage' %}?relation_name=Instructor">Instructor</a></li>
             <li><a href="{% url 'adminHomePage' %}?relation_name=Course">Course</a></li>
@@ -67,12 +67,15 @@
             <table class="table">
 
                 <thead class="thead-light">
+                {% if table_head %}
                 <tr>
+                    <th scope="col">#</th>
                     {% for head_element in table_head %}
                         <th scope="col">{{ head_element }}</th>
                     {% endfor %}
                     <th scope="col"></th>
                 </tr>
+                {% endif %}
                 </thead>
 
                 <tbody>
@@ -81,6 +84,7 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
+                            <td>{{ forloop.counter }}.</td>
                             <td> <a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.code}}">
                                 {{ row.code }}</a> </td><!-- a column of the row -->
                             <td> {{ row.name }}</td>
@@ -97,6 +101,7 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
+                            <td>{{ forloop.counter }}.</td>
                             <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
                             <td> {{ row.version }}</td><!-- a column of the row -->
@@ -114,6 +119,7 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
+                            <td>{{ forloop.counter }}.</td>
                             <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
                             <td> {{ row.name }}</td><!-- a column of the row -->
@@ -132,6 +138,7 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
+                            <td>{{ forloop.counter }}.</td>
                             <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.code}}">
                                 {{ row.code }}</a></td>
                             <td> {{ row.name }}</td>
@@ -149,6 +156,7 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
+                            <td>{{ forloop.counter }}.</td>
                             <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
                             <td> {{ row.course_code }}</td><!-- a column of the row -->
@@ -166,6 +174,7 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
+                            <td>{{ forloop.counter }}.</td>
                             <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
                             <td> {{ row.name }}</td>
@@ -184,6 +193,7 @@
                     {% for row in rows %}
                         <!-- a row -->
                         <tr>
+                            <td>{{ forloop.counter }}.</td>
                             <td><a href="{% url 'adminEntityDetailsPage'%}?relation_name={{relation_name}}&user=admin&object_id={{row.id}}">
                                 {{ row.id }}</a></td>
                             <td> {{ row.type }}</td><!-- a column of the row -->

@@ -3,6 +3,10 @@ from django import forms
 from main.models import *
 
 
+class create_admin_form(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
 class instructorForm(forms.ModelForm):
 
     class Meta:
@@ -77,10 +81,14 @@ class CourselearningobjectiveForm(forms.ModelForm):
         fields = ['id', 'course_code', 'body']
 
 class SectionForm(forms.ModelForm):
-
     class Meta:
         model = Section
         fields = ['id', 'courseoffering', 'number']
+
+class SectionInstructorForm(forms.ModelForm):
+    class Meta:
+        model = SectionInstructor
+        fields = ['instructor']
 
 
 class QuizForm(forms.ModelForm):
@@ -127,3 +135,14 @@ class AssessmentForm(forms.ModelForm):
     class Meta:
         model = Assessment
         fields = ['courseoffering', 'weight',]
+
+
+class QuestionForm(forms.ModelForm):
+    body = forms.CharField(max_length=1000, widget=forms.Textarea(
+                                            attrs={'placeholder': 'The question body'}
+                                            )
+        )
+
+    class Meta:
+        model = Question
+        fields = ['assessment', 'weight','body',]

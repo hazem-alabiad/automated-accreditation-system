@@ -32,6 +32,8 @@ class Assignment(models.Model):
         db_table = 'assignment'
 
 
+
+
 class Course(models.Model):
     code = models.CharField(primary_key=True, max_length=10)
     name = models.CharField(max_length=255)
@@ -40,6 +42,9 @@ class Course(models.Model):
     class Meta:
         managed = True
         db_table = 'course'
+
+    def __str__(self):
+        return (self.code)
 
 
 class Courselearningobjective(models.Model):
@@ -51,6 +56,7 @@ class Courselearningobjective(models.Model):
         db_table = 'courselearningobjective'
 
 
+
 class Courseoffering(models.Model):
     semester = models.ForeignKey('Semester', models.CASCADE)
     course_code = models.ForeignKey('Course', models.CASCADE, db_column='course_code')
@@ -60,6 +66,9 @@ class Courseoffering(models.Model):
         managed = True
         db_table = 'courseoffering'
 
+    def __str__(self):
+        return str(self.course_code) + "-" +str(self.semester)
+
 
 class Curriculum(models.Model):
     version = models.IntegerField()
@@ -68,6 +77,10 @@ class Curriculum(models.Model):
     class Meta:
         managed = True
         db_table = 'curriculum'
+
+    def __str__(self):
+        return str(self.dept_code) + "-" +self.version
+
 
 
 class CurriculumCourse(models.Model):
@@ -88,6 +101,9 @@ class Department(models.Model):
         managed = True
         db_table = 'department'
 
+    def __str__(self):
+        return self.code + "-" +self.name
+
 
 class Examination(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -99,6 +115,8 @@ class Examination(models.Model):
     class Meta:
         managed = True
         db_table = 'examination'
+    def __str__(self):
+        return self.id + "-" +self.type
 
 
 class Instructor(models.Model):
@@ -109,6 +127,9 @@ class Instructor(models.Model):
     class Meta:
         managed = True
         db_table = 'instructor'
+
+    def __str__(self):
+        return self.name + " " +self.surname
 
 
 class Keylearningoutcome(models.Model):
@@ -169,6 +190,8 @@ class Section(models.Model):
     class Meta:
         managed = True
         db_table = 'section'
+    def __str__(self):
+        return str(self.courseoffering)+"-"+self.number
 
 
 class SectionInstructor(models.Model):
@@ -199,6 +222,9 @@ class Semester(models.Model):
         managed = True
         db_table = 'semester'
 
+    def __str__(self):
+        return (self.type+ " "+ self.year)
+
 
 class Student(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -210,3 +236,5 @@ class Student(models.Model):
         managed = True
         db_table = 'student'
 
+    def __str__(self):
+        return self.id
