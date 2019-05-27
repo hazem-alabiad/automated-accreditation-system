@@ -222,7 +222,7 @@ CREATE TABLE question (
     PRIMARY KEY(id),
     FOREIGN KEY(assessment_id) REFERENCES assessment (id)
 );
-Create procedure usp_insert_question(q_body varchar(1000), q_weight float, q_assessment_id int)
+Create procedure    (q_body varchar(1000), q_weight float, q_assessment_id int)
     Language sql
 As $$ insert into question values(default, q_body, q_weight, q_assessment_id) $$;
 
