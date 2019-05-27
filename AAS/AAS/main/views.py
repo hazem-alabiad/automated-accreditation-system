@@ -188,12 +188,12 @@ def get_corresponding_related_relation_objects(relation_name ,related_relation_n
         ############################################################################################
         elif relation_name == 'Question':
             if related_relation == 'questioncourselearningobjective':
-                sql_query ='SELECT clo.id,clo.body FROM question q, question_courselearningobjective q_c, courselearningobjective clo  ' \
-                           'WHERE q.id=q_c.question_id AND q_c.courselearningobjective_id=clo.id;'
+                sql_query ='SELECT clo.id,clo.body, q_c.value FROM question q, question_courselearningobjective q_c, courselearningobjective clo  ' \
+                           'WHERE q.id=q_c.question_id AND q_c.courselearningobjective_id=clo.id and q.id=%s;'
 
             elif related_relation == 'questionkeylearningoutcome':
-                sql_query = 'SELECT klo.id,klo.body FROM question q, question_keylearningoutcome q_k, keylearningoutcome klo' \
-                            ' WHERE q.id=q_k.question_id AND q_k.key_learning_outcome_id=klo.id;'
+                sql_query = 'SELECT klo.id,klo.body, q_k.value FROM question q, question_keylearningoutcome q_k, keylearningoutcome klo' \
+                            ' WHERE q.id=q_k.question_id AND q_k.key_learning_outcome_id=klo.id and q.id=%s;'
 
 
         cursor.execute(sql_query, [object_id])
@@ -565,14 +565,29 @@ def add_entities_view(request):
             form = QuestionForm(request.POST)
             if form.is_valid():
                 question = form.save()
+                q_assessment = question.assessment
                 with connection.cursor() as cursor:
-                    cursor.execute(sql_query, question.assessment.id)
+                    sql_query = 'SELECT clo.id ' \
+                                'FROM assessment a, courseOffering co, course c, courseLearningObjective clo ' \
+                                'WHERE a.courseoffering_id=co.id AND co.course_code=c.code AND c.code=clo.course_code and a.id=%s;'
+                    cursor.execute(sql_query, [q_assessment.id])
                     clo_ids = cursor.fetchall()
 
-                    cursor.execute(sql_query, question.assessment.id)
+                    sql_query = 'SELECT DISTINCT klo.id ' \
+                                'FROM assessment a, courseOffering co, course c, curriculum_course c_c, curriculum cu, department d, keyLearningOutcome klo ' \
+                                'WHERE a.courseoffering_id=co.id AND co.course_code=c.code AND c.code=c_c.course_code AND c_c.curriculum_id=cu.id AND ' \
+                                'cu.dept_code=d.code AND klo.dept_code=d.code and a.id=%s;'
+
+                    cursor.execute(sql_query, [question.assessment.id])
                     klo_ids = cursor.fetchall()
 
+                    for clo_id in clo_ids:
+                        clo_obj = Courselearningobjective.objects.get(id=clo_id[0])
+                        QuestionCourselearningobjective.objects.create(question=question, courselearningobjective=clo_obj, value=3)
 
+                    for klo_id in klo_ids:
+                        klo_obj = Keylearningoutcome.objects.get(id=klo_id[0])
+                        QuestionKeylearningoutcome.objects.create(question=question, key_learning_outcome=klo_obj, value=3)
 
 
         elif relation_name_to_submit == 'Keylearningoutcome':
@@ -681,6 +696,13 @@ def update_entities_view(request):
                 model_object.body = update_form.cleaned_data['body']
                 model_object.save()
 
+        elif relation_name_to_submit == "Courselearningobjective":
+            update_form = CourselearningobjectiveForm(request.POST)
+            if update_form.is_valid():
+                model_object.course_code = update_form.cleaned_data['course_code']
+                model_object.body = update_form.cleaned_data['body']
+                model_object.save()
+
 
         if submitting_user_type == 'admin':
             return redirect(reverse('adminHomePage'))
@@ -733,14 +755,39 @@ def entity_detail_view(request):
         question_obj = Question.objects.get(id=question_id)
 
         related_entity_name = request.POST.get('related_entity_name')
-        print(question_id)
-        print(question_obj)
-        print(related_entity_name)
 
-        objects = QuestionCourselearningobjective.objects.filter(question_id=question_id)
+        objects = eval(related_entity_name).objects.filter(question_id=question_id)
+        # the name tag of the input tick elements is clo id or klo id
 
-        print(objects)
+        sql_query = ""
+        with connection.cursor() as cursor:
+            if related_entity_name == 'QuestionCourselearningobjective':
+                sql_query ='SELECT clo.id FROM question q, question_courselearningobjective q_c, courselearningobjective clo  ' \
+                           'WHERE q.id=q_c.question_id AND q_c.courselearningobjective_id=clo.id and q.id=%s;'
+                cursor.execute(sql_query, [question_id])
+                clo_ids = cursor.fetchall()
+                for clo_id in clo_ids:
+                    question_clo_tick_value = request.POST.get(str(clo_id[0]))
+                    clo_obj = Courselearningobjective.objects.get(id=clo_id[0])
 
+                    obj = QuestionCourselearningobjective.objects.get(question=question_obj, courselearningobjective=clo_obj)
+                    obj.value = question_clo_tick_value
+
+                    obj.save()
+
+            elif related_entity_name == 'QuestionKeylearningoutcome':
+                sql_query = 'SELECT klo.id FROM question q, question_keylearningoutcome q_k, keylearningoutcome klo' \
+                            ' WHERE q.id=q_k.question_id AND q_k.key_learning_outcome_id=klo.id and q.id=%s;'
+                cursor.execute(sql_query, [question_id])
+                klo_ids = cursor.fetchall()
+                for klo_id in klo_ids:
+                    question_klo_tick_value = request.POST.get(str(klo_id[0]))
+                    klo_obj = Keylearningoutcome.objects.get(id=klo_id[0])
+
+                    obj = QuestionKeylearningoutcome.objects.get(question=question_obj, key_learning_outcome=klo_obj)
+                    obj.delete()
+
+                    QuestionKeylearningoutcome.objects.create(question=question_obj, key_learning_outcome=klo_obj, value=question_klo_tick_value)
 
 
         #assessment_questions = Question.objects.filter(assessment=assessment_id)

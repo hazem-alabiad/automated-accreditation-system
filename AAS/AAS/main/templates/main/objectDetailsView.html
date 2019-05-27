@@ -14,12 +14,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
     <!-- Custome CSS -->
-    {% if user_type == 'admin' %}
-        <link rel="stylesheet" href="{% static 'main/adminPage.css' %}">
-    {% elif user_type == 'client' %}
-        <link rel="stylesheet" href="{% static 'main/clientPage.css' %}">
-    {% endif %}
 
+    <link rel="stylesheet" href="{% static 'main/clientPage.css' %}">
     <link rel="stylesheet" href="{% static 'main/questionObjectivesScale.css' %}">
 
     <title>Object Details</title>
@@ -329,7 +325,7 @@
 
                                     <td>
                                         <div style="width: 60%" class="range">
-                                            <input name={{ r.0 }} type="range" class="custom-range slider" min="1" max="5" value="" data-slider-step="1" required>
+                                            <input name={{ r.0 }} type="range" class="custom-range slider" min="1" max="5" value={{ r.2 }} data-slider-step="1" required>
                                             <div class="ticks">
                                                 <!-- You could generate the ticks based on your min, max & step values. -->
                                                 <span class="tick">1</span>

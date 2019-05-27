@@ -1,5 +1,5 @@
 """
-WSGI config for ass project.
+WSGI config for AAS project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ass.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AAS.settings')
 
 application = get_wsgi_application()
